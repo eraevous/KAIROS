@@ -23,12 +23,26 @@ done
 : "${RECORDS:?set RECORDS to your local clone of the private records}"
 RELAYKIT="${RELAYKIT:-relay-kit}"
 TOKENS="$RECORDS/kairos/design/tokens-v0.1-proposed.json"
-case "$(cd "$OUT" 2>/dev/null && pwd || echo "$OUT")" in
-  "$(cd "$HERE/.." && pwd)"*) echo "refused: --out is inside the KAIROS repository; the Cockpit output is never committed" >&2; exit 2 ;;
-esac
+# Resolve OUT to an absolute physical path (symlinks followed) before anything is written, and refuse it,
+# or the folder the theme goes in, inside this repository.
+phys() {
+  local p="$1" rest=""
+  case "$p" in /*) ;; *) p="$PWD/$p" ;; esac
+  while [ ! -e "$p" ]; do rest="/$(basename "$p")$rest"; p="$(dirname "$p")"; done
+  printf '%s%s\n' "$(cd -P "$p" && pwd -P)" "$rest"
+}
+REPO="$(cd -P "$HERE/.." && pwd -P)"
+OUT="$(phys "$OUT")"
+for d in "$OUT" "$(dirname "$OUT")"; do
+  case "$d/" in "$REPO/"*) echo "refused: $d is inside the KAIROS repository; the Cockpit output is never committed" >&2; exit 2 ;; esac
+done
 if [ "$FETCH" = 1 ]; then
   args=()
-  while read -r r; do case "$r" in ''|\#*) ;; *) args+=(--repo "$r") ;; esac; done < "$HERE/repos.txt"
+  while IFS= read -r r || [ -n "$r" ]; do
+    r="${r%$'\r'}"; r="${r%%#*}"; r="$(printf '%s' "$r" | tr -d '[:space:]')"
+    [ -n "$r" ] && args+=(--repo "$r")
+  done < "$HERE/repos.txt"
+  [ "${#args[@]}" -gt 0 ] || { echo "refused: no repositories in repos.txt" >&2; exit 2; }
   $RELAYKIT prs --root "$RECORDS" "${args[@]}" || echo "note: some repositories failed; see the fetch line in pr-state.jsonl" >&2
 fi
 THEME="$(dirname "$OUT")/theme-$MARK.json"

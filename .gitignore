@@ -4,3 +4,4 @@ node_modules/
 # Cockpit output and generated themes are never committed
 cockpit/out/
 cockpit/theme-*.json
+__pycache__/

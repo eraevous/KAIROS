@@ -47,7 +47,7 @@ def palette(tokens, mode, mark):
         "field": mix(panel, text, .05), "field-hover": mix(panel, text, .10),
         "border": mix(panel, line, .45), "border-strong": border, "border-hover": mix(border, text, .25),
         "line": mix(panel, line, .30),
-        "text": text, "text-2": mix(text, muted, .55), "muted": muted, "soft": mix(muted, panel, .30),
+        "text": text, "text-2": mix(text, muted, .55), "muted": muted, "soft": mix(muted, panel, .12 if dark else .05),
         # teal is the Cockpit's working accent (links, accept, active): the kit family / verdigris
         "teal": kit if dark else verd, "teal-hi": mix(kit if dark else verd, text, .35), "on-teal": bg if dark else "#ffffff",
         "teal-bg": mix(panel, verd, .16), "teal-deep": mix(panel, verd, .45),

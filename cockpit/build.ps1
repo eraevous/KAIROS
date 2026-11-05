@@ -11,18 +11,36 @@ param(
 $ErrorActionPreference = "Stop"
 if (-not $env:RECORDS) { throw "set `$env:RECORDS to your local clone of the private records" }
 $here = $PSScriptRoot
-$repoRoot = (Resolve-Path (Join-Path $here "..")).Path
-$outFull = [System.IO.Path]::GetFullPath($Out)
-if ($outFull.StartsWith($repoRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
-  throw "refused: -Out is inside the KAIROS repository; the Cockpit output is never committed"
+# Resolve a path to its real location: relative to PowerShell's current folder, with junctions and
+# symlinks of the nearest existing parent followed.
+function Resolve-Physical([string]$path) {
+  $full = $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($path)
+  $rest = ""
+  $p = $full
+  while (-not (Test-Path -LiteralPath $p)) {
+    $rest = "\" + (Split-Path $p -Leaf) + $rest
+    $p = Split-Path $p -Parent
+  }
+  $item = Get-Item -LiteralPath $p -Force
+  $real = if ($item.LinkTarget) { $item.ResolvedTarget.FullName } else { $item.FullName }
+  return ($real.TrimEnd("\") + $rest)
+}
+$repoRoot = (Resolve-Physical (Join-Path $here "..")).TrimEnd("\") + "\"
+$outFull = Resolve-Physical $Out
+foreach ($d in @($outFull, (Split-Path $outFull -Parent))) {
+  if (($d.TrimEnd("\") + "\").StartsWith($repoRoot, [System.StringComparison]::OrdinalIgnoreCase)) {
+    throw "refused: $d is inside the KAIROS repository; the Cockpit output is never committed"
+  }
 }
 $relaykit = if ($env:RELAYKIT) { $env:RELAYKIT -split ' ' } else { @("relay-kit") }
 $exe, $pre = $relaykit[0], @($relaykit | Select-Object -Skip 1)
 if (-not $NoFetch) {
   $repoArgs = @()
   foreach ($r in Get-Content (Join-Path $here "repos.txt")) {
-    if ($r -and -not $r.StartsWith("#")) { $repoArgs += @("--repo", $r.Trim()) }
+    $r = ($r -replace "#.*$", "").Trim()
+    if ($r) { $repoArgs += @("--repo", $r) }
   }
+  if ($repoArgs.Count -eq 0) { throw "refused: no repositories in repos.txt" }
   & $exe @pre prs --root $env:RECORDS @repoArgs
   if ($LASTEXITCODE -ne 0) { Write-Warning "some repositories failed; see the fetch line in pr-state.jsonl" }
 }
