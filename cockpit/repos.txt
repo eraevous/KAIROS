@@ -1,0 +1,10 @@
+# Repositories whose pull requests the Kairos Cockpit shows (one OWNER/NAME per line).
+eraevous/relay-kit
+eraevous/relay-kit-private
+eraevous/Telosmith
+eraevous/Fathom
+eraevous/QAT-Kits
+eraevous/MtG
+eraevous/Anamnesis
+eraevous/Cognitive-Scaffolding
+eraevous/KAIROS

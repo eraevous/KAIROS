@@ -1,2 +1,6 @@
 node_modules/
 .DS_Store
+
+# Cockpit output and generated themes are never committed
+cockpit/out/
+cockpit/theme-*.json
