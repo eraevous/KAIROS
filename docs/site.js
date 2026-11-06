@@ -8,6 +8,7 @@
   var KEY = 'kairos-theme';
   var order = ['auto', 'dark', 'light'];
   var labels = { auto: 'Theme: auto', dark: 'Theme: dark', light: 'Theme: light' };
+  var glyphs = { auto: '\u25D0', dark: '\u263E', light: '\u2600' };
 
   function read() {
     try { return localStorage.getItem(KEY) || 'auto'; } catch (e) { return 'auto'; }
@@ -19,7 +20,11 @@
     if (v === 'auto') { root.removeAttribute('data-theme'); }
     else { root.setAttribute('data-theme', v); }
     var b = document.querySelector('.theme-toggle');
-    if (b) { b.textContent = labels[v]; }
+    if (b) {
+      b.innerHTML = '';
+      var g = document.createElement('span'); g.className = 'glyph'; g.setAttribute('aria-hidden', 'true'); g.textContent = glyphs[v];
+      b.appendChild(g); b.appendChild(document.createTextNode(' ' + labels[v]));
+    }
   }
 
   apply(read());

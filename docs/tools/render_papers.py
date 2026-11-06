@@ -240,7 +240,7 @@ def page(title: str, body: str, slug: str) -> str:
   <div class="bar">
     <a class="wordmark" href="../index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <button class="theme-toggle" type="button">Theme: auto</button>
+    <button class="theme-toggle" type="button"><span class="glyph" aria-hidden="true">&#9680;</span> Theme: auto</button>
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
         {nav}
