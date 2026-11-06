@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kairos: keeping the reason attached to the work, Kairos</title>
+<meta name="description" content="Preliminary draft, agent-drafted from the project records; the owner has not yet reviewed or endorsed this text.">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href="../index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <button class="theme-toggle" type="button"><span class="glyph" aria-hidden="true">&#9680;</span> Theme: auto</button>
+    <nav class="site-nav" id="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../index.html">Overview</a></li>
+        <li><a href="../tools.html">Tools</a></li>
+        <li><a href="../start.html">Contribute</a></li>
+        <li><a href="../how-we-work.html">How we work</a></li>
+        <li><a href="../papers.html" aria-current="page">Papers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<p><a href="../papers.html">All papers</a></p>
+<p><span class="draft-label">Preliminary draft, agent-drafted from the project records; the owner has not yet reviewed or endorsed this text.</span></p>
+<article class="paper-body">
+<h1 id="kairos-keeping-the-reason-attached-to-the-work">Kairos: keeping the reason attached to the work</h1>
+<p><strong>Status:</strong> preliminary draft, agent-drafted from the project records on 2026-11-06; the owner has not yet reviewed or endorsed this text.</p>
+<p><strong>Audience:</strong> people arriving at the Kairos landing site who want to know what the project is trying to do, what it has actually built, and where the two differ.</p>
+<hr>
+<h2 id="the-problem">The problem</h2>
+<p>Current AI tools let one person do work that used to need a team. In Kairos that person is the owner, and the team is a changing set of coding agents from more than one model family, plus a second-family reviewer (a ChatGPT thread the records call Kate). The work moves fast. What does not keep up is the record of why anything was done.</p>
+<p>The failure mode is specific. A decision is made in a chat, acted on in a repository, and summarized in a handoff. A week later a fresh agent reads the summary and treats a proposal as a permission, or a historical statement as a current fact. The project's own external review (November 5, 2026) put it this way: "prose describes authority and changes more richly than the software can resolve them. Agents then fill the gap by interpreting summaries, sometimes mistaking a recorded statement for a verified fact or a current permission."</p>
+<p>So the problem Kairos works on is not "make agents write more code." It is: when one person coordinates many agents, keep the decisions, the reasons, and the objections attached to the work, in records a stranger can audit later, and then find out whether doing so actually helps.</p>
+<h2 id="three-ideas-that-recur">Three ideas that recur</h2>
+<p>The front-door README names three ideas that appear in every repository. They are stated here with the records that gave rise to them.</p>
+<h3 id="1-the-reason-stays-attached-to-the-thing">1. The reason stays attached to the thing</h3>
+<p>Purposes, requirements, claims, decisions and objections are records that link to code and to each other, and they are append-only. A line is never rewritten; a correction is a new line that supersedes the old one. CI in the public repositories refuses rewrites.</p>
+<p>The portfolio synthesis of November 5 describes the whole project as "one idea built eight times: keep the <em>reason</em> for a thing attached to the thing, in an append-only record a stranger can audit later." It also notes, as inference, that this is the owner's audit-and-compliance background turned into software.</p>
+<h3 id="2-information-crosses-freely-authority-never-crosses-implicitly">2. Information crosses freely; authority never crosses implicitly</h3>
+<p>This is DEC-019 (adopted October 31, 2026): "information crosses freely; authority never crosses implicitly." Agents read everything and may propose anything. Only the owner accepts a decision or merges a pull request. A message relayed from another model is a proposal, never an instruction. Every substantive PR gets a fresh-context review and a review from a different model family before merge (DEC-038, adopted November 3), and the agents do not merge.</p>
+<p>The records show why the rule exists. The feedback-taxonomy pass of November 6 catalogs a loop it calls "Cockpit batch adoption" (L19): the owner accepted a batch of items in one sentence, and the coordinator wrote seven decisions and nine challenges within an hour, several with a one-word basis. The reviewers read this as cheaper adoption lowering the quality of recorded reasoning; the owner's recorded position is that it was not a problem. The disagreement sits in the ledger, unresolved. The system does not settle it on the owner's behalf.</p>
+<h3 id="3-count-and-ask-never-fabricate-meaning">3. Count and ask; never fabricate meaning</h3>
+<p>Every claim carries how it was established: measured, inferred, or declared. Tools refuse to compute what the data cannot support, and they ask the human for domain meaning rather than inventing it.</p>
+<p>The external review added a sharper version of the same idea: "a record can be authentic, historically accurate, and no longer applicable." The README now lists this among the project's recurring principles.</p>
+<h2 id="how-the-ideas-show-up-in-each-tool">How the ideas show up in each tool</h2>
+<h3 id="telosmith">Telosmith</h3>
+<p>Telosmith keeps recorded reasons attached to code. Records (purposes, requirements, claims, evidence) link to code symbols; <code>check</code> validates the record set and <code>code-impact</code> reports which written requirements, claims and decisions a code change endangers, marking them <code>stale</code> or <code>needs_review</code>. It is plain Python with no third-party dependencies, at version 0.5.0 on <code>main</code> with the release tag pending, and the README cites more than 300 tests.</p>
+<p>Two cold-user evaluations (November 4 and November 6; see Paper 2 for the method) found the core loop working: a fresh agent with no build context installed it, wrote records against a toy project, edited the linked function, and saw the written requirement and its claim come back verbatim in under a second. The same evaluations also found that the documentation promised more than the default hook delivers. Editing a helper two call-hops away from an annotated function produces nothing by default; one hop produces a pointer by record ID rather than the text. The evaluator's proposed honest pitch, recorded as an inference: "edit the linked function → the written requirement and its claim come back verbatim; one hop → a pointer by ID; two hops → a note, silent in the hook."</p>
+<h3 id="relay-kit-and-the-cockpit">relay-kit and the Cockpit</h3>
+<p>relay-kit is the coordination kit: handoffs with ids and states, append-only decision and challenge ledgers, chat capture and cross-model relay, a read-only export, a static Cockpit page generated from the records, and a read-only MCP server. The private records repository is where the ledgers live; the Cockpit is generated from them, never hand-edited.</p>
+<p>This is where idea 2 is enforced mechanically. A handoff carries an "Authorized" section that must quote the owner's words; the handoff tool refuses to send one with that section unfilled. Decisions carry a <code>decider</code>, a <code>basis</code> and a <code>locator</code> pointing at where the words were said.</p>
+<p>It is also where the limits are most visible. The external review reproduced six synthetic cases in which a merely <em>proposed</em> decision claiming to supersede another removed the target from the Cockpit's view, and showed that budget restrictions, their tightening and their later relaxation were all projected as "in force" at once, because the software has no amendment or expiry semantics. A shared lifecycle resolver is the proposed fix and is in flight. Two decisions of November 6 (DEC-139, DEC-140) redirect the Cockpit toward decision support: PR review text and a daily coordinator narrative rendered verbatim, with no AI summarizing in the page; and for each pending choice, authored notes on what changes if it is accepted, what does not, the counterfactual, whether it can wait, and what depends on it. Two notes per item, one from the coordinator and one from the second-family reviewer, labeled and append-only.</p>
+<h3 id="fathom">Fathom</h3>
+<p>Fathom produces deterministic, offline data-review reports: a data dictionary, structure findings with the threshold printed beside each verdict, time-series and panel structure, and a "liftoff" brief that asks what the data cannot tell you. Reruns are byte-identical, and the tests run with every network socket blocked.</p>
+<p>Idea 3 is Fathom's whole design. The third cold-user run (November 5) confirmed that when a series had only five weekly periods, the tool reported "insufficient … ACF/PACF not computed" rather than computing a meaningless autocorrelation, and that each printed verdict reproduced exactly in pandas. The same run also found the idea unevenly applied: a borough with a $10 lower mean fare was reported as "no marked contrast" because the gap fell below the printed threshold, but the threshold was shown far from the verdict, so a reader would conclude the tool was wrong; and amplitude statistics were still printed for a one-month series that the tool had elsewhere declared not estimable. The evaluator's summary: correct, but the gate is too far from the verdict.</p>
+<h3 id="qat-kits">QAT-Kits</h3>
+<p>QAT-Kits packages cognitive tools (StressTest, TruthWeight, FrameShift, NegativeSpace, ThreadMap, MetaDistill and others) as contract-checked specifications that can be chained and evaluated. The aim, in the README's words, is for "a model to <em>think in a named way</em> rather than ramble." Here idea 1 appears as a contract: the tool's purpose and output shape are written down and checked, rather than left to a prompt.</p>
+<p>The honest state is thin. Typed specs exist for two tools; the rest are prose. There is no canonical copy, and the contributing guidance explicitly says not to declare one. The synthesis lists it as a spike.</p>
+<p>The Commander deck-analysis repository (MtG) is the first Telosmith pilot outside Telosmith itself: the same records approach applied to a hobby decision, with a pinned card knowledge base as domain truth that agents cite and never decide.</p>
+<h2 id="the-guiding-light">The guiding light</h2>
+<p>On November 5, 2026 the owner adopted an official guiding purpose for the project (DEC-127): <strong>"We are building Cognitive Augmentation."</strong> The phrase originated as a line in the second-family reviewer's round 14 ("Stop optimizing Kairos primarily for development throughput. Start optimizing it for Zach's capacity to realize intentions"), and the owner's recorded reply was: "We can optimize Telosmith and RelayKit for development, but the entire project is Cognitive Augmentation."</p>
+<p>The same decision defers the definition. In the owner's words, the forthcoming papers and articles "will be where I define and declare Cognitive Augmentation." Until then no agent writes a definition into a purpose file, and this paper does not attempt one. The only operational reading the records permit is the one the README states: every build is judged by whether it increases a person's capacity to realize their intentions.</p>
+<p>A related decision (DEC-134, November 6) names the engineering principles the owner wants applied across the code: parsimony, elegance, and modularity, which he glosses as "things that can be taken in or put back."</p>
+<h2 id="what-is-built-and-what-is-claimed">What is built, and what is claimed</h2>
+<p>It is worth being exact about the gap, because the project's own records are exact about it.</p>
+<p><strong>Built and exercised by someone with no build context:</strong></p>
+<ul><li>Telosmith's record validation, typo suggestions, and direct-link impact report.</li><li>Fathom's two-stage flow, byte-identical reruns, offline operation, refusal to compute on short series, and threshold-gated contrasts.</li><li>relay-kit's handoff state machine, append-only ledgers, static Cockpit, and read-only MCP server.</li><li>Fresh-context and two-family review as a working practice, with blocking findings recorded before merges.</li></ul>
+<p><strong>Claimed in prose but not yet demonstrated, per the records:</strong></p>
+<ul><li>That Telosmith's records have told an agent something the files did not. DEC-093 made a "second demonstrated use" the condition for wider rollout; the taxonomy pass of November 6 reports that no record shows one.</li><li>That the Cockpit saves the owner time or errors relative to the plain <code>status.py</code> script. DEC-093 set that acceptance test; it had not been run when the Cockpit was widened.</li><li>That the governed build process produces better software. The one comparative experiment so far (fathom-002) scored it below two simpler approaches on first-build quality; Paper 2 reports this in full.</li><li>That QAT-Kits is a toolkit rather than a collection of prompts with two typed specs.</li></ul>
+<p><strong>Inference, labeled as such:</strong> the project's most distinctive asset at this point is not any one tool but the record of its own operation, failures included. Whether that habit yields a tool other people want is the open question, and the subject of the second paper.</p>
+<hr>
+<h2 id="sources">Sources</h2>
+<ul><li><code>/home/claude/kairos/README.md</code> (thesis, three ideas, map, how-we-work, principles)</li><li><code>/home/claude/relay-kit-private/kairos/synthesis-2026-11-05.md</code> (portfolio synthesis, §A pattern, repo table)</li><li><code>/home/claude/relay-kit-private/kairos/research/feedback-taxonomy-A1-2026-11-06.md</code> (loops L01, L19, L21; "second demonstrated use" not found)</li><li><code>/home/claude/relay-kit-private/kairos/reviews/coordination-review-2026-11-05.md</code> (assessment; findings 1, 2, 4)</li><li><code>/home/claude/relay-kit-private/kairos/evaluations/colduser-telosmith-2026-11-04.md</code> and <code>colduser-telosmith-002-2026-11-06.md</code></li><li><code>/home/claude/relay-kit-private/kairos/evaluations/colduser-fathom-2026-11-04.md</code> and <code>colduser-fathom-003-2026-11-05.md</code></li><li><code>/home/claude/relay-kit-private/governance/decisions.jsonl</code>: DEC-019, DEC-038, DEC-093, DEC-127, DEC-134, DEC-139, DEC-140</li></ul>
+</article>
+<p class="aside">Rendered from <a href="01-reason-attached-to-the-work.md">01-reason-attached-to-the-work.md</a> by <code>docs/tools/render_papers.py</code>.</p>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <p><span class="name">Kairos</span> is Zach Rhodes's project. Site generated by a Claude agent on 2026-11-06 from the START HERE README; no analytics, no cookies, no external requests.</p>
+    <p>Public repos are MIT. Each carries a <code>CLA.md</code>: contributing grants the owner a commercial-relicensing right so companies can use the code with minimal risk while he keeps his rights. Read it before your first PR.</p>
+  </div>
+</footer>
+<script src="../site.js"></script>
+</body>
+</html>
