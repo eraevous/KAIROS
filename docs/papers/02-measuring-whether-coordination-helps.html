@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Measuring whether coordination helps, Kairos</title>
+<meta name="description" content="Preliminary draft, agent-drafted from the project records; the owner has not yet reviewed or endorsed this text.">
+<link rel="stylesheet" href="../site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href="../index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <button class="theme-toggle" type="button">Theme: auto</button>
+    <nav class="site-nav" id="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="../index.html">Overview</a></li>
+        <li><a href="../tools.html">Tools</a></li>
+        <li><a href="../start.html">Contribute</a></li>
+        <li><a href="../how-we-work.html">How we work</a></li>
+        <li><a href="../papers.html" aria-current="page">Papers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+<p><a href="../papers.html">All papers</a></p>
+<p><span class="draft-label">Preliminary draft, agent-drafted from the project records; the owner has not yet reviewed or endorsed this text.</span></p>
+<article class="paper-body">
+<h1 id="measuring-whether-coordination-helps">Measuring whether coordination helps</h1>
+<p><strong>Status:</strong> preliminary draft, agent-drafted from the project records on 2026-11-06; the owner has not yet reviewed or endorsed this text.</p>
+<p><strong>Audience:</strong> readers of the Kairos landing site who want to know how the project intends to find out whether its coordination machinery is worth having, and what the evidence says so far.</p>
+<hr>
+<h2 id="the-position-the-records-support">The position the records support</h2>
+<p>Kairos built its provenance layer before testing whether that layer saves anyone anything. This is not a critic's framing; it is the finding of the project's own portfolio synthesis of November 5, 2026, stated in bold: "The recurring pattern: the provenance layer gets built before the test of whether it saves anyone anything."</p>
+<p>The synthesis gives three pieces of evidence:</p>
+<ol><li>DEC-093 set an acceptance test for the Cockpit control surface: it "must reduce Zach time/errors finding what needs his attention vs status.py." That test had not run when a later decision widened the Cockpit.</li><li>The one comparative experiment (fathom-002) scored the governed build below two simpler approaches, and an earlier probe (probe-001) was null; Telosmith's records were nonetheless being rolled out to every repository until a dissent review staged the rollout.</li><li>Of nine Cockpit items the owner acted on in one sitting, seven were already overtaken by merged PRs or later decisions. (The taxonomy pass traced this figure and found it correct but loosely cited; the external review cautions that it supports "Cockpit showed stale items as live," not "Cockpit produced net errors vs status.py.")</li></ol>
+<p>The rest of this paper describes how the project proposes to find out whether the machinery helps, what it has measured so far, and what would count as evidence either way.</p>
+<h2 id="the-evaluation-program">The evaluation program</h2>
+<p>The components are at different levels of maturity; each is described with its current state.</p>
+<h3 id="cold-user-evaluations">Cold-user evaluations</h3>
+<p><strong>Method.</strong> An agent with no build context is given only a tool's public README and a time box. It installs, runs the tool on a real dataset or toy project, logs friction with timestamps and severities, checks the tool's numerical claims independently (for Fathom, every printed value is reproduced in pandas), writes what it would say aloud to a coworker, and ranks fixes by impact. The file is filed verbatim; the lane that owns the tool fixes what it can.</p>
+<p><strong>State.</strong> Four runs exist: two for Telosmith (November 4 and 6), two for Fathom (November 4 and 5). They have produced changes (the first Telosmith run flowed into Telosmith PR #53) and found claims that did not hold: a README pointing at a tag that lacked the documented behavior; a "two-hop" demo claim false as stated; a Fathom threshold too far from its verdict to be trusted.</p>
+<p><strong>Known weakness.</strong> The evaluator must truly be cold. One run (A5RR) was judged "not a valid cold replicate" because the agent had seen the coordination thread first. Each evaluation file now states what the reader had seen.</p>
+<h3 id="telemetry-six-metrics-plus-two">Telemetry: six metrics plus two</h3>
+<p>The telemetry proposal (DEC-100, status <em>proposed</em>) began with the owner's request for "effectiveness over output": adapted DORA-style metrics, especially change failure rate and rework rate. The second-family reviewer's round 11 amended it to a minimum set of six metrics with frozen operational definitions:</p>
+<table><thead><tr><th>Metric</th><th>Operational definition (round 11)</th></tr></thead><tbody><tr><td>Compute consumption</td><td>Actual tokens and reported cost per uniquely identified execution interval, deduplicating parent/child accounting</td></tr><tr><td>Delivery throughput</td><td>Merged PRs per calendar week, by repository; abandoned work counted separately</td></tr><tr><td>Lead time</td><td>Wall-clock PR creation to merge, median and distribution; never called human work time</td></tr><tr><td>Review burden</td><td>Actionable review → revision → re-review cycles per PR</td></tr><tr><td>Post-merge remediation</td><td>Share of merged PRs needing explicitly linked corrective changes within 30 days, mature cohorts only</td></tr><tr><td>Human intervention</td><td>Self-reported active minutes reviewing, deciding, repairing or coordinating; unknown otherwise</td></tr></tbody></table>
+<p>Round 11 added two more:</p>
+<ul><li><strong>Measurement coverage:</strong> what share of known sessions, agents, PRs and execution intervals have trustworthy telemetry. "Missing must not mean zero."</li><li><strong>Coordination loss:</strong> duplicate work, stale handoffs, conflicting execution claims, and time spent reconciling them. The reviewer's note: these "directly measure a problem Kairos was built to solve."</li></ul>
+<p>Tokens per PR and similar ratios are derived views, not recorded observations. Cut from the first implementation: reconstructed historical human-hours per PR, productivity comparisons on tiny samples, and authorship-based quality comparisons until identities are reliable.</p>
+<p><strong>State.</strong> Proposed and dissent-reviewed; the collector is not built. The existing budget file holds, per the external review, five rows of approximate token totals and one human-minutes entry that is explicitly a merge-window proxy. The review's conclusion: "There is no basis here for a numeric efficiency verdict."</p>
+<h3 id="measured-proxy-estimate">Measured, proxy, estimate</h3>
+<p>Every figure in the program carries one of three labels, as fixed in round 11:</p>
+<ul><li><strong>Measured:</strong> provider-reported session tokens, timestamps, GitHub events, CI outcomes, recorded review rounds.</li><li><strong>Proxy:</strong> PR lead time for effort; merges for delivered value; post-merge fixes for defects; git history for historical labor; session-window duration for active human time.</li><li><strong>Estimated:</strong> incomplete token totals or reconstructed spend.</li></ul>
+<p>Two rules follow. A merged PR is not a production deployment, so post-merge remediation is an adapted internal measure, not DORA's change failure rate. And DEC-100's "2–3 percentage points" aspiration is, in the reviewer's words, "a useful evaluation objective, not presently a statistically defensible pass/fail threshold"; it stays off any dashboard until a baseline exists. There is no external tokens-per-PR anchor, so the only comparison available is the owner against himself, as distributions rather than means.</p>
+<h3 id="goodhart-risks-in-a-one-person-operation">Goodhart risks in a one-person operation</h3>
+<p>Round 11 names the structural problem: here the target setter, implementer, reviewer and merger can be the same person. The listed risks:</p>
+<ul><li>splitting or merging PRs to manipulate throughput;</li><li>relabeling defect remediation as enhancement;</li><li>avoiding difficult experiments to preserve success rates;</li><li>reducing reviews to lower apparent cost;</li><li>counting merges while ignoring abandoned work;</li><li>treating independently generated code as independently verified work.</li></ul>
+<p>The stated countermeasure is to preserve event-level evidence, report distributions and denominators, and "never turn the dashboard into a productivity score." The guiding principle attached to the telemetry work is to "measure whether coordination reduces work and improves outcomes — not merely how much work the agents produce."</p>
+<h3 id="the-fresh-context-image-test">The fresh-context image test</h3>
+<p>DEC-141 (adopted November 6) extends the cold-reader idea to visuals. Every chart, diagram or Cockpit topology view a lane ships goes first to a fresh thread or agent that has not seen the build, with a fixed question set (read values, name relationships, make a determination) under varying context: none, a caption, the underlying data. Wrong answers and confusion are recorded as findings and drive the next layout iteration; question set and results go in the handoff output. In the owner's recorded words: "Confusion and mistakes are signals for refinement."</p>
+<h3 id="the-external-review-as-self-audit">The external review as self-audit</h3>
+<p>On November 5 the owner supplied a coordination review of unstated authorship covering the ledgers, selected handoffs and the governing instructions across seven repositories, with code-level examination of relay-kit's validator, export, status and Cockpit. It reports seven findings, each pinned to a commit:</p>
+<ol><li>Proposals can remove unresolved items from view (reproduced in six synthetic cases).</li><li>"In force" overstates what the ledger knows; there are no amendment or expiry semantics.</li><li>The validated write path remains optional, so work bypasses the checks and CI reconciles afterward.</li><li>Evidence labels can acquire more authority in transit (attribution invented from context, test results inflated, actions reported before completion, reviewer conclusions stronger than the evidence).</li><li>Snapshot freshness and historical time are conflated in the Cockpit.</li><li>Governing instructions themselves become stale evidence; a fresh agent following onboarding text can resurrect an obsolete rule.</li><li>Efficiency: optimize repeated reconstruction and review work before adding telemetry fields.</li></ol>
+<p>The review practices the discipline it recommends. It states its limits: snapshots pinned individually, not atomically; incidents are "ledger testimony unless explicitly reproduced"; actor identities unauthenticated; the findings "do not certify a security boundary." The taxonomy pass adds that only finding 1 was verified in code before the others were routed to work, and that a review of unstated authorship changing contracts is itself an instance of finding 4. That is recorded as a challenge (CH-035) and is unresolved.</p>
+<h2 id="the-negative-result">The negative result</h2>
+<p>The experiment fathom-002 (authorized November 4 under DEC-048, unblinded the same day) compared three ways of building the first slice of Fathom:</p>
+<ul><li><strong>Arm A:</strong> Spec Kit without Telosmith records, one agent session.</li><li><strong>Arm B:</strong> a plain AGENTS.md, no Spec Kit, no records, one agent session.</li><li><strong>Arm C:</strong> Spec Kit plus Telosmith records, the real Fathom slice built by a different model across several owner-reviewed PRs.</li></ul>
+<p>A judge scored all three blind against a rubric sealed before any arm ran. On the ten quality items (maximum 60): B scored 45, A 44, C 39. The arm with the least process scored highest; the real, governed build scored lowest. All three passed determinism, exited cleanly on every run, and fabricated no domain meaning. None found the row-level structure in the data.</p>
+<p>The report lists the confounds without softening the result. Arm C was built by a different model under a different budget and review regime, and A and B inherited C's user stories as their spec; only A versus B is clean, and there the gap is one rubric point. Blinding leaked, because every README stated its own build method. And the experiment measured first-build quality only; nothing exercised the records during a <em>change</em>, which is the value Telosmith actually claims.</p>
+<p>The disposition, proposed and not adopted: file as negative evidence against "Spec Kit plus records yields a better first slice"; do not generalize to change review. The README's "How we work" section cites this result rather than hiding it.</p>
+<h2 id="what-would-count-as-evidence">What would count as evidence</h2>
+<p>The records already contain the tests that would settle the question either way.</p>
+<p><strong>For the coordination layer helping:</strong></p>
+<ul><li>The DEC-093 acceptance test run and passed: the Cockpit measurably reduces the owner's time or errors against the plain status script.</li><li>A "second demonstrated use" of Telosmith records, defined in DEC-093 as a record telling an agent something the files did not. No record shows one yet.</li><li>Coordination-loss metrics (duplicate builds, stale handoffs, reconciliation time) falling over successive weeks once measured. The baseline for "overtaken items acted on" is 7 of 9.</li><li>A change-review experiment in which the records surface an endangered conclusion that a baseline process misses.</li><li>The incident-replay tests the external review proposes (unauthorized handoff, duplicate builder, prose-only budget amendment, stale choice, premature merge report, false pass count, wrong attribution), with benign controls so "block everything" cannot win, scored on missed failures, false alarms, delay and owner interruptions.</li></ul>
+<p><strong>Against it:</strong></p>
+<ul><li>The synthesis's decision rule, marked there as inference: if review rounds and post-merge fixes rise while surviving merges stay flat over two weeks of measured lines, cut to one builder per repository; if coordination-loss minutes exceed the owner's own active minutes in a week, stop adding lanes and fix plumbing.</li><li>The falsifiers in the 30-day plan, for example: the executive-functioning surface is dropped if after ten days the owner opened it on fewer than half the days or it never changed what he did first.</li><li>A repeat of fathom-002 with blinding fixed and a change-review condition added, if it again shows no advantage.</li></ul>
+<p><strong>Inference, labeled as such:</strong> the strongest evidence either way will come not from dashboards but from two cheap tests the project has not yet run on itself: the Cockpit timing test and a single demonstrated case of a record changing an agent's action. That they remain unrun while the layer grew is the pattern the synthesis named; running them is the project's own stated next step.</p>
+<hr>
+<h2 id="sources">Sources</h2>
+<ul><li><code>/home/claude/kairos/README.md</code> (how-we-work; negative results kept)</li><li><code>/home/claude/relay-kit-private/kairos/synthesis-2026-11-05.md</code> (§A pattern and evidence; §C falsifiers; §D telemetry decision rule)</li><li><code>/home/claude/relay-kit-private/kairos/kate-round-11.md</code> (six metrics, measured/proxy/estimate, Goodhart risks, coverage and coordination loss)</li><li><code>/home/claude/relay-kit-private/kairos/reviews/coordination-review-2026-11-05.md</code> (seven findings, method limits, incident-replay proposal)</li><li><code>/home/claude/relay-kit-private/kairos/research/feedback-taxonomy-A1-2026-11-06.md</code> (L09 cold-user loop, L10 gates, A5RR, "7 of 9" provenance note)</li><li><code>/home/claude/relay-kit-private/kairos/evaluations/colduser-telosmith-2026-11-04.md</code>, <code>colduser-telosmith-002-2026-11-06.md</code>, <code>colduser-fathom-2026-11-04.md</code>, <code>colduser-fathom-003-2026-11-05.md</code></li><li><code>/home/claude/relay-kit-private/experiments/fathom-002/report-2026-11-04.md</code> (the negative result)</li><li><code>/home/claude/relay-kit-private/governance/decisions.jsonl</code>: DEC-048, DEC-093, DEC-100, DEC-134, DEC-141</li></ul>
+</article>
+<p class="aside">Rendered from <a href="02-measuring-whether-coordination-helps.md">02-measuring-whether-coordination-helps.md</a> by <code>docs/tools/render_papers.py</code>.</p>
+</main>
+<footer class="site-footer">
+  <div class="inner">
+    <p><span class="name">Kairos</span> is Zach Rhodes's project. Site generated by a Claude agent on 2026-11-06 from the START HERE README; no analytics, no cookies, no external requests.</p>
+    <p>Public repos are MIT. Each carries a <code>CLA.md</code>: contributing grants the owner a commercial-relicensing right so companies can use the code with minimal risk while he keeps his rights. Read it before your first PR.</p>
+  </div>
+</footer>
+<script src="../site.js"></script>
+</body>
+</html>
