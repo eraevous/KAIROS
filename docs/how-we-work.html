@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How we work, Kairos</title>
+<meta name="description" content="The operating rules of Kairos and two views of the Cockpit control surface generated from the records.">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <button class="theme-toggle" type="button">Theme: auto</button>
+    <nav class="site-nav" id="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="start.html">Contribute</a></li>
+        <li><a href="how-we-work.html" aria-current="page">How we work</a></li>
+        <li><a href="papers.html">Papers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="statement">
+  <h1>How we work</h1>
+  <p>The operating rules, as the START HERE README states them, and two views of the Cockpit, the control surface generated from the records.</p>
+</div>
+
+<section aria-labelledby="rules">
+  <h2 id="rules">The rules</h2>
+  <ul class="ideas">
+    <li><b>Records before builds.</b>
+      <ul>
+        <li>A change that touches a purpose, a contract or a threshold starts as a proposed decision in the ledger,</li>
+        <li>gets a dissent review from a reviewer who did not see the build conversation,</li>
+        <li>and is accepted or refused by the owner.</li>
+      </ul>
+      Agents propose; the owner decides.</li>
+    <li><b>Two families review before a merge.</b> Every substantive PR gets a fresh-context review and a review from a different model family (today: Claude and ChatGPT), with blocking findings fixed before merge. Agents never merge.</li>
+    <li><b>Everything is append-only.</b> Decisions, challenges, handoffs, records: lines are added, never rewritten. CI refuses rewrites.</li>
+    <li><b>Honest status.</b> Negative results are kept and cited. The first comparative experiment scored the governed build <em>below</em> two simpler approaches; that is in the records, not hidden.</li>
+    <li><b>Agents are visible.</b> Every commit carries its author trailer (which model, which session); every GitHub comment by an agent is signed with its actor id. An unsigned comment is the owner.</li>
+  </ul>
+</section>
+
+<section aria-labelledby="cockpit">
+  <h2 id="cockpit">The Cockpit</h2>
+  <p>The Cockpit is a static page generated from the records by <code>relay-kit cockpit</code>. It writes nothing. Nothing on it accepts, rejects or defers anything; its buttons only compose text for the owner to paste. It fetches nothing after it is built.</p>
+
+  <figure>
+    <div class="frame narrow">
+      <img src="assets/cockpit-choice.png" width="596" height="2951" alt="A tall Cockpit screen for challenge CH-035. Two decision-support notes are stacked, one from chatgpt:kate and one from claude:kairos-coord, each with rows labelled what changes, what doesn't, if nothing is done, can it wait, depends on it, and recommendation. Below them the challenge text lists seven findings, then buttons labelled Accept, Reject, Defer and Clarify that compose text on record, and an Inquire button that stays off record.">
+    </div>
+    <figcaption>The Cockpit's Choices surface: a pending challenge with two authored decision-support notes, generated from the records on 2026-11-06. The figure is tall; scroll inside the frame.</figcaption>
+  </figure>
+
+  <figure>
+    <div class="frame">
+      <img src="assets/cockpit-topology.png" width="1280" height="1889" alt="The Cockpit's Topology page. A diagram with one row per lane (aec, aec-release, anamnesis, cognitive-scaffolding, data-guide, kairos-coord, mtg, qat-kits, relay-kit, and no lane) and the owner at the top. Circles are actors, squares are threads, and pink curved edges with small numbers show handoffs between actors. Beneath the diagram a list titled what this page can't tell you states that the page writes nowhere and fetches nothing.">
+    </div>
+    <figcaption>Information topology drawn from the same records; a layout iteration is in progress because a fresh reader could not attach edge counts to directions.</figcaption>
+  </figure>
+</section>
+
+<section aria-labelledby="principles">
+  <h2 id="principles">Principles that recur</h2>
+  <ul>
+    <li>Information crosses freely between agents; authority never crosses implicitly.</li>
+    <li>Three records kept apart:
+      <ul>
+        <li>historical evidence,</li>
+        <li>current interpretation,</li>
+        <li>authorised commitment.</li>
+      </ul></li>
+    <li>A record can be authentic, historically accurate, and no longer applicable.</li>
+    <li>When an existing cognitive tool fits the problem, use it; when it doesn't, investigate whether the missing capability is worth building. (The owner calls this Wu Wei.)</li>
+    <li>Parsimony, elegance, modularity: things that can be taken in or put back.</li>
+  </ul>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p><span class="name">Kairos</span> is Zach Rhodes's project. Site generated by a Claude agent on 2026-11-06 from the START HERE README; no analytics, no cookies, no external requests.</p>
+    <p>Public repos are MIT. Each carries a <code>CLA.md</code>: contributing grants the owner a commercial-relicensing right so companies can use the code with minimal risk while he keeps his rights. Read it before your first PR.</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>
