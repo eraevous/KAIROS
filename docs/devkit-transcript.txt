@@ -1,8 +1,9 @@
-Kairos Dev Kit: real transcript, Linux container, 2026-11-07. Captured with HOME pointed at an empty scratch folder;
-that path and the user name are shown as ~ and 'the tester'. Nothing else is edited.
+Kairos Dev Kit: real transcript, Linux container, 2026-11-07 (kairos.py with the marker and absolute-path fixes).
+Captured with HOME pointed at an empty scratch folder; that path is shown as /home/the-tester and the login as
+'the-tester'. Printed commands carry absolute paths on purpose: PowerShell does not expand ~ for python.exe.
 
 $ python3 kairos.py install           # first run, empty home
-Kairos Dev Kit 0.1.0: install into ~/Kairos (2026-11-07 15:07)
+Kairos Dev Kit 0.1.0: install into ~/Kairos (2026-11-07 15:34)
 This needs no administrator rights and writes only inside that folder (plus pip's per-user package folder).
   ok    Python 3.10+: 3.13.18 at /usr/local/bin/python3
   ok    git: git version 2.43.0
@@ -29,7 +30,7 @@ Records store for owner 'the-tester' (fresh and private; an existing one is neve
 Cockpit page:
   ok    cockpit page: written to ~/Kairos/cockpit/index.html
 
-Kairos Dev Kit 0.1.0 check, 2026-11-07 15:07, Linux 6.18.44-fc-v310, home ~/Kairos
+Kairos Dev Kit 0.1.0 check, 2026-11-07 15:34, Linux 6.18.44-fc-v310, home ~/Kairos
 ----------------------------------------------------------------------------
 OK    Python 3.10+                3.13.18 at /usr/local/bin/python3
 OK    git                         git version 2.43.0
@@ -42,15 +43,16 @@ OK    python3 -m relaykit --help  relay-kit: one command over the kit's tools. S
 OK    python3 -m aec --help       usage: telosmith [-h] [--version]
 OK    `relay-kit` on PATH         /usr/local/bin/relay-kit
 OK    `aec` on PATH               /usr/local/bin/aec
-OK    records store               1 decision line(s); DEC-001: This is the tester's Kairos records store, created by th...
+OK    records store               created by the Dev Kit on 2026-11-07; 1 decision line(s); DEC-001: This is the tester's Kairos records store, cre...
 OK    cockpit page                ~/Kairos/cockpit/index.html
 ----------------------------------------------------------------------------
 All checks passed.
 
 Done. Next: python3 kairos.py next
+exit=0
 
-$ python3 kairos.py install           # second run, same home: idempotent
-Kairos Dev Kit 0.1.0: install into ~/Kairos (2026-11-07 15:07)
+$ python3 kairos.py install           # second run, same home: idempotent; the store is recognised as ours
+Kairos Dev Kit 0.1.0: install into ~/Kairos (2026-11-07 15:34)
 This needs no administrator rights and writes only inside that folder (plus pip's per-user package folder).
   ok    Python 3.10+: 3.13.18 at /usr/local/bin/python3
   ok    git: git version 2.43.0
@@ -71,13 +73,13 @@ Installing the kits for this user (editable, from the clones):
         To see the folder yourself: python3 -c "import sysconfig;print(sysconfig.get_path('scripts', scheme='posix_user'))"
 
 Records store for owner 'the-tester' (fresh and private; an existing one is never touched):
-  ok    records store: already present; left untouched
+  ok    records store: already present; left untouched (created by the Dev Kit on 2026-11-07)
   ok    seed DEC-001: ledger already has a decision; nothing appended
 
 Cockpit page:
   ok    cockpit page: written to ~/Kairos/cockpit/index.html
 
-Kairos Dev Kit 0.1.0 check, 2026-11-07 15:07, Linux 6.18.44-fc-v310, home ~/Kairos
+Kairos Dev Kit 0.1.0 check, 2026-11-07 15:34, Linux 6.18.44-fc-v310, home ~/Kairos
 ----------------------------------------------------------------------------
 OK    Python 3.10+                3.13.18 at /usr/local/bin/python3
 OK    git                         git version 2.43.0
@@ -90,7 +92,7 @@ OK    python3 -m relaykit --help  relay-kit: one command over the kit's tools. S
 OK    python3 -m aec --help       usage: telosmith [-h] [--version]
 OK    `relay-kit` on PATH         /usr/local/bin/relay-kit
 OK    `aec` on PATH               /usr/local/bin/aec
-OK    records store               1 decision line(s); DEC-001: This is the tester's Kairos records store, created by th...
+OK    records store               created by the Dev Kit on 2026-11-07; 1 decision line(s); DEC-001: This is the tester's Kairos records store, cre...
 OK    cockpit page                ~/Kairos/cockpit/index.html
 ----------------------------------------------------------------------------
 All checks passed.
@@ -100,7 +102,7 @@ exit=0
 
 $ python3 kairos.py check
 
-Kairos Dev Kit 0.1.0 check, 2026-11-07 15:07, Linux 6.18.44-fc-v310, home ~/Kairos
+Kairos Dev Kit 0.1.0 check, 2026-11-07 15:34, Linux 6.18.44-fc-v310, home ~/Kairos
 ----------------------------------------------------------------------------
 OK    Python 3.10+                3.13.18 at /usr/local/bin/python3
 OK    git                         git version 2.43.0
@@ -113,7 +115,7 @@ OK    python3 -m relaykit --help  relay-kit: one command over the kit's tools. S
 OK    python3 -m aec --help       usage: telosmith [-h] [--version]
 OK    `relay-kit` on PATH         /usr/local/bin/relay-kit
 OK    `aec` on PATH               /usr/local/bin/aec
-OK    records store               1 decision line(s); DEC-001: This is the tester's Kairos records store, created by th...
+OK    records store               created by the Dev Kit on 2026-11-07; 1 decision line(s); DEC-001: This is the tester's Kairos records store, cre...
 OK    cockpit page                ~/Kairos/cockpit/index.html
 ----------------------------------------------------------------------------
 All checks passed.
@@ -124,22 +126,29 @@ Kairos Dev Kit: the next three things to try (commands for Linux).
 
 1. Open the Cockpit: the page built from your own records store (one decision so far, yours).
      python3 kairos.py open
-   The page is a plain file: ~/Kairos/cockpit/index.html. Nothing on it is live or online.
+   The page is a plain file: /home/the-tester/Kairos/cockpit/index.html. Nothing on it is live or online.
 
 2. Run Telosmith's 90-second demo: a toy project whose recorded reasons stay attached to its code.
      python3 -m aec --version
-   then follow ~/Kairos/repos/Telosmith/docs/demo.md step by step, typing `python3 -m aec` wherever it says `aec`.
+   then follow /home/the-tester/Kairos/repos/Telosmith/docs/demo.md step by step, typing `python3 -m aec` wherever it says `aec`.
 
 3. Try Fathom on a CSV you have: an offline data-review report, nothing leaves your machine.
    Fathom needs pandas, so this one install does reach pypi.org (the only step that does), and Python 3.12+:
-     python3 -m pip install --user -e ~/Kairos/repos/Fathom
-     python3 -m fathom liftoff your.csv --out ~/Kairos/fathom-out
-   then open ~/Kairos/fathom-out/liftoff.html and read the Brief.
+     python3 -m pip install --user -e /home/the-tester/Kairos/repos/Fathom
+     python3 -m fathom liftoff your.csv --out /home/the-tester/Kairos/fathom-out
+   then open /home/the-tester/Kairos/fathom-out/liftoff.html and read the Brief.
 
-Anything odd? Run `python3 kairos.py check` and send the output. To remove everything, delete ~/Kairos.
+Anything odd? Run `python3 kairos.py check` and send the output. To remove everything, delete /home/the-tester/Kairos.
+exit=0
+
+$ python3 kairos.py install --no-pip  # a different home holding a records store the Dev Kit did NOT create (empty ledger, no marker); only the records lines shown
+  ok    records store: already present; left untouched (pre-existing, not ours)
+  ok    seed DEC-001: store is pre-existing (no .devkit-created marker); nothing appended
+OK    records store               pre-existing, left untouched; its ledger is empty (not ours to seed)
+All checks passed.
 exit=0
 
 $ python3 kairos.py open              # headless container: no browser, so it prints the file path instead
 Opening ~/Kairos/cockpit/index.html in your default browser...
-Your browser could not be started automatically. Open this file yourself: ~/Kairos/cockpit/index.html
+Your browser could not be started automatically. Open this file yourself: /home/the-tester/Kairos/cockpit/index.html
 exit=1
