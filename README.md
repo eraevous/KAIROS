@@ -9,7 +9,12 @@ Kairos is Zach Rhodes's umbrella for his AI/cognition work: a set of tools, the 
 
 ## Install the Dev Kit (10 minutes)
 
-One script, [`kairos.py`](kairos.py), sets up everything in a single folder, `Kairos`, inside your home folder. It needs no administrator rights and no account. You need **Python 3.10 or newer** and **git**; both install per-user from [python.org](https://www.python.org/downloads/) (tick *Add python.exe to PATH*) and [git-scm.com](https://git-scm.com/downloads) if you don't have them.
+One script, [`kairos.py`](kairos.py), sets up everything in a single folder, `Kairos`, inside your home folder, and ends by building you a **Cockpit**: a web page that shows what is waiting on you, what the tools are doing, and the decisions you've recorded, all read from files on your own machine. (A picture of one: [docs/assets/cockpit-choice.png](docs/assets/cockpit-choice.png).) It needs no administrator rights and no account.
+
+Two free programs must be on the computer first. If you have never installed them, do this once:
+
+- **Python** (the language the tools are written in): [python.org/downloads](https://www.python.org/downloads/), click the big download button, run it, and on the first screen **tick the checkbox that says "Add python.exe to PATH"** before clicking Install. That checkbox is what lets the next steps find Python.
+- **git** (fetches the tools from GitHub): [git-scm.com/downloads](https://git-scm.com/downloads), run the installer, accept every default.
 
 **Windows**
 
@@ -33,7 +38,9 @@ No clone needed: `kairos.py` alone clones the rest. (If you did clone this repo,
 - `~/Kairos/cockpit/index.html`: the Cockpit page built from that store, branded Kairos. `python kairos.py open` shows it.
 - A log of every run at `~/Kairos/devkit-log.txt`.
 
-**If something fails**: run `python kairos.py check` (`python3` on macOS/Linux) and send us the output. Every FAIL row carries a one-line fix. Running `install` again is always safe; it only redoes what is missing.
+**If it says `python is not recognized`** (Windows): the PATH checkbox was missed. Run the Python installer again, choose *Modify*, and tick *Add python.exe to PATH*; or type `py kairos.py install` instead, which usually works.
+
+**If something fails**: run `python kairos.py check` (`python3` on macOS/Linux) and send the output to whoever pointed you here, or open an issue on this repository. Every FAIL row carries a one-line fix. Running `install` again is always safe; it only redoes what is missing.
 
 **What the kit does NOT do**: it never asks for administrator rights; nothing leaves your machine (the only network use is cloning from github.com and, if pip needs its build helper, pypi.org); no account, token or sign-in is created; it never writes outside `~/Kairos` except pip's own per-user package folder; it never touches a records store that already exists. To uninstall, delete `~/Kairos` (and, optionally, `python -m pip uninstall relay-kit telosmith`).
 
