@@ -16,6 +16,8 @@ WHAT IT DOES
     Options:  --name NAME   the owner name written into the records store (default: your login name)
               --no-pip      clone only; skip the pip installs (for a machine where pip is blocked)
 
+Paths in printed commands are absolute and quoted (`~` is only used in descriptive text).
+
 WHAT IT NEVER DOES
     * It never asks for, needs or uses administrator rights. Everything is a per-user install
       (`pip install --user`), the way Python itself recommends for a machine you don't administer.
@@ -42,6 +44,9 @@ HOW IT IS BUILT (for readers of the code)
     Each step is a small function that returns a Result (ok, label, detail, fix). `install` runs the
     steps in order and never stops on a failed clone or pip install: it records the failure, says so,
     and goes on, because a partial kit is still useful and `check` will show what is missing.
+    The records store carries a marker, ~/Kairos/records/.devkit-created, written only when this script's own
+    `relay-kit init` made the store; DEC-001 is seeded only behind that marker, so a store that was already
+    there (even with an empty ledger) is never attributed to the tester. `check` says which case it sees.
     Subprocesses are always started with `sys.executable -m <module>` rather than by a command name,
     so a Scripts folder that is not on PATH (common on Windows per-user installs) never blocks anything.
     All paths are pathlib.Path objects joined with `/`, which pathlib turns into backslashes on Windows.
@@ -57,6 +62,7 @@ import json
 import os
 import platform
 import re
+import shlex
 import shutil
 import subprocess
 import sys
@@ -76,6 +82,9 @@ ROOT = HOME / "Kairos"          # the one folder this script owns
 REPOS = ROOT / "repos"
 RECORDS = ROOT / "records"      # a FRESH private records store; never an existing one
 COCKPIT = ROOT / "cockpit"
+# Written by `install` only when ITS `relay-kit init` created the store (ISO time + owner). DEC-001 is
+# seeded only when this marker exists: a store that was already there is never attributed to anyone.
+MARKER = RECORDS / ".devkit-created"
 LOG = ROOT / "devkit-log.txt"   # every run appends here; "send us the output" can mean this file
 
 GITHUB = "https://github.com/eraevous"
@@ -127,6 +136,16 @@ def tilde(p: Path | str) -> str:
     s = str(p)
     h = str(HOME)
     return "~" + s[len(h):] if s.startswith(h) else s
+
+
+def shell_path(p: Path) -> str:
+    """An absolute path, quoted for the user's shell, for every command we print. Never `~`: PowerShell
+    does not expand `~` for native programs such as python.exe, and pip's `-e` parser does not either.
+    Windows gets double quotes (cmd.exe and PowerShell both accept them); elsewhere shlex does it."""
+    a = str(Path(p).expanduser().resolve()) if Path(p).exists() else str(Path(p).expanduser().absolute())
+    if IS_WINDOWS:
+        return '"' + a.replace('"', '""') + '"'
+    return shlex.quote(a)
 
 
 def run(cmd: list[str], cwd: Path | None = None, env: dict | None = None, timeout: int = 900):
@@ -206,7 +225,7 @@ def check_module(repo: str) -> Result:
     ok = code == 0
     first = next((ln.strip() for ln in out.splitlines() if ln.strip()), "")
     return Result(f"{PY} -m {mod} --help", ok, first[:60] if ok else out.strip().splitlines()[-1][:80] if out.strip() else "no output",
-                  f"Run `{PY} -m pip install --user -e {tilde(REPOS / repo)}`, then run this again.")
+                  f"Run `{PY} -m pip install --user -e {shell_path(REPOS / repo)}`, then run this again.")
 
 
 def check_command_on_path(cmd: str) -> Result:
@@ -223,28 +242,48 @@ def check_command_on_path(cmd: str) -> Result:
     return Result(f"`{cmd}` on PATH", True, f"optional: not found; `{PY} -m ...` is used instead")
 
 
+def read_marker() -> dict | None:
+    """The marker `install` writes when its own `relay-kit init` made the store: {"created": ISO, "owner": name}.
+    None when there is no marker or it is unreadable (then the store counts as pre-existing)."""
+    try:
+        m = json.loads(MARKER.read_text(encoding="utf-8"))
+        return m if isinstance(m, dict) else None
+    except (OSError, ValueError):
+        return None
+
+
+def ledger_lines(dec: Path) -> list[str]:
+    return [ln for ln in dec.read_text(encoding="utf-8").splitlines() if ln.strip()]
+
+
 def check_records() -> Result:
     dec = RECORDS / "governance" / "decisions.jsonl"
     if not dec.exists():
         return Result("records store", False, f"{tilde(RECORDS)} has no governance/decisions.jsonl",
                       f"Run `{PY} kairos.py install` again; it creates the store if the folder is missing or empty.")
-    lines = [ln for ln in dec.read_text(encoding="utf-8").splitlines() if ln.strip()]
+    marker = read_marker()
+    origin = (f"created by the Dev Kit on {str(marker.get('created', '?'))[:10]}" if marker
+              else "pre-existing, left untouched")
+    lines = ledger_lines(dec)
     if not lines:
-        return Result("records store", False, "created but has no decision yet",
-                      f"Run `{PY} kairos.py install` again to seed DEC-001.")
+        if marker:   # init ran, the seed did not (interrupted): install resumes it
+            return Result("records store", False, f"{origin}; no decision yet",
+                          f"Run `{PY} kairos.py install` again to seed DEC-001.")
+        return Result("records store", True, f"{origin}; its ledger is empty (not ours to seed)")
     try:
         first = json.loads(lines[0])
-        return Result("records store", True, f"{len(lines)} decision line(s); {first.get('id')}: {str(first.get('decision', ''))[:50]}...")
+        return Result("records store", True, f"{origin}; {len(lines)} decision line(s); {first.get('id')}: "
+                      f"{str(first.get('decision', ''))[:40]}...")
     except ValueError:
         return Result("records store", False, "decisions.jsonl line 1 is not JSON",
-                      f"Something edited the ledger by hand. Move {tilde(RECORDS)} aside and run install again.")
+                      f"Something edited the ledger by hand. Move {shell_path(RECORDS)} aside and run install again.")
 
 
 def check_cockpit() -> Result:
     page = COCKPIT / "index.html"
     ok = page.is_file() and page.stat().st_size > 0
     return Result("cockpit page", ok, tilde(page) if ok else "missing",
-                  f"Run `{PY} -m relaykit cockpit --root {tilde(RECORDS)} --out {tilde(COCKPIT)} --brand {BRAND}`.")
+                  f"Run `{PY} -m relaykit cockpit --root {shell_path(RECORDS)} --out {shell_path(COCKPIT)} --brand {BRAND}`.")
 
 
 def all_checks() -> list[Result]:
@@ -293,7 +332,7 @@ def step_clone(name: str) -> Result:
         return Result(f"clone {name}", True, "already present; pull failed (kept as is): " + out.strip().splitlines()[-1][:70])
     if dest.exists() and any(dest.iterdir()):
         return Result(f"clone {name}", False, f"{tilde(dest)} exists but is not a git clone",
-                      f"Move or rename {tilde(dest)}, then run install again.")
+                      f"Move or rename {shell_path(dest)}, then run install again.")
     code, out = run(["git", "clone", "--depth", "1", "--quiet", f"{GITHUB}/{name}", str(dest)], timeout=600)
     if code != 0:
         last = out.strip().splitlines()[-1] if out.strip() else "no output"
@@ -332,7 +371,7 @@ def step_pip(repo: str) -> Result:
             last = out
     tail = " | ".join(ln.strip() for ln in last.strip().splitlines()[-2:])[:160]
     return Result(f"pip install {repo}", False, tail,
-                  f"Run `{PY} -m pip install --user -e {tilde(src)}` by hand and read its last lines; then run install again.")
+                  f"Run `{PY} -m pip install --user -e {shell_path(src)}` by hand and read its last lines; then run install again.")
 
 
 def owner_name(given: str | None) -> str:
@@ -348,26 +387,35 @@ def step_records(name: str) -> Result:
     non-empty folder, which is exactly the guarantee we want (never touch an existing store)."""
     dec = RECORDS / "governance" / "decisions.jsonl"
     if dec.exists():
-        return Result("records store", True, "already present; left untouched")
+        m = read_marker()
+        return Result("records store", True, "already present; left untouched"
+                      + (f" (created by the Dev Kit on {str(m.get('created', '?'))[:10]})" if m else " (pre-existing, not ours)"))
     if any(RECORDS.iterdir()):
         return Result("records store", False, f"{tilde(RECORDS)} is not empty and is not a records store",
-                      f"Move {tilde(RECORDS)} aside, then run install again.")
+                      f"Move {shell_path(RECORDS)} aside, then run install again.")
     code, out = run(pymod("relaykit", "init", str(RECORDS), "--owner", name), timeout=120)
     if code != 0:
         return Result("records store", False, out.strip().splitlines()[-1][:120] if out.strip() else "init failed",
-                      f"Run `{PY} -m relaykit init {tilde(RECORDS)} --owner {name}` by hand and read the message.")
+                      f"Run `{PY} -m relaykit init {shell_path(RECORDS)} --owner {name}` by hand and read the message.")
+    MARKER.write_text(json.dumps({"created": dt.datetime.now(dt.timezone.utc).strftime("%Y-%m-%dT%H:%M:%SZ"),
+                                  "owner": name, "devkit": KIT_VERSION}) + "\n", encoding="utf-8")
     return Result("records store", True, f"created for owner '{name}'")
 
 
 def step_seed(name: str) -> Result:
-    """Append DEC-001 through the kit's own ledger tool (never by writing the file ourselves), so the
+    """Only in a store this install created (the marker from step_records), and only while its ledger is
+    empty, so an interrupted install resumes here and a store that was already there is never attributed.
+    Append DEC-001 through the kit's own ledger tool (never by writing the file ourselves), so the
     line gets its id, date and the append-only check the kit applies. --offline because this store
     has no shared copy on GitHub; RELAYKIT_ACTOR names who recorded it."""
     dec = RECORDS / "governance" / "decisions.jsonl"
     if not dec.exists():
         return Result("seed DEC-001", False, "no records store", "Fix `records store` first.")
-    if any(ln.strip() for ln in dec.read_text(encoding="utf-8").splitlines()):
+    if ledger_lines(dec):
         return Result("seed DEC-001", True, "ledger already has a decision; nothing appended")
+    if not read_marker():
+        # An empty ledger in a store this installer did not create is still someone else's store.
+        return Result("seed DEC-001", True, "store is pre-existing (no .devkit-created marker); nothing appended")
     today = dt.date.today().isoformat()
     row = {
         "status": "adopted",
@@ -392,7 +440,7 @@ def step_cockpit() -> Result:
     code, out = run(pymod("relaykit", "cockpit", "--root", str(RECORDS), "--out", str(COCKPIT), "--brand", BRAND), timeout=300)
     if code != 0:
         return Result("cockpit page", False, out.strip().splitlines()[-1][:140] if out.strip() else "build failed",
-                      f"Run `{PY} -m relaykit cockpit --root {tilde(RECORDS)} --out {tilde(COCKPIT)} --brand {BRAND}` by hand and read the message.")
+                      f"Run `{PY} -m relaykit cockpit --root {shell_path(RECORDS)} --out {shell_path(COCKPIT)} --brand {BRAND}` by hand and read the message.")
     return Result("cockpit page", True, f"written to {tilde(COCKPIT / 'index.html')}")
 
 
@@ -486,13 +534,13 @@ def cmd_open(args) -> int:
 
 
 def cmd_next(args) -> int:
-    repos = tilde(REPOS)
-    sep = "\\" if IS_WINDOWS else "/"
-    demo = f"{repos}{sep}Telosmith{sep}docs{sep}demo.md"
+    """Every path here is absolute and quoted (shell_path): PowerShell will not expand `~` for python.exe."""
+    demo = shell_path(REPOS / "Telosmith" / "docs" / "demo.md")
+    fathom_out = ROOT / "fathom-out"
     say(f"Kairos Dev Kit: the next three things to try (commands for {platform.system()}).\n")
     say("1. Open the Cockpit: the page built from your own records store (one decision so far, yours).")
     say(f"     {PY} kairos.py open")
-    say(f"   The page is a plain file: {tilde(COCKPIT / 'index.html')}. Nothing on it is live or online.\n")
+    say(f"   The page is a plain file: {shell_path(COCKPIT / 'index.html')}. Nothing on it is live or online.\n")
     say("2. Run Telosmith's 90-second demo: a toy project whose recorded reasons stay attached to its code.")
     say(f"     {PY} -m aec --version")
     say(f"   then follow {demo} step by step, typing `{PY} -m aec` wherever it says `aec`.")
@@ -502,10 +550,10 @@ def cmd_next(args) -> int:
     say("")
     say("3. Try Fathom on a CSV you have: an offline data-review report, nothing leaves your machine.")
     say("   Fathom needs pandas, so this one install does reach pypi.org (the only step that does), and Python 3.12+:")
-    say(f"     {PY} -m pip install --user -e {repos}{sep}Fathom")
-    say(f"     {PY} -m fathom liftoff your.csv --out {tilde(ROOT / 'fathom-out')}")
-    say(f"   then open {tilde(ROOT / 'fathom-out')}{sep}liftoff.html and read the Brief.\n")
-    say(f"Anything odd? Run `{PY} kairos.py check` and send the output. To remove everything, delete {tilde(ROOT)}.")
+    say(f"     {PY} -m pip install --user -e {shell_path(REPOS / 'Fathom')}")
+    say(f"     {PY} -m fathom liftoff your.csv --out {shell_path(fathom_out)}")
+    say(f"   then open {shell_path(fathom_out / 'liftoff.html')} and read the Brief.\n")
+    say(f"Anything odd? Run `{PY} kairos.py check` and send the output. To remove everything, delete {shell_path(ROOT)}.")
     return 0
 
 
