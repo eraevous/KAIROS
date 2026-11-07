@@ -34,6 +34,32 @@
 
 <p>All public tools are plain Python, stdlib-only in the kits, Python 3.12+ recommended.</p>
 
+<section id="devkit" class="repo" aria-labelledby="devkit-h">
+  <div>
+    <h3 id="devkit-h">Install the Dev Kit (10 minutes)</h3>
+    <p class="what">One script, <code>kairos.py</code>, sets up everything below in a single folder, <code>Kairos</code>, inside your home folder. It needs no administrator rights and no account. You need Python 3.10 or newer and git; both install per-user from <a href="https://www.python.org/downloads/">python.org</a> (tick <em>Add python.exe to PATH</em>) and <a href="https://git-scm.com/downloads">git-scm.com</a>.</p>
+    <dl>
+      <dt>What you'll have</dt><dd>Shallow clones of relay-kit, Telosmith, Fathom and QAT-Kits under <code>~/Kairos/repos</code>; relay-kit and Telosmith installed for your user (<code>python -m relaykit</code>, <code>python -m aec</code>); a fresh private records store at <code>~/Kairos/records</code>, seeded with one decision that says it is yours; the Cockpit page built from it at <code>~/Kairos/cockpit/index.html</code>.</dd>
+      <dt>If something fails</dt><dd>Run <code>python kairos.py check</code> (<code>python3</code> on macOS/Linux) and send us the output. Every FAIL row carries a one-line fix. Running <code>install</code> again is always safe.</dd>
+      <dt>What it does not do</dt><dd>No administrator rights. Nothing leaves your machine: the only network use is cloning from github.com (and pypi.org only if pip needs its build helper). No account, token or sign-in. Nothing written outside <code>~/Kairos</code> except pip's per-user package folder. An existing records store is never touched. Uninstall: delete <code>~/Kairos</code>.</dd>
+    </dl>
+  </div>
+  <div class="install">
+    <h4>Windows</h4>
+<pre><code>1. Download kairos.py (right-click, Save link as...) into Downloads:
+   https://raw.githubusercontent.com/eraevous/kairos/main/kairos.py
+2. Open PowerShell and type:   cd Downloads
+3. Type:   python kairos.py install
+   then, after "All checks passed":   python kairos.py next</code></pre>
+    <h4>macOS / Linux</h4>
+<pre><code>1. Download kairos.py (same link) into Downloads
+2. Open Terminal and type:   cd ~/Downloads
+3. Type:   python3 kairos.py install
+   then:   python3 kairos.py next</code></pre>
+    <p>No clone needed: <code>kairos.py</code> alone clones the rest. The full text is in the <a href="https://github.com/eraevous/kairos/blob/main/README.md#install-the-dev-kit-10-minutes">README</a>.</p>
+  </div>
+</section>
+
 
 <article class="repo">
   <div>

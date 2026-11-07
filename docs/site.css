@@ -264,6 +264,22 @@ main {
 .ideas li { margin: 0.9rem 0; }
 .ideas li b { font-weight: 600; display: block; }
 
+/* the Dev Kit strip under the hero (index) and at the top of tools */
+.devkit {
+  margin: -1.5rem 0 3rem;
+  padding: 1rem 0 1.1rem;
+  border-top: 1px solid var(--verdigris);
+  border-bottom: 1px solid var(--line);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.6rem 2rem;
+  align-items: baseline;
+}
+.devkit .door-title { font-size: 1.3rem; margin: 0; flex: 0 0 auto; text-decoration: none; }
+.devkit .door-title:hover, .devkit .door-title:focus-visible { text-decoration: underline; text-underline-offset: 0.2em; }
+.devkit p { margin: 0; color: var(--text); max-width: 60ch; flex: 1 1 28ch; }
+#devkit.repo { border-top: 1px solid var(--verdigris); }
+
 /* three doors */
 .doors {
   list-style: none;

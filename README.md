@@ -3,7 +3,39 @@
 > **We are building Cognitive Augmentation.**
 > (The project's guiding light, in the owner's words. What it means in full is being written; until then every repo here is judged by one question: does it increase a person's capacity to realise their intentions?)
 
-Kairos is Zach Rhodes's umbrella for his AI/cognition work: a set of tools, the operating environment that coordinates the people and AI agents who build them, and the research behind both. This repository is the front door. It holds no code of its own — only the map, the directions, and the honest status of everything else.
+Kairos is Zach Rhodes's umbrella for his AI/cognition work: a set of tools, the operating environment that coordinates the people and AI agents who build them, and the research behind both. This repository is the front door. It holds the map, the directions, the honest status of everything else, and one script: the Dev Kit installer below.
+
+---
+
+## Install the Dev Kit (10 minutes)
+
+One script, [`kairos.py`](kairos.py), sets up everything in a single folder, `Kairos`, inside your home folder. It needs no administrator rights and no account. You need **Python 3.10 or newer** and **git**; both install per-user from [python.org](https://www.python.org/downloads/) (tick *Add python.exe to PATH*) and [git-scm.com](https://git-scm.com/downloads) if you don't have them.
+
+**Windows**
+
+1. Download [`kairos.py`](https://raw.githubusercontent.com/eraevous/kairos/main/kairos.py) (right-click, *Save link as…*) into your Downloads folder.
+2. Open PowerShell (Start menu, type `powershell`), then type: `cd Downloads` and press Enter.
+3. Type `python kairos.py install` and press Enter. When it finishes with *All checks passed*, type `python kairos.py next`.
+
+**macOS / Linux**
+
+1. Download [`kairos.py`](https://raw.githubusercontent.com/eraevous/kairos/main/kairos.py) into your Downloads folder.
+2. Open Terminal, then type `cd ~/Downloads` and press Enter.
+3. Type `python3 kairos.py install` and press Enter. When it finishes with *All checks passed*, type `python3 kairos.py next`.
+
+No clone needed: `kairos.py` alone clones the rest. (If you did clone this repo, `install.ps1` and `install.sh` do the same thing: `powershell -ExecutionPolicy Bypass -File install.ps1`, or `sh install.sh`.)
+
+**What you'll have at the end**
+
+- `~/Kairos/repos/`: shallow clones of [relay-kit](https://github.com/eraevous/relay-kit), [Telosmith](https://github.com/eraevous/Telosmith), [Fathom](https://github.com/eraevous/Fathom) and [QAT-Kits](https://github.com/eraevous/QAT-Kits).
+- relay-kit and Telosmith installed for your user (`python -m relaykit`, `python -m aec`), editable, so a `git pull` in the clone updates them.
+- `~/Kairos/records/`: a fresh, private records store that is yours, seeded with one decision (DEC-001: this is your store).
+- `~/Kairos/cockpit/index.html`: the Cockpit page built from that store, branded Kairos. `python kairos.py open` shows it.
+- A log of every run at `~/Kairos/devkit-log.txt`.
+
+**If something fails**: run `python kairos.py check` (`python3` on macOS/Linux) and send us the output. Every FAIL row carries a one-line fix. Running `install` again is always safe; it only redoes what is missing.
+
+**What the kit does NOT do**: it never asks for administrator rights; nothing leaves your machine (the only network use is cloning from github.com and, if pip needs its build helper, pypi.org); no account, token or sign-in is created; it never writes outside `~/Kairos` except pip's own per-user package folder; it never touches a records store that already exists. To uninstall, delete `~/Kairos` (and, optionally, `python -m pip uninstall relay-kit telosmith`).
 
 ---
 
@@ -11,7 +43,7 @@ Kairos is Zach Rhodes's umbrella for his AI/cognition work: a set of tools, the 
 
 | You are… | Start with | Then |
 |---|---|---|
-| **A user** who wants to try a tool | [Install](#install) → the tool's own `README` and `docs/demo.md` | Open an issue in that repo with what confused you; first-contact confusion is the most valuable report we get |
+| **A user** who wants to try a tool | [Install the Dev Kit](#install-the-dev-kit-10-minutes) (or one tool: [Install](#install)) → the tool's own `README` and `docs/demo.md` | Open an issue in that repo with what confused you; first-contact confusion is the most valuable report we get |
 | **A contributor** (human or AI agent) | [How we work](#how-we-work) → [Contributing](#contributing) | Pick an issue, or an item from a repo's `docs/` "needs owner" lists; open a PR, never merge |
 | **An explorer** of the architecture | [The map](#the-map) → [Principles](#principles-that-recur) | Read a repo's `AGENTS.md` and `.aec/records.jsonl`: the written reasons live next to the code |
 | **Curious** about the thesis | [What this is](#what-this-is-for) → [Research](#research) | Watch this file; the papers are coming |
