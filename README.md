@@ -13,13 +13,13 @@ One script, [`kairos.py`](kairos.py), sets up everything in a single folder, `Ka
 
 **Windows**
 
-1. Download [`kairos.py`](https://raw.githubusercontent.com/eraevous/kairos/main/kairos.py) (right-click, *Save link as…*) into your Downloads folder.
+1. Download [`kairos.py`](https://raw.githubusercontent.com/eraevous/KAIROS/main/kairos.py) (right-click, *Save link as…*) into your Downloads folder.
 2. Open PowerShell (Start menu, type `powershell`), then type: `cd Downloads` and press Enter.
 3. Type `python kairos.py install` and press Enter. When it finishes with *All checks passed*, type `python kairos.py next`.
 
 **macOS / Linux**
 
-1. Download [`kairos.py`](https://raw.githubusercontent.com/eraevous/kairos/main/kairos.py) into your Downloads folder.
+1. Download [`kairos.py`](https://raw.githubusercontent.com/eraevous/KAIROS/main/kairos.py) into your Downloads folder.
 2. Open Terminal, then type `cd ~/Downloads` and press Enter.
 3. Type `python3 kairos.py install` and press Enter. When it finishes with *All checks passed*, type `python3 kairos.py next`.
 
