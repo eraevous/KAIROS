@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Tools, Kairos</title>
+<meta name="description" content="The map of Kairos repos: what each is, who it serves, its honest state and how to install it.">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <button class="theme-toggle" type="button"><span class="glyph" aria-hidden="true">&#9680;</span> Theme: auto</button>
+    <nav class="site-nav" id="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="tools.html" aria-current="page">Tools</a></li>
+        <li><a href="start.html">Contribute</a></li>
+        <li><a href="how-we-work.html">How we work</a></li>
+        <li><a href="papers.html">Papers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="statement">
+  <h1>The map</h1>
+  <p>Every public repo, what it is, who it serves, and its honest state, copied from the START HERE README on 2026-11-06. None of the tools is on PyPI yet.</p>
+</div>
+
+<p>All public tools are plain Python, stdlib-only in the kits, Python 3.12+ recommended.</p>
+
+<section id="devkit" class="repo" aria-labelledby="devkit-h">
+  <div>
+    <h3 id="devkit-h">Install the Dev Kit (10 minutes)</h3>
+    <p class="what">One script, <code>kairos.py</code>, sets up everything below in a single folder, <code>Kairos</code>, inside your home folder. It needs no administrator rights and no account. You need Python 3.10 or newer and git; both install per-user from <a href="https://www.python.org/downloads/">python.org</a> (tick <em>Add python.exe to PATH</em>) and <a href="https://git-scm.com/downloads">git-scm.com</a>.</p>
+    <dl>
+      <dt>What you'll have</dt><dd>Shallow clones of relay-kit, Telosmith, Fathom and QAT-Kits under <code>~/Kairos/repos</code>; relay-kit and Telosmith installed for your user (<code>python -m relaykit</code>, <code>python -m aec</code>); a fresh private records store at <code>~/Kairos/records</code>, seeded with one decision that says it is yours; the Cockpit page built from it at <code>~/Kairos/cockpit/index.html</code>.</dd>
+      <dt>If something fails</dt><dd>Run <code>python kairos.py check</code> (<code>python3</code> on macOS/Linux) and send us the output. Every FAIL row carries a one-line fix. Running <code>install</code> again is always safe.</dd>
+      <dt>What it does not do</dt><dd>No administrator rights. Nothing leaves your machine: the only network use is cloning from github.com (and pypi.org only if pip needs its build helper). No account, token or sign-in. Nothing written outside <code>~/Kairos</code> except pip's per-user package folder. An existing records store is never touched. Uninstall: delete <code>~/Kairos</code>.</dd>
+    </dl>
+  </div>
+  <div class="install">
+    <h4>Windows</h4>
+<pre><code>1. Download kairos.py (right-click, Save link as...) into Downloads:
+   https://raw.githubusercontent.com/eraevous/KAIROS/main/kairos.py
+2. Open PowerShell and type:   cd Downloads
+3. Type:   python kairos.py install
+   then, after "All checks passed":   python kairos.py next</code></pre>
+    <h4>macOS / Linux</h4>
+<pre><code>1. Download kairos.py (same link) into Downloads
+2. Open Terminal and type:   cd ~/Downloads
+3. Type:   python3 kairos.py install
+   then:   python3 kairos.py next</code></pre>
+    <p>No clone needed: <code>kairos.py</code> alone clones the rest. The full text is in the <a href="https://github.com/eraevous/kairos/blob/main/README.md#install-the-dev-kit-10-minutes">README</a>.</p>
+  </div>
+</section>
+
+
+<article class="repo">
+  <div>
+    <h3><a href="https://github.com/eraevous/Telosmith">Telosmith</a></h3>
+    <p class="what">Keeps the recorded reasons for code attached to the code. <code>check</code> validates the records; <code>code-impact</code> tells an agent (or a human) which written requirements, claims and decisions a change endangers. Standalone, with Spec Kit, or inside another agentic-coding setup.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>Developers and teams using coding agents</dd>
+      <dt>State</dt><dd><span class="state">0.5.0 on <code>main</code>; tag pending; 300+ tests; <code>docs/demo.md</code> is a 90-second walkthrough</span></dd>
+    </dl>
+  </div>
+  <div class="install">
+    <h4>Install</h4>
+<pre><code>pip install "git+https://github.com/eraevous/Telosmith.git@main"
+aec --help        # the command; `telosmith` is an alias</code></pre>
+    <p>Then follow <code>docs/demo.md</code> (90 seconds, real output).</p>
+  </div>
+</article>
+
+
+<article class="repo">
+  <div>
+    <h3><a href="https://github.com/eraevous/Fathom">Fathom</a></h3>
+    <p class="what">Deterministic, offline data-review reports: a data dictionary, structure findings with the threshold printed beside each verdict, time-series and panel structure, a liftoff Brief that asks what the data <em>cannot</em> tell you. Byte-identical reruns; nothing leaves your machine.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>Analysts; anyone handed a CSV they didn't make</dd>
+      <dt>State</dt><dd><span class="state">specs 001–019 merged; two-stage flow (liftoff → profile)</span></dd>
+    </dl>
+  </div>
+  <div class="install">
+    <h4>Install</h4>
+<pre><code>git clone https://github.com/eraevous/Fathom &amp;&amp; cd Fathom
+python3 -m venv .venv &amp;&amp; .venv/bin/pip install -e '.[test,exports]'
+.venv/bin/guide liftoff your.csv --out out/discovery     # stage 1: Brief + Configurations
+.venv/bin/guide profile your.csv --config liftoff.yaml --out out/report   # stage 2</code></pre>
+    <p>Runs with every socket blocked; the tests prove it.</p>
+  </div>
+</article>
+
+
+<article class="repo">
+  <div>
+    <h3><a href="https://github.com/eraevous/relay-kit">relay-kit</a></h3>
+    <p class="what">The coordination kit: handoffs with ids and states, append-only decision and challenge ledgers, chat capture and cross-model relay, read-only export, a static <strong>Cockpit</strong> control surface, an MCP server.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>People running more than one AI assistant on one project</dd>
+      <dt>State</dt><dd><span class="state">v0.1.0; export@1, mcp@1, cockpit@2+</span></dd>
+    </dl>
+  </div>
+  <div class="install">
+    <h4>Install</h4>
+<pre><code>pip install "relay-kit @ git+https://github.com/eraevous/relay-kit@v0.1.0"
+relay-kit init my-records &amp;&amp; relay-kit status --root my-records
+relay-kit cockpit --root my-records --out ./cockpit      # a static page; open index.html</code></pre>
+    <p>Not a Claude user? The kit is being made installable from instructions alone for ChatGPT, Codex and others; say what broke.</p>
+  </div>
+</article>
+
+
+<article class="repo">
+  <div>
+    <h3><a href="https://github.com/eraevous/QAT-Kits">QAT-Kits</a></h3>
+    <p class="what">Cognitive tools as contract-checked specs: StressTest, TruthWeight, FrameShift, NegativeSpace, ThreadMap, MetaDistill and more. Chainable, with evals.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>Anyone who wants a model to <em>think in a named way</em> rather than ramble</dd>
+      <dt>State</dt><dd><span class="state">typed specs for two tools; the rest in prose; roadmap in progress</span></dd>
+    </dl>
+  </div>
+  <div class="install">
+    <h4>Install</h4>
+    <p>Clone and read the README; runs from a checkout with no install.</p><p>LICENSE and CLA files are missing from this repo; that is on the owner's list.</p>
+  </div>
+</article>
+
+
+<article class="repo">
+  <div>
+    <h3><a href="https://github.com/eraevous/MtG">MtG</a></h3>
+    <p class="what">Commander deck analysis on an interaction ontology and a card knowledge base; the first Telosmith pilot outside Telosmith.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>Players; also a worked example of the records approach on a hobby</dd>
+      <dt>State</dt><dd><span class="state">scorer, game log, KB pinned</span></dd>
+    </dl>
+  </div>
+  <div class="install">
+    <h4>Install</h4>
+    <p>Clone and read the README; runs from a checkout with no install.</p>
+  </div>
+</article>
+
+
+<article class="repo">
+  <div>
+    <h3><a href="https://github.com/eraevous/Cognitive-Scaffolding">Cognitive-Scaffolding</a></h3>
+    <p class="what">Document and conversation processing: chunking, enrichment, hybrid retrieval, reconstruction; the origin of several ideas above and a library of foundation notes.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>Researchers of their own archives</dd>
+      <dt>State</dt><dd><span class="state">working but uneven; its <code>AGENTS.md</code> describes planned machinery. Read <code>docs/enforcement-audit.md</code> first</span></dd>
+    </dl>
+  </div>
+</article>
+
+
+<article class="repo">
+  <div>
+    <h3><a href="https://github.com/eraevous/Anamnesis">Anamnesis</a></h3>
+    <p class="what">Recovering, connecting and reconsidering what has accumulated in conversations and documents: attributed reconstruction, not summarisation.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>The same researchers, later</dd>
+      <dt>State</dt><dd><span class="state">placeholder; a rescued spike is being triaged</span></dd>
+    </dl>
+  </div>
+  <div class="install">
+    <h4>Install</h4>
+    <p>LICENSE and CLA files are missing from this repo; that is on the owner's list.</p>
+  </div>
+</article>
+
+
+<article class="repo">
+  <div>
+    <h3>Prospero</h3>
+    <p class="what">Formerly PlayWrite. Creative collaboration for writers and artists: cultivation, not replacement.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>Writers</dd>
+      <dt>State</dt><dd><span class="state pending">idea; repo not yet renamed</span></dd>
+    </dl>
+  </div>
+</article>
+
+
+<article class="repo">
+  <div>
+    <h3>kairos-cockpit <span class="private">(private)</span></h3>
+    <p class="what">The Kairos-specific layer over relay-kit's generic Cockpit: repo list, design, PR landing, deployment.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>The owner</dd>
+      <dt>State</dt><dd><span class="state">seeded</span></dd>
+    </dl>
+  </div>
+</article>
+
+
+<article class="repo">
+  <div>
+    <h3>relay-kit-private <span class="private">(private)</span></h3>
+    <p class="what">The coordination records themselves: ledgers, handoffs, status, research notes. The Cockpit is generated from these.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>The owner and the agents</dd>
+      <dt>State</dt><dd><span class="state">daily</span></dd>
+    </dl>
+  </div>
+</article>
+
+<hr>
+<p class="aside">Private repos are private because they hold personal records or credentials, not because the method is secret; the method is in the public kits.</p>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p><span class="name">Kairos</span> is Zach Rhodes's project. Site generated by a Claude agent on 2026-11-06 from the START HERE README; no analytics, no cookies, no external requests.</p>
+    <p>Public repos are MIT. Each carries a <code>CLA.md</code>: contributing grants the owner a commercial-relicensing right so companies can use the code with minimal risk while he keeps his rights. Read it before your first PR.</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>
