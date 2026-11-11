@@ -30,8 +30,8 @@
 
 <div class="statement">
   <h1>Findings</h1>
-  <p class="lede">What the research lanes have found by studying this project as it runs: a human directing agents from two AI model families, with every decision, handoff and review kept as a record.</p>
-  <p>Each finding carries its number, how it was established and when. The underlying notes stay in the private records; numbers are as measured on the dates shown and will move.</p>
+  <p class="lede">We study our own system as it runs (a human directing agents from two AI model families, with every decision, handoff and review kept as a record), find what's broken or wonky, and fix it.</p>
+  <p>Each finding carries its number, what we did about it, how it was established and when. The underlying notes stay in the private records; numbers are as measured on the dates shown and will move.</p>
 </div>
 
 <section aria-labelledby="findings-list">
@@ -41,6 +41,7 @@
     <h3>Vocabularies are written down. Almost none of them are executed.</h3>
     <p>An audit of five tools in November 2026 asked the same question of each: <em>which code actually reads the ontology?</em> Telosmith's vocabulary is careful (13 record types, 11 relations, each mapped to established standards), but its checks verify names, not meanings: 30 of 274 links on its own records break the documented domain and range without a warning. QAT-Kits' role ontology is read by nothing at all. Fathom has enforced flat vocabularies but no model of distance or similarity yet. The pattern is the same everywhere: the design exists; the consumer doesn't.</p>
 <p><b>What it changes.</b> The working rule is now to treat an ontology as the <em>specification of the checkers</em>, so every unchecked column is a missing test rather than a missing feature. Telosmith is testing its vocabulary as load-bearing next.</p>
+    <p class="finding-fix"><span class="fix-status">in progress</span> <b>What we did about it.</b> Telosmith is now testing its vocabulary as load-bearing: one table the code reads, with misuse flagged automatically, so all 30 mismatches surface and get decided. The same audit gave QAT-Kits and Fathom their next steps.</p>
     <p class="finding-meta">How we know: measured (Telosmith count) · inferred (the cross-tool pattern) · 2026-11-10</p>
   </article>
   <article class="finding" id="grounding">
@@ -48,6 +49,7 @@
     <h3>Grounding an evaluator in contracts, not text patterns, moved about 600 conclusions.</h3>
     <p>The Magic: The Gathering analyser decided what a card does by matching phrases ("draw a card" means card draw). Its knowledge base looked independent but was computed by the same readers: the tool was, in effect, citing itself through a cache. Routing six roles through the operation contracts instead removed 97 false "draw" cards (Cultivate searches for a land; under the rules that isn't drawing) and added over 200 correct ramp cards. The tests prove <em>consumption</em>, not citation: change a contract in a fixture and the evaluator's answer changes.</p>
 <p><b>Why it matters beyond cards.</b> "Cites the ontology" and "is driven by the ontology" look identical from the outside. The second is testable.</p>
+    <p class="finding-fix"><span class="fix-status">built, under review</span> <b>What we did about it.</b> The fix is built: the evaluator now reads the contracts for six roles, with every other role labelled as a fallback instead of silently guessed. Before it becomes the default, 60 disagreements get a second-model review to find patterns, and the knowledge-base gap it exposed (who gains the life from Swords to Plowshares) is logged for correction.</p>
     <p class="finding-meta">How we know: measured on a 3,514-card collection; contracts not yet reviewed (candidate) · 2026-11-10</p>
   </article>
   <article class="finding" id="relay">
@@ -55,6 +57,7 @@
     <h3>In a human + multi-agent team, the slow edge is the hand-off between model families.</h3>
     <p>Treating the project's own coordination records as a graph (handoffs, decisions, reviews, wake logs) showed where work actually waits. Median pickup is minutes; the tail is hours, and it grows. Stalls moved from "sent but unread" to "in progress but quiet". The binding constraint is the relay between the two AI families: at one point 5 of 27 scheduled agent runs were blocked on a single cross-model answer that hadn't landed.</p>
 <p>The study also found its own instrument was wrong: the stall detector read only one log, so two of nine "stalled" items were false positives. Fixing the reader came first.</p>
+    <p class="finding-fix"><span class="fix-status">partly shipped</span> <b>What we did about it.</b> Agent lanes now schedule and gate themselves, so they don't wait on a coordinator to wake them. Direct channels between the model families replaced some relays. The stall detector's blind spot has a specified fix, and a handshake-and-heartbeat link layer is in design, so dropped connections get noticed and retried instead of discovered.</p>
     <p class="finding-meta">How we know: measured from the coordination records (n = 60 → 78 handoffs) · 2026-11-07 → 11-10</p>
   </article>
   <article class="finding" id="lineage">
@@ -62,6 +65,7 @@
     <h3>Tracing an idea from conversation to merged code works for days, not for years.</h3>
     <p>Five ideas were traced from where they were first said, through the decision that adopted them, to the pull request that implemented them. Same-day captures were recoverable: the records already held the quote, the place it was said, the author and the date. Ideas from 2024–25 reached the records only through a later, model-written retrospective, and their links could be reconstructed but not verified.</p>
 <p><b>The non-obvious result.</b> Stable idea IDs would not have fixed it. The two real failures are cross-era links and records where a human's decision and a model's inference sit in the same sentence. IDs fix neither.</p>
+    <p class="finding-fix"><span class="fix-status">decided</span> <b>What we did about it.</b> Instead of adding ID machinery that wouldn't fix the real gaps, the project keeps the fields that already work and is targeting the two actual failures: cross-era links, and separating a person's words from a model's inference inside one record.</p>
     <p class="finding-meta">How we know: measured (link counts) · inferred (what IDs would fix) · 2026-11-09</p>
   </article>
   <article class="finding" id="authority">
@@ -69,18 +73,21 @@
     <h3>There is no stable difference between a 'choice' and a 'decision'. Yet.</h3>
     <p>Asked to separate four things that usually blur together (the alternatives considered, the selection someone authorised, permission to act on it, and evidence that the action happened), the records showed all four living in prose. A "choice" was a page of proposed decisions, not a kind of thing. That is fine for one person and a handful of agents; it does not survive hundreds of agents acting unattended.</p>
 <p><b>What it led to.</b> The authority layer is now being designed ontology-first, with twelve candidate kinds and their relations, and a proposal for a dedicated body to keep the register of decisions, detect contradictions and handle challenges.</p>
+    <p class="finding-fix"><span class="fix-status">in progress</span> <b>What we did about it.</b> Authorizations now carry fingerprints of the exact decision they cite, filled in by the tooling, so misquotes and after-the-fact edits get caught (warning first, then enforced). The authority layer is being designed ontology-first, and a dedicated body for the decision register, contradiction detection and structured challenges is going to the project's constitutional convention.</p>
     <p class="finding-meta">How we know: measured (ledger fields) · proposal (the design) · 2026-11-10</p>
   </article>
   <article class="finding" id="comparative">
     <p class="finding-stat"><span class="num">0 / 10</span> <span class="what">upstream runtimes adopted / design patterns credited, after reading four orchestration systems at a pinned version.</span></p>
     <h3>Surveying the agent-orchestration field: borrow patterns, adopt no runtime.</h3>
     <p>Four public agent-orchestration projects were read at pinned commits and compared feature by feature against what this project already runs. None was worth adopting as a dependency: the failures this project actually records are coordination-state failures (who has the work, has it been superseded), not process-state ones (resume after a crash). Ten patterns were credited instead, with licences checked. The single missing feature across the comparison: a definition of a stalled task that triggers an action.</p>
+    <p class="finding-fix"><span class="fix-status">adopting</span> <b>What we did about it.</b> Three patterns are being adopted inside existing tools rather than as dependencies. Versioned agent instructions are done. A stall definition with a written action, and a trust-boundaries table for every input surface, come next, the latter before any cloud deployment.</p>
     <p class="finding-meta">How we know: measured (code read at pinned commits) · inferred (fit) · 2026-11-07 → 11-11</p>
   </article>
   <article class="finding" id="tokens">
     <p class="finding-stat"><span class="num">none found</span> <span class="what">public distributions of model tokens per merged pull request for human-directed agentic work.</span></p>
     <h3>Nobody publishes what agentic development costs per change that survives.</h3>
     <p>A literature check for an external yardstick found controlled studies that measure developer <em>time</em>, benchmark leaderboards that report total dollars for fixed task sets, and vendor telemetry, but no distribution of tokens per merged change for real, human-directed agentic work. That number is one this project can produce from its own records, so it is on the research agenda rather than borrowed.</p>
+    <p class="finding-fix"><span class="fix-status">planned</span> <b>What we did about it.</b> Every handoff, merge and model session is already recorded, so the project can produce the number itself: tokens per change that survives review. Instrumentation for the remaining blind spot, unattended cloud runs, is specified.</p>
     <p class="finding-meta">How we know: literature check, primary sources · 2026-11-05</p>
   </article>
 </section>

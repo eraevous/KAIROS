@@ -151,14 +151,14 @@ Not a Claude user? The kit is being made installable from instructions alone for
 
 ## Research
 
-What the research lanes have found so far, by studying this project as it runs. Each finding has its number, how it was established and when, on the [Findings page](docs/findings.html).
+We study our own system as it runs, find what's broken or wonky, and fix it. Each finding, with its number, what we did about it, and how it was established, is on the [Findings page](docs/findings.html).
 
-- **Written ontologies are rarely executed.** About 11% of Telosmith's own record links fall outside its documented vocabulary, and no check notices. Across five tools the design existed and the consumer didn't.
-- **Grounding beats citing.** About 600 card-role conclusions changed when the MtG evaluator read machine-checkable contracts instead of matching text, and tests prove the contracts are consumed.
-- **The slow edge is the hand-off between AI model families.** The 90th-percentile pickup of a handed-off task is 16.7 h, and the biggest single blocker is the relay between model families.
+- **Written ontologies are rarely executed.** About 11% of Telosmith's own record links fall outside its documented vocabulary, and no check notices. *Fixing:* Telosmith's vocabulary is being made load-bearing, so misuse is flagged automatically.
+- **Grounding beats citing.** About 600 card-role conclusions changed when the MtG evaluator read machine-checkable contracts instead of matching text, and tests prove the contracts are consumed. *Built;* a 60-case review comes before it becomes the default.
+- **The slow edge is the hand-off between AI model families.** The 90th-percentile pickup of a handed-off task is 16.7 h, and the biggest single blocker is the relay between model families. *Shipped:* self-scheduling lanes and direct channels; *next:* a handshake-and-heartbeat link layer.
 - **Idea lineage survives days, not years.** Of the links in five idea-to-code traces, 19 were verified, 10 reconstructed and 3 unsourced; stable IDs alone wouldn't fix the gaps.
-- **"Choice" vs "decision" has no stable meaning yet.** That's the starting point for an ontology-backed authority layer.
-- **Borrow patterns, adopt no runtime.** Four orchestration systems were read at pinned commits: 0 adopted, 10 patterns credited.
+- **"Choice" vs "decision" has no stable meaning yet.** *In progress:* authorization fingerprints checked by tooling, an ontology-first authority layer, and a proposed body for the decision register and structured challenges.
+- **Borrow patterns, adopt no runtime.** Four orchestration systems were read at pinned commits: 0 adopted, 10 patterns credited; three are being adopted inside existing tools.
 - **No public baseline exists** for tokens per merged change in human-directed agentic work, so this project measures its own.
 
 Under way: interestingness (depth that keeps paying out), a programmatic catalogue of feedback loops, small local models with cognitive scaffolding, and minimum cognition per task kind.
