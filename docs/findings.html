@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Findings, Kairos</title>
+<meta name="description" content="What the Kairos research lanes have found so far, with the numbers and how each was established.">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <button class="theme-toggle" type="button"><span class="glyph" aria-hidden="true">&#9680;</span> Theme: auto</button>
+    <nav class="site-nav" id="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="start.html">Contribute</a></li>
+        <li><a href="how-we-work.html">How we work</a></li>
+        <li><a href="findings.html" aria-current="page">Findings</a></li>
+        <li><a href="papers.html">Papers</a></li>
+      </ul>
+    </nav>
+  </div>
+</header>
+<main id="main">
+
+<div class="statement">
+  <h1>Findings</h1>
+  <p class="lede">We study our own system as it runs (a human directing agents from two AI model families, with every decision, handoff and review kept as a record), find what's broken or wonky, and fix it.</p>
+  <p>Each finding carries its number, what we did about it, how it was established and when. The underlying notes stay in the private records; numbers are as measured on the dates shown and will move.</p>
+</div>
+
+<section aria-labelledby="findings-list">
+  <h2 id="findings-list">So far</h2>
+  <article class="finding" id="ontology">
+    <p class="finding-stat"><span class="num">~11%</span> <span class="what">of Telosmith's own record links fall outside the meaning its vocabulary documents, and no check notices.</span></p>
+    <h3>Vocabularies are written down. Almost none of them are executed.</h3>
+    <p>An audit of five tools in November 2026 asked the same question of each: <em>which code actually reads the ontology?</em> Telosmith's vocabulary is careful (13 record types, 11 relations, each mapped to established standards), but its checks verify names, not meanings: 30 of 274 links on its own records break the documented domain and range without a warning. QAT-Kits' role ontology is read by nothing at all. Fathom has enforced flat vocabularies but no model of distance or similarity yet. The pattern is the same everywhere: the design exists; the consumer doesn't.</p>
+<p><b>What it changes.</b> The working rule is now to treat an ontology as the <em>specification of the checkers</em>, so every unchecked column is a missing test rather than a missing feature. Telosmith is testing its vocabulary as load-bearing next.</p>
+    <p class="finding-fix"><span class="fix-status">in progress</span> <b>What we did about it.</b> Telosmith is now testing its vocabulary as load-bearing: one table the code reads, with misuse flagged automatically, so all 30 mismatches surface and get decided. The same audit gave QAT-Kits and Fathom their next steps.</p>
+    <p class="finding-meta">How we know: measured (Telosmith count) · inferred (the cross-tool pattern) · 2026-11-10</p>
+  </article>
+  <article class="finding" id="grounding">
+    <p class="finding-stat"><span class="num">628</span> <span class="what">card-role assignments change when a deck evaluator reads machine-checkable contracts instead of matching words. They are candidate corrections, not yet reviewed.</span></p>
+    <h3>Grounding an evaluator in contracts, not text patterns, moved hundreds of conclusions.</h3>
+    <p>The Magic: The Gathering analyser decided what a card does by matching phrases ("draw a card" means card draw). Its knowledge base looked independent but was computed by the same readers: the tool was, in effect, citing itself through a cache. Routing six roles through the operation contracts instead changed 628 card-role assignments: 97 cards lost the "draw" role (for example Cultivate, which searches for a land; under the rules that probably isn't drawing), 229 gained "ramp", and three other roles lost 302 between them. These are candidate corrections: the contracts haven't been semantically reviewed yet, and some changes may turn out to be gaps in the contracts rather than errors in the old reading. The tests prove <em>consumption</em>, not citation: change a contract in a fixture and the evaluator's answer changes.</p>
+<p><b>Why it matters beyond cards.</b> "Cites the ontology" and "is driven by the ontology" look identical from the outside. The second is testable.</p>
+    <p class="finding-fix"><span class="fix-status">built, under review</span> <b>What we did about it.</b> The fix is built: the evaluator now reads the contracts for six roles, with every other role labelled as a fallback instead of silently guessed. Before it becomes the default, 60 disagreements get a second-model review to find patterns, and the knowledge-base gap it exposed (who gains the life from Swords to Plowshares) is logged for correction.</p>
+    <p class="finding-meta">How we know: measured on a 3,514-card collection; contracts not yet reviewed (candidate) · 2026-11-10</p>
+  </article>
+  <article class="finding" id="relay">
+    <p class="finding-stat"><span class="num">16.7 h</span> <span class="what">90th-percentile pickup time for a handed-off task on 9 November, up from 9.9 h on 7 November.</span></p>
+    <h3>In a human + multi-agent team, work waits at the hand-offs.</h3>
+    <p>Treating the project's own coordination records as a graph (handoffs, decisions, reviews, wake logs) showed where work actually waits. Median pickup is minutes; the tail is hours, and it grows. Stalls moved from "sent but unread" to "in progress but quiet". The largest single blocker we saw was a relay between the two AI families: at one point 5 of 27 scheduled agent runs were waiting on one cross-model answer that hadn't landed. We haven't measured whether cross-family hand-offs are slower in general.</p>
+<p>The study also found its own instrument was wrong: the stall detector read only one log, so two of nine "stalled" items were false positives. Fixing the reader is the first step; the fix is specified, not yet verified.</p>
+    <p class="finding-fix"><span class="fix-status">partly shipped</span> <b>What we did about it.</b> Agent lanes now schedule and gate themselves, so they don't wait on a coordinator to wake them. Direct channels between the model families replaced some relays. The stall detector's blind spot has a specified fix (not yet verified), and a handshake-and-heartbeat link layer is in design, so dropped connections get noticed and retried instead of discovered.</p>
+    <p class="finding-meta">How we know: measured from the coordination records (60 → 75 usable handoffs) · 2026-11-07 → 11-09</p>
+  </article>
+  <article class="finding" id="lineage">
+    <p class="finding-stat"><span class="num">19 / 10 / 3</span> <span class="what">links verified / reconstructed / unsourced across five traces from an idea toward its implementation.</span></p>
+    <h3>Tracing an idea from conversation to merged code works for days, not for years.</h3>
+    <p>Five ideas were traced from where they were first said, through the decision that adopted them, toward the pull request that implemented them (one hasn't been implemented yet). Same-day captures were recoverable: the records already held the quote, the place it was said, the author and the date. Ideas from 2024–25 reached the records only through a later, model-written retrospective, and their links could be reconstructed but not verified.</p>
+<p><b>The non-obvious result.</b> Stable idea IDs would not have fixed it. The two real failures are cross-era links and records where a human's decision and a model's inference sit in the same sentence. IDs fix neither.</p>
+    <p class="finding-fix"><span class="fix-status">direction set</span> <b>What we did about it.</b> For now the project isn't adding ID machinery that wouldn't fix the gaps it found. It keeps the fields that already work and targets the two actual failures: cross-era links, and separating a person's words from a model's inference inside one record. More traces come before the design is settled.</p>
+    <p class="finding-meta">How we know: measured (link counts) · inferred (what IDs would fix) · 2026-11-09</p>
+  </article>
+  <article class="finding" id="authority">
+    <p class="finding-stat"><span class="num">39</span> <span class="what">different spellings of who decided something, across the project's decision ledger; 0 recorded delegations.</span></p>
+    <h3>There is no stable difference between a 'choice' and a 'decision'. Yet.</h3>
+    <p>Asked to separate four things that usually blur together (the alternatives considered, the selection someone authorised, permission to act on it, and evidence that the action happened), the records showed all four living in prose. A "choice" was a page of proposed decisions, not a kind of thing. That is fine for one person and a handful of agents; it does not survive hundreds of agents acting unattended.</p>
+<p><b>What it led to.</b> The authority layer is now being designed ontology-first, with twelve candidate kinds and their relations, and a proposal for a dedicated body to keep the register of decisions, detect contradictions and handle challenges.</p>
+    <p class="finding-fix"><span class="fix-status">in progress</span> <b>What we did about it.</b> Authorizations are getting fingerprints of the exact decision they cite, filled in by the tooling, so misquotes and after-the-fact edits can be caught (warnings first, then enforced). This is being built; it isn't shipped yet. The authority layer is being designed ontology-first, and a dedicated body for the decision register, contradiction detection and structured challenges is going to the project's constitutional convention.</p>
+    <p class="finding-meta">How we know: measured (ledger fields) · proposal (the design) · 2026-11-10</p>
+  </article>
+  <article class="finding" id="comparative">
+    <p class="finding-stat"><span class="num">0 / 10</span> <span class="what">upstream runtimes adopted / design patterns credited, after reading four orchestration systems at a pinned version.</span></p>
+    <h3>Surveying the agent-orchestration field: borrow patterns, adopt no runtime.</h3>
+    <p>Four public agent-orchestration projects were read at pinned commits and compared feature by feature against what this project already runs. None was worth adopting as a dependency: the failures this project actually records are coordination-state failures (who has the work, has it been superseded), not process-state ones (resume after a crash). Ten patterns were credited instead, with licences checked. The single missing feature across the comparison: a definition of a stalled task that triggers an action.</p>
+    <p class="finding-fix"><span class="fix-status">adopting</span> <b>What we did about it.</b> Three patterns are being adopted inside existing tools rather than as dependencies. Versioned agent instructions are built. A stall definition with a written action, and a trust-boundaries table for every input surface, are proposals; the trust-boundaries table comes before any cloud deployment.</p>
+    <p class="finding-meta">How we know: measured (code read at pinned commits) · inferred (fit) · 2026-11-07 → 11-11</p>
+  </article>
+  <article class="finding" id="tokens">
+    <p class="finding-stat"><span class="num">none found</span> <span class="what">comparable public distributions of model tokens per merged pull request for human-directed agentic work, in our search on 5 November.</span></p>
+    <h3>We couldn't find a public figure for what agentic development costs per change that survives.</h3>
+    <p>A literature check for an external yardstick found controlled studies that measure developer <em>time</em>, benchmark leaderboards that report total dollars for fixed task sets, and vendor telemetry, but no comparable distribution of tokens per merged change for real, human-directed agentic work. That number is one this project can produce from its own records, so it is on the research agenda rather than borrowed.</p>
+    <p class="finding-fix"><span class="fix-status">planned</span> <b>What we did about it.</b> Handoffs and merges are already recorded, and most model sessions are, so the project can produce the number itself: tokens per change that survives review. Instrumentation for the main gap, unattended cloud runs, is specified.</p>
+    <p class="finding-meta">How we know: literature check, primary sources · 2026-11-05</p>
+  </article>
+</section>
+
+<section aria-labelledby="next">
+  <h2 id="next">Under way</h2>
+  <ul class="ideas">
+    <li><b>Interestingness.</b> What makes a structure worth digging into: depth that keeps paying out, as distinct from novelty or usefulness.</li>
+    <li><b>Feedback loops in a human + agents organisation.</b> A catalogue of the loops that actually operate, read off the records by a program rather than by hand.</li>
+    <li><b>Small local models with cognitive scaffolding.</b> Whether versioned reasoning guidance helps a small offline model, measured separately from the harness around it.</li>
+    <li><b>Minimum cognition.</b> Which kinds of agent work hold their quality on smaller, cheaper models.</li>
+  </ul>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p><span class="name">Kairos</span> is Zach Rhodes's project. Site generated by a Claude agent on 2026-11-06 from the START HERE README; no analytics, no cookies, no external requests.</p>
+    <p>Public repos are MIT. Each carries a <code>CLA.md</code>: contributing grants the owner a commercial-relicensing right so companies can use the code with minimal risk while he keeps his rights. Read it before your first PR.</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

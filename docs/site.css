@@ -462,3 +462,36 @@ figcaption { margin-top: 0.6rem; color: var(--muted); font-size: 0.95rem; max-wi
 @media (prefers-reduced-motion: no-preference) {
   .site-nav a, .doors a .door-title { transition: border-color 120ms ease, text-decoration-color 120ms ease; }
 }
+
+/* ---------- findings ---------- */
+.highlights {
+  list-style: none; padding: 0; margin: 1.25rem 0 0;
+  display: grid; grid-template-columns: repeat(2, 1fr); gap: 0 2rem;
+  border-top: 1px solid var(--amber);
+}
+.highlights li { margin: 0; max-width: none; border-bottom: 1px solid var(--line); }
+.highlights a { display: block; padding: 1rem 0.75rem 1.1rem; margin: 0 -0.75rem; color: var(--text); text-decoration: none; }
+.highlights a:hover, .highlights a:focus-visible { background: var(--well); }
+.highlights a:hover .hl-text { text-decoration: underline; text-underline-offset: 0.2em; }
+.highlights .num, .finding-stat .num {
+  font-family: var(--serif); color: var(--amber); font-size: 2.1rem; line-height: 1.1;
+  display: block; font-variant-numeric: tabular-nums;
+}
+.highlights .hl-text { display: block; max-width: 34ch; margin-top: 0.25rem; }
+.more { margin-top: 1rem; }
+@media (max-width: 720px) { .highlights { grid-template-columns: 1fr; } }
+
+.finding { padding: 1.75rem 0; border-top: 1px solid var(--line); }
+.finding:first-of-type { border-top: 0; padding-top: 0.5rem; }
+.finding h3 { margin: 0.6rem 0 0.6rem; font-size: 1.45rem; max-width: 30ch; }
+.finding-stat { margin: 0; }
+.finding-stat .what { color: var(--muted); display: block; max-width: 52ch; margin-top: 0.2rem; }
+.finding p { max-width: var(--measure); }
+.finding-meta { color: var(--muted); font-size: 0.92rem; border-left: 2px solid var(--line); padding-left: 0.75rem; }
+.lede-small { color: var(--muted); max-width: 60ch; margin: 0.25rem 0 0; }
+.highlights .hl-text b { color: var(--verdigris); font-weight: 600; }
+.finding-fix { border-left: 3px solid var(--verdigris); padding: 0.6rem 0 0.6rem 0.9rem; background: var(--well); }
+.fix-status {
+  display: inline-block; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase;
+  color: var(--verdigris); border: 1px solid var(--verdigris); padding: 0.05rem 0.45rem; margin-right: 0.4rem;
+}
