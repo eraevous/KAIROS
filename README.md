@@ -163,6 +163,8 @@ We study our own system as it runs, find what's broken or wonky, and fix it. Eac
 
 Under way: interestingness (depth that keeps paying out), a programmatic catalogue of feedback loops, small local models with cognitive scaffolding, and minimum cognition per task kind.
 
+Contributing outward, too: [![XERJ Corpus Hub contributor](https://hub.xerj.org/contributors/eraevous/badge.svg)](https://hub.xerj.org/contributors/eraevous)
+
 ---
 
 ## History
