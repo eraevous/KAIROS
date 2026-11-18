@@ -162,7 +162,7 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
     <dl>
       <dt>Who it serves</dt><dd>Anyone with archives of conversations and documents</dd>
       <dt>Runs today</dt><dd><span class="state">design notes and a synthetic test harness; nothing installable yet</span></dd>
-      <dt>Planned</dt><dd><span class="state pending">the offline-core port, then <code>anamnesis init</code>: private memory <em>instances</em> the engine creates and works with, while the engine itself depends on no instance (the owner's decision DEC-252, 18&nbsp;Nov&nbsp;2026)</span></dd>
+      <dt>Planned</dt><dd><span class="state pending">the engine will create and work with private memory <em>instances</em>, while depending on no instance itself. Neither <code>anamnesis init</code> nor the offline-core port is implemented yet (the owner's decision DEC-252, 18&nbsp;Nov&nbsp;2026)</span></dd>
     </dl>
   </div>
   <div class="install">
@@ -188,7 +188,7 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
 <article class="repo" id="cognitive-scaffolding">
   <div>
     <h3>Cognitive-Scaffolding <span class="private">(private)</span></h3>
-    <p class="what">The original document and conversation pipeline (chunking, enrichment, hybrid retrieval, reconstruction) and the origin of several ideas above. Its engine code is moving into Anamnesis, and the repo becomes the owner's private memory instance.</p>
+    <p class="what">The original document and conversation pipeline (chunking, enrichment, hybrid retrieval, reconstruction) and the origin of several ideas above. Its engine code is moving into Anamnesis, and the repo is planned to become the owner's private memory instance once Anamnesis can create instances.</p>
     <dl>
       <dt>Who it serves</dt><dd>The owner</dd>
       <dt>State</dt><dd><span class="state">private; becoming an Anamnesis instance (the owner's decision DEC-252, 18&nbsp;Nov&nbsp;2026)</span></dd>

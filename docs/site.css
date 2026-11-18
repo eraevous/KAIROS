@@ -356,7 +356,8 @@ figcaption { color: var(--mute); font-size: .9rem; margin-top: .6rem; }
   .doors { grid-template-columns: minmax(0, 1fr); }
   .repo dl { grid-template-columns: minmax(0, 1fr); gap: .1rem; }
   .repo dt { padding-top: .6rem; }
-  .paths thead { display: none; }
+  /* Keep the headers in the accessibility tree (scope="col" associations); hide them visually only. */
+  .paths thead { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
   .paths, .paths tbody, .paths tr, .paths td { display: block; width: 100%; }
   .paths tr { border-bottom: 1px solid var(--line); padding: .6rem 0; }
   .paths td { border: 0; padding: .2rem 0; }
