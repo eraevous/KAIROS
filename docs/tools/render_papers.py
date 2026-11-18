@@ -44,6 +44,7 @@ LABEL = (
 
 NAV = [
     ("index.html", "Overview"),
+    ("example.html", "Example"),
     ("tools.html", "Tools"),
     ("start.html", "Contribute"),
     ("how-we-work.html", "How we work"),
@@ -63,6 +64,9 @@ _INLINE = [
 ]
 
 
+_ESCAPE = re.compile(r"\\([\\`*_{}\[\]()#+\-.!|>~])")
+
+
 def inline(text: str) -> str:
     """Escape, then apply inline markup. Code spans are protected first."""
     parts = re.split(r"(`[^`]+`)", text)
@@ -72,8 +76,12 @@ def inline(text: str) -> str:
             out.append(f"<code>{html.escape(part[1:-1])}</code>")
             continue
         s = html.escape(part, quote=False)
+        # Markdown backslash escapes (\*SEM, \_x): hold the escaped character out of the
+        # inline rules below, then put it back as itself without the backslash.
+        s = _ESCAPE.sub(lambda m: f"\x00{ord(m.group(1))}\x00", s)
         for rx, fn in _INLINE[1:]:
             s = rx.sub(fn, s)
+        s = re.sub(r"\x00(\d+)\x00", lambda m: chr(int(m.group(1))), s)
         out.append(s)
     return "".join(out)
 

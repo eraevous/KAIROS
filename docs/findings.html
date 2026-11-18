@@ -17,6 +17,7 @@
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
         <li><a href="index.html">Overview</a></li>
+        <li><a href="example.html">Example</a></li>
         <li><a href="tools.html">Tools</a></li>
         <li><a href="start.html">Contribute</a></li>
         <li><a href="how-we-work.html">How we work</a></li>
@@ -33,6 +34,7 @@
   <h1>Findings</h1>
   <p class="lede">We study our own system as it runs (a human directing agents from two AI model families, with every decision, handoff and review kept as a record), find what's broken or wonky, and fix it.</p>
   <p>Each finding carries its number, what we did about it, how it was established and when. The underlying notes stay in the private records; numbers are as measured on the dates shown and will move.</p>
+  <p class="rules-note">What these findings show is that Kairos measures its own work and reports what it finds, including its own mistakes. They do not yet show that Kairos improves outcomes; the draft <a href="papers/02-measuring-whether-coordination-helps.html">Paper 02</a> describes how the project proposes to find out.</p>
 </div>
 
 <section aria-labelledby="findings-list">
@@ -56,7 +58,7 @@
   <article class="finding" id="relay">
     <p class="finding-stat"><span class="num">16.7 h</span> <span class="what">90th-percentile pickup time for a handed-off task on 9 November, up from 9.9 h on 7 November.</span></p>
     <h3>In a human + multi-agent team, work waits at the hand-offs.</h3>
-    <p>Treating the project's own coordination records as a graph (handoffs, decisions, reviews, wake logs) showed where work actually waits. Median pickup is minutes; the tail is hours, and it grows. Stalls moved from "sent but unread" to "in progress but quiet". The largest single blocker we saw was a relay between the two AI families: at one point 5 of 27 scheduled agent runs were waiting on one cross-model answer that hadn't landed. We haven't measured whether cross-family hand-offs are slower in general.</p>
+    <p>Treating the project's own coordination records as a graph (handoffs, decisions, reviews, wake logs) showed where work actually waits. Median pickup is minutes; the tail is hours, and it was longer on 9 November than on 7 November (two snapshots, not yet a trend). Stalls moved from "sent but unread" to "in progress but quiet". The largest single blocker we saw was a relay between the two AI families: at one point 5 of 27 scheduled agent runs were waiting on one cross-model answer that hadn't landed. We haven't measured whether cross-family hand-offs are slower in general.</p>
 <p>The study also found its own instrument was wrong: the stall detector read only one log, so two of nine "stalled" items were false positives. Fixing the reader is the first step; the fix is specified, not yet verified.</p>
     <p class="finding-fix"><span class="fix-status">partly shipped</span> <b>What we did about it.</b> Agent lanes now schedule and gate themselves, so they don't wait on a coordinator to wake them. Direct channels between the model families replaced some relays. The stall detector's blind spot has a specified fix (not yet verified), and a handshake-and-heartbeat link layer is in design, so dropped connections get noticed and retried instead of discovered.</p>
     <p class="finding-meta">How we know: measured from the coordination records (60 → 75 usable handoffs) · 2026-11-07 → 11-09</p>

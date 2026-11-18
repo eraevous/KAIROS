@@ -17,6 +17,7 @@
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
         <li><a href="index.html">Overview</a></li>
+        <li><a href="example.html">Example</a></li>
         <li><a href="tools.html" aria-current="page">Tools</a></li>
         <li><a href="start.html">Contribute</a></li>
         <li><a href="how-we-work.html">How we work</a></li>
@@ -31,7 +32,7 @@
 
 <div class="statement">
   <h1>The map</h1>
-  <p>Every public repo, what it is, who it serves, and its honest state, copied from the START HERE README on 2026-11-06; the Anamnesis and Cognitive-Scaffolding entries updated on 2026-11-18. None of the tools is on PyPI yet.</p>
+  <p>Every public repo, what it is, who it serves, and its honest state, copied from the START HERE README on 2026-11-06; the Anamnesis, Prospero and Cognitive-Scaffolding entries updated on 2026-11-18. None of the tools is on PyPI yet.</p>
 </div>
 
 <p>All public tools are plain Python, stdlib-only in the kits, Python 3.12+ recommended.</p>
@@ -157,10 +158,11 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
 <article class="repo" id="anamnesis">
   <div>
     <h3><a href="https://github.com/eraevous/Anamnesis">Anamnesis</a></h3>
-    <p class="what">The engine for recovering, connecting and reconsidering what has accumulated in conversations and documents: attributed reconstruction, not summarisation. It creates and works with private memory <em>instances</em> (<code>anamnesis init</code>, planned); the engine depends on no instance.</p>
+    <p class="what">The engine for recovering, connecting and reconsidering what has accumulated in conversations and documents: attributed reconstruction, not summarisation.</p>
     <dl>
       <dt>Who it serves</dt><dd>Anyone with archives of conversations and documents</dd>
-      <dt>State</dt><dd><span class="state">design notes and synthetic test fixtures merged; the offline-core port and <code>anamnesis init</code> are next (the owner's decision DEC-252, 18&nbsp;Nov&nbsp;2026)</span></dd>
+      <dt>Runs today</dt><dd><span class="state">design notes and a synthetic test harness; nothing installable yet</span></dd>
+      <dt>Planned</dt><dd><span class="state pending">the offline-core port, then <code>anamnesis init</code>: private memory <em>instances</em> the engine creates and works with, while the engine itself depends on no instance (the owner's decision DEC-252, 18&nbsp;Nov&nbsp;2026)</span></dd>
     </dl>
   </div>
   <div class="install">
@@ -173,11 +175,11 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
 
 <article class="repo" id="prospero">
   <div>
-    <h3>Prospero</h3>
-    <p class="what">Formerly PlayWrite. Creative collaboration for writers and artists: cultivation, not replacement.</p>
+    <h3><a href="https://github.com/eraevous/Prospero">Prospero</a></h3>
+    <p class="what">Formerly PlayWrite. Creative collaboration for writers and artists: cultivation, not replacement. Today it is an editorial-packet tool: an original text, a proposed edition and a labelled list of the changes, with revisions, history and a review sheet. Standard-library Python.</p>
     <dl>
       <dt>Who it serves</dt><dd>Writers</dd>
-      <dt>State</dt><dd><span class="state pending">idea; repo not yet renamed</span></dd>
+      <dt>State</dt><dd><span class="state">packet mechanics built and tested on invented text only; not yet used on real writing (as of 18&nbsp;Nov&nbsp;2026)</span></dd>
     </dl>
   </div>
 </article>

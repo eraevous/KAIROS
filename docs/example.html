@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>A worked example: one requirement, traced | Kairos</title>
+<meta name="description" content="One real requirement from Telosmith's own records, traced from purpose to tests, including how it changed.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="site-nav" id="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="index.html">Overview</a></li>
+        <li><a href="example.html" aria-current="page">Example</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="start.html">Contribute</a></li>
+        <li><a href="how-we-work.html">How we work</a></li>
+        <li><a href="findings.html">Findings</a></li>
+        <li><a href="papers.html">Papers</a></li>
+      </ul>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Theme: auto"></button>
+  </div>
+</header>
+<main id="main">
+
+<div class="statement">
+  <p class="eyebrow">Worked example</p>
+  <h1>One requirement, traced from purpose to tests</h1>
+  <p class="lede">Telosmith's <code>aec append</code> refuses to write a record that <code>aec check</code> would reject. A newcomer asks: <em>where did that rule come from, and what shows the code actually follows it?</em></p>
+  <p>Nobody has to remember. The answer is a chain of records in the repository, each one linked to the next. Everything below is copied from <a href="https://github.com/eraevous/Telosmith/blob/main/.aec/records.jsonl">Telosmith's own records file</a>, which Telosmith keeps about itself; ids are exact, wording is shortened. (<code>aec</code> is Telosmith's command-line tool; the command kept its earlier name.)</p>
+  <p class="aside">How to read the labels: <b>committed</b> means the owner has accepted the record; <b>provisional</b> and <b>candidate</b> mean an agent proposed it and the owner has not yet accepted it.</p>
+</div>
+
+<section aria-labelledby="chain">
+  <h2 id="chain" class="visually-hidden">The chain</h2>
+  <ol class="chain">
+    <li class="step">
+      <p class="step-kind">Purpose <span class="rid">AEC-P0, version 3</span> <span class="tag">committed &middot; accepted by the owner</span></p>
+      <p>Telosmith helps people and AI agents build and evolve tools <b>while preserving why those tools exist</b> and what they must accomplish.</p>
+    </li>
+    <li class="step">
+      <p class="step-kind">Requirement <span class="rid">AEC-R-adoption</span> <span class="tag">provisional &middot; not yet accepted</span></p>
+      <p>Adopting Telosmith in another repository needs no hand-hashing and no hand-editing. <code>aec append</code> adds a record with computed anchors, <b>refusing duplicates and records that <code>check</code> would reject</b>.</p>
+      <p class="step-why">Why: the requirement is anchored, by a content hash, to the owner's decision DEC-095 in his private ledger, cited by id. You can't open that ledger, but anyone who has it can check that the hash matches the passage cited. It <em>serves</em> the purpose above.</p>
+    </li>
+    <li class="step">
+      <p class="step-kind">Code <span class="rid">implemented_by</span></p>
+      <p><code>src.aec.init.init</code>, <code>src.aec.append.build</code>, <code>src.aec.append.make_anchor</code>: the functions the requirement names as its implementation.</p>
+    </li>
+    <li class="step">
+      <p class="step-kind">Claim <span class="rid">CL-R-adoption</span> <span class="tag">candidate &middot; not yet accepted</span></p>
+      <p>That code behaves as the requirement states, <b>including refusing without writing anything</b>.</p>
+    </li>
+    <li class="step">
+      <p class="step-kind">Evidence <span class="rid">EV-R-adoption-tests</span> <span class="tag">candidate &middot; not yet accepted</span></p>
+      <p><a href="https://github.com/eraevous/Telosmith/blob/main/tests/test_adoption_friction.py"><code>tests/test_adoption_friction.py</code></a>, written before the change: 22 tests, 19 of them failing until the code existed. One of them is <code>test_record_that_check_rejects_is_refused</code>.</p>
+    </li>
+  </ol>
+</section>
+
+<section aria-labelledby="changed">
+  <h2 id="changed">When it changed, the old reason stayed visible</h2>
+  <ul class="ideas">
+    <li><b>Version 2: the requirement grew.</b> It added a named CI workflow and an <code>aec anchor</code> command. The claim and the evidence were not edited: each got a new version that <em>supersedes</em> the old one, and the tests grew to 30, the new ones again failing first.</li>
+    <li><b>Version 3: the purpose changed.</b> When the owner adopted a new purpose text (DEC-116), the requirement and its claim were re-pinned to it, each with a one-line rationale saying the requirement's own text did not change.</li>
+  </ul>
+</section>
+
+<section aria-labelledby="buys">
+  <h2 id="buys">What this buys you</h2>
+  <ul>
+    <li><b>Answers from the record, not from memory.</b> Why a behaviour exists, which code carries it and what shows it works are each one link away, for a person or an agent.</li>
+    <li><b>Change without erasure.</b> Every earlier version is still in the file; a reviewer can see what a requirement used to say and why it moved.</li>
+    <li><b>Honest labels.</b> The requirement is <em>provisional</em> and the claim and evidence are <em>candidates</em>: proposed by agents, not yet accepted by the owner. The records say so.</li>
+  </ul>
+  <p class="rules-note">This shows how the records are kept. It is not evidence that keeping them makes development faster or better; the <a href="findings.html">findings</a> and the draft <a href="papers/02-measuring-whether-coordination-helps.html">Paper 02</a> are about that open question.</p>
+  <p class="more"><a href="tools.html#telosmith">Telosmith on the Tools page &rarr;</a> &nbsp; <a href="tools.html#devkit">Install the Dev Kit &rarr;</a></p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p><span class="name">Kairos</span> is Zach Rhodes's project. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-18. No analytics, no cookies, no external requests.</p>
+    <p>Licences and contribution terms are set per repository. Before your first PR, read the licence and contributing files in the repo you are contributing to (see <a href="start.html#cla">Contribute</a>).</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

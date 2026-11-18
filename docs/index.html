@@ -18,6 +18,7 @@
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
         <li><a href="index.html" aria-current="page">Overview</a></li>
+        <li><a href="example.html">Example</a></li>
         <li><a href="tools.html">Tools</a></li>
         <li><a href="start.html">Contribute</a></li>
         <li><a href="how-we-work.html">How we work</a></li>
@@ -32,21 +33,50 @@
 
 <section class="front" aria-labelledby="hero-title">
   <div class="copy">
-    <p class="eyebrow">Kairos &middot; Zach Rhodes's AI/cognition work</p>
-    <h1 id="hero-title">We are building Cognitive&nbsp;Augmentation.</h1>
-    <p class="lede">Tools, coordination and research to help people realise their intentions.</p>
-    <p class="about">A set of tools, the environment that coordinates the people and AI agents who build them, and the research behind both. Built for developers working with coding agents, analysts handed data they didn't make, and anyone running more than one AI assistant.</p>
+    <p class="eyebrow">Kairos &middot; We are building Cognitive Augmentation</p>
+    <h1 id="hero-title">Keep the reasoning attached to AI&#8209;assisted work.</h1>
+    <p class="lede">Tools, coordination and research to help people realise their intentions, starting with records that keep <em>why</em> something was built next to what was built, readable by people and AI agents alike.</p>
+    <p class="about">Zach Rhodes's AI/cognition work. Built for developers working with coding agents, analysts handed data they didn't make, and anyone running more than one AI assistant.</p>
     <nav aria-label="Where to start">
       <ul class="doors">
-        <li class="primary"><a href="tools.html#devkit"><span class="door-title">Install the Dev Kit</span><span class="door-text">Four public repos and your own private Cockpit page, in one folder. About ten minutes; no admin rights.</span></a></li>
-        <li><a href="tools.html"><span class="door-title">Browse the tools</span><span class="door-text">What each repo does, who it serves, its current state, how to install it.</span></a></li>
-        <li><a href="start.html"><span class="door-title">Contribute</span><span class="door-text">For humans and AI agents. Open an issue or a PR; only the owner merges.</span></a></li>
-        <li><a href="findings.html"><span class="door-title">Read the findings</span><span class="door-text">What we measured about our own system, and how sure we are.</span></a></li>
+        <li class="primary"><a href="example.html"><span class="door-title">See a worked example</span><span class="door-text">One real requirement, traced from purpose to code to the tests that check it.</span></a></li>
+        <li><a href="#tools"><span class="door-title">Browse the tools</span><span class="door-text">What each repo does and its current state.</span></a></li>
+        <li><a href="tools.html#devkit"><span class="door-title">Install the Dev Kit</span><span class="door-text">Four public repos and your own private records, in one folder.</span></a></li>
+        <li><a href="findings.html"><span class="door-title">Read the findings</span><span class="door-text">What we measured about our own work, mistakes included.</span></a></li>
       </ul>
     </nav>
   </div>
-  <figure class="visual">
-  <svg class="map" viewBox="0 0 560 530" role="img" aria-labelledby="map-title map-desc">
+  <aside class="preview" aria-labelledby="preview-title">
+    <p class="eyebrow" id="preview-title">From Telosmith's own records</p>
+    <p class="q"><code>aec append</code> refuses records that <code>aec check</code> would reject. Where did that rule come from, and what shows the code follows it?</p>
+    <ol class="chain">
+      <li class="step"><p class="step-kind">Purpose</p><p>preserve why tools exist</p></li>
+      <li class="step"><p class="step-kind">Requirement</p><p>append refuses what check rejects</p></li>
+      <li class="step"><p class="step-kind">Code</p><p>three named functions</p></li>
+      <li class="step"><p class="step-kind">Claim</p><p>the code does what the requirement says</p></li>
+      <li class="step"><p class="step-kind">Evidence</p><p>tests written first, failing until the code existed</p></li>
+    </ol>
+    <p class="more"><a href="example.html">Follow the whole chain &rarr;</a></p>
+  </aside>
+</section>
+
+<section class="band" id="tools" aria-labelledby="tools-title">
+  <h2 id="tools-title">The tools</h2>
+  <div class="split">
+    <div>
+      <ul class="toollist">
+        <li><a href="tools.html#telosmith">Telosmith</a> <span class="kit-badge">Dev Kit</span><span>Keeps the recorded reasons for code attached to the code, and tells an agent which requirements a change endangers.</span></li>
+        <li><a href="tools.html#relay-kit">relay-kit</a> <span class="kit-badge">Dev Kit</span><span>Coordination for more than one AI assistant: handoffs, decision ledgers and the Cockpit control page.</span></li>
+        <li><a href="tools.html#fathom">Fathom</a> <span class="kit-badge">Dev Kit</span><span>Offline data-review reports for analysts handed data they didn't make.</span></li>
+        <li><a href="tools.html#qat-kits">QAT-Kits</a> <span class="kit-badge">Dev Kit</span><span>Named thinking tools (StressTest, TruthWeight and more) as checked specs.</span></li>
+        <li><a href="tools.html#mtg">MtG</a><span>Magic: The Gathering Commander deck analysis; the first Telosmith pilot outside Telosmith.</span></li>
+        <li><a href="tools.html#anamnesis">Anamnesis</a><span>Recovers what has accumulated in conversations and documents. Not installable yet.</span></li>
+        <li><a href="tools.html#prospero">Prospero</a><span>Editorial packets for writers. Tested on invented text only so far.</span></li>
+      </ul>
+      <p class="more"><a href="tools.html">Every repo, with install steps &rarr;</a></p>
+    </div>
+    <figure class="visual">
+  <svg class="map" viewBox="0 0 560 530" role="group" aria-labelledby="map-title" aria-describedby="map-desc">
     <title id="map-title">Map of the Kairos repositories</title>
     <desc id="map-desc">Kairos, the front door, sits at the centre. The Dev Kit installs four public repos, drawn as filled dots on solid lines on the inner ring: relay-kit, Telosmith, Fathom and QAT-Kits. Three other repos, not installed by the kit, are drawn as open dots on dotted lines on the outer ring: Anamnesis, MtG and Prospero. Beyond Anamnesis, joined to it by a dotted line, a small square marks Cognitive-Scaffolding, which is becoming the owner's private memory instance of Anamnesis. Each name links to its entry on the Tools page.</desc>
     <circle class="ring" cx="280" cy="228" r="122"/>
@@ -76,6 +106,7 @@
   </svg>
     <figcaption>The front door and the repos it points to. Each name opens its entry on <a href="tools.html">Tools</a>.</figcaption>
   </figure>
+  </div>
 </section>
 
 <section class="band" aria-labelledby="problem">
@@ -104,12 +135,12 @@
 </section>
 
 <section class="band" aria-labelledby="findings">
-  <h2 id="findings">What we found, and what we're fixing</h2>
-  <p class="lede-small">We measure our own system as it runs, find what's broken or wonky, and fix it. Numbers are as measured on the dates shown.</p>
+  <h2 id="findings">We measure our own work</h2>
+  <p class="lede-small">These show that Kairos measures itself and reports what it finds, including its own mistakes. They don't yet show that it improves outcomes. Numbers are as measured on the dates shown.</p>
   <ul class="highlights">
     <li><a href="findings.html#ontology"><span class="num">~11%</span><span class="hl-text">of Telosmith's own record links break its documented vocabulary, and no check notices. <b>In progress:</b> making the vocabulary load-bearing, so misuse is flagged automatically.</span><span class="hl-meta">Measured &middot; 10 Nov 2026</span></a></li>
     <li><a href="findings.html#grounding"><span class="num">628</span><span class="hl-text">card-role assignments changed when a deck evaluator read contracts instead of matching text. They are candidate corrections, not yet reviewed. <b>Built;</b> a 60-case review comes before it becomes the default.</span><span class="hl-meta">Measured &middot; 10 Nov 2026</span></a></li>
-    <li><a href="findings.html#relay"><span class="num">16.7&nbsp;h</span><span class="hl-text">90th-percentile pickup time for a handed-off task on 9 November. The largest single blocker we saw was one relay between AI model families. <b>Partly shipped:</b> self-scheduling agent lanes and direct channels.</span><span class="hl-meta">Measured &middot; 7&ndash;9 Nov 2026</span></a></li>
+    <li><a href="findings.html#relay"><span class="num">16.7&nbsp;h</span><span class="hl-text">90th-percentile pickup time for a handed-off task on 9 November, longer than on 7 November. The largest single blocker we saw was one relay between AI model families. <b>Partly shipped:</b> self-scheduling agent lanes and direct channels.</span><span class="hl-meta">Measured &middot; 7&ndash;9 Nov 2026</span></a></li>
     <li><a href="findings.html#tokens"><span class="num">0</span><span class="hl-text">comparable public baselines for what agentic development costs per change that survives, in the project's 5 November search. <b>Planned:</b> producing our own number from the records.</span><span class="hl-meta">Literature check &middot; 5 Nov 2026</span></a></li>
   </ul>
   <p class="more"><a href="findings.html">All findings, with how each was established &rarr;</a></p>

@@ -184,8 +184,8 @@ img { max-width: 100%; height: auto; }
 /* ------------------------------------------------------------ front page */
 
 .front { display: grid; grid-template-columns: minmax(0, 1.12fr) minmax(0, .88fr); gap: 2rem 3rem; align-items: center; min-height: calc(100svh - 65px); padding: 1.6rem 0 2.5rem; }
-.front h1 { font-size: clamp(2.6rem, 5vw, 4.1rem); line-height: 1.03; margin: 0; }
-.front .lede { font-size: clamp(1.15rem, 1.8vw, 1.35rem); color: var(--mute); max-width: 34ch; margin: 1rem 0 .8rem; }
+.front h1 { font-size: clamp(2.4rem, 4.1vw, 3.3rem); line-height: 1.03; margin: 0; }
+.front .lede { font-size: clamp(1.08rem, 1.5vw, 1.2rem); color: var(--mute); max-width: 46ch; margin: 1rem 0 .8rem; }
 .front .about { color: var(--mute); font-size: .96rem; max-width: 60ch; margin: 0 0 1.4rem; }
 .front .note { font-size: .82rem; color: var(--mute); margin: 1rem 0 0; }
 
@@ -388,3 +388,36 @@ figcaption { color: var(--mute); font-size: .9rem; margin-top: .6rem; }
   .door-text { font-size: .9rem; }
   .doors a { padding: .8rem 1rem .85rem; }
 }
+
+/* ------------------------------------------------------------ worked example: a chain of records */
+
+.chain { list-style: none; padding: 0; margin: 0 0 2rem; max-width: 760px; position: relative; }
+.chain::before { content: ""; position: absolute; left: 11px; top: 14px; bottom: 30px; width: 2px; background: linear-gradient(var(--accent), var(--line)); }
+.step { position: relative; padding: 0 0 1.2rem 2.6rem; margin: 0; max-width: none; }
+.step::before { content: ""; position: absolute; left: 4px; top: .45rem; width: 16px; height: 16px; border-radius: 50%; background: var(--bg); border: 2px solid var(--accent); }
+.step p { margin: 0 0 .35rem; }
+.step-kind { font-family: var(--serif); font-weight: 600; font-size: 1.2rem; display: flex; flex-wrap: wrap; align-items: baseline; gap: .2rem .6rem; }
+.rid { font: 500 .82rem var(--mono); color: var(--mute); }
+.tag { font: 700 .68rem var(--sans); text-transform: uppercase; letter-spacing: .1em; color: var(--label-ink); background: var(--label-bg); border: 1px dashed var(--accent); border-radius: 999px; padding: .1rem .5rem; }
+.step-why { color: var(--mute); font-size: .95rem; }
+
+/* front-page preview of the chain */
+.preview { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); padding: 1.3rem 1.4rem 1.1rem; }
+.preview .eyebrow { margin-bottom: .6rem; }
+.preview .q { font-family: var(--serif); font-size: 1.12rem; line-height: 1.35; margin: 0 0 1rem; }
+.preview .chain { margin: 0 0 .6rem; }
+.preview .chain::before { bottom: 18px; }
+.preview .step { padding-bottom: .65rem; }
+.preview .step p { margin: 0; font-size: .95rem; color: var(--mute); }
+.preview .step-kind { font-size: 1rem; color: var(--ink); }
+.preview .more { margin: .4rem 0 0; font-weight: 600; }
+
+/* front page: plain list of the tools beside the map */
+.toollist { list-style: none; padding: 0; margin: 0; }
+.toollist li { padding: .7rem 0; border-bottom: 1px solid var(--line); margin: 0; max-width: none; }
+.toollist li:first-child { padding-top: 0; }
+.toollist a { font-weight: 650; font-size: 1.06rem; }
+.toollist span:not(.kit-badge) { display: block; color: var(--mute); font-size: .95rem; line-height: 1.45; margin-top: .1rem; }
+.kit-badge { display: inline-block; font: 700 .66rem var(--sans); text-transform: uppercase; letter-spacing: .1em; color: var(--accent-ink); background: var(--accent); border-radius: 999px; padding: .08rem .45rem; margin-left: .4rem; vertical-align: .15em; }
+#tools .visual { align-self: start; }
+@media (max-width: 960px) { .front .preview { max-width: 560px; } }
