@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Tools, Kairos</title>
 <meta name="description" content="The map of Kairos repos: what each is, who it serves, its honest state and how to install it.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="site.css">
 </head>
 <body>
@@ -13,10 +14,10 @@
   <div class="bar">
     <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <button class="theme-toggle" type="button"><span class="glyph" aria-hidden="true">&#9680;</span> Theme: auto</button>
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
         <li><a href="index.html">Overview</a></li>
+        <li><a href="example.html">Example</a></li>
         <li><a href="tools.html" aria-current="page">Tools</a></li>
         <li><a href="start.html">Contribute</a></li>
         <li><a href="how-we-work.html">How we work</a></li>
@@ -24,16 +25,17 @@
         <li><a href="papers.html">Papers</a></li>
       </ul>
     </nav>
+    <button class="theme-toggle" type="button" aria-label="Theme: auto"></button>
   </div>
 </header>
 <main id="main">
 
 <div class="statement">
   <h1>The map</h1>
-  <p>Every public repo, what it is, who it serves, and its honest state, copied from the START HERE README on 2026-11-06. None of the tools is on PyPI yet.</p>
+  <p>Every public repo, what it is, who it serves, and its honest state, copied from the START HERE README on 2026-11-06; the Anamnesis, Prospero and Cognitive-Scaffolding entries updated on 2026-11-18. None of the tools is on PyPI yet.</p>
 </div>
 
-<p>All public tools are plain Python, stdlib-only in the kits, Python 3.12+ recommended.</p>
+<p>All public tools are plain Python, stdlib-only in the kits. Python 3.10 or newer is required (the installer checks); 3.12+ is recommended, and Fathom wants it.</p>
 
 <section id="devkit" class="repo" aria-labelledby="devkit-h">
   <div>
@@ -42,7 +44,9 @@
     <dl>
       <dt>What you'll have</dt><dd>Shallow clones of relay-kit, Telosmith, Fathom and QAT-Kits under <code>~/Kairos/repos</code>; relay-kit and Telosmith installed for your user (<code>python -m relaykit</code>, <code>python -m aec</code>); a fresh private records store at <code>~/Kairos/records</code>, seeded with one decision that says it is yours; the Cockpit page built from it at <code>~/Kairos/cockpit/index.html</code>.</dd>
       <dt>If something fails</dt><dd>Run <code>python kairos.py check</code> (<code>python3</code> on macOS/Linux) and send us the output. Every FAIL row carries a one-line fix. Running <code>install</code> again is always safe.</dd>
-      <dt>What it does not do</dt><dd>No administrator rights. Nothing leaves your machine: the only network use is cloning from github.com (and pypi.org only if pip needs its build helper). No account, token or sign-in. Nothing written outside <code>~/Kairos</code> except pip's per-user package folder. An existing records store is never touched. Uninstall: delete <code>~/Kairos</code>.</dd>
+      <dt>What it does not do</dt><dd>No administrator rights. No account, token or sign-in. Nothing written outside <code>~/Kairos</code> except pip's per-user package folder. An existing records store is never touched.</dd>
+      <dt>Network</dt><dd>Installing downloads: it clones the repos from github.com, and pip may fetch its build helper from pypi.org. After that your records and the Cockpit stay on your machine.</dd>
+      <dt>Uninstall</dt><dd>Delete <code>~/Kairos</code>. That does not remove the two per-user packages; to remove those too, run <code>python -m pip uninstall relay-kit telosmith</code> (<code>python3</code> on macOS/Linux).</dd>
     </dl>
   </div>
   <div class="install">
@@ -62,7 +66,7 @@
 </section>
 
 
-<article class="repo">
+<article class="repo" id="telosmith">
   <div>
     <h3><a href="https://github.com/eraevous/Telosmith">Telosmith</a></h3>
     <p class="what">Keeps the recorded reasons for code attached to the code. <code>check</code> validates the records; <code>code-impact</code> tells an agent (or a human) which written requirements, claims and decisions a change endangers. Standalone, with Spec Kit, or inside another agentic-coding setup.</p>
@@ -80,7 +84,7 @@ aec --help        # the command; `telosmith` is an alias</code></pre>
 </article>
 
 
-<article class="repo">
+<article class="repo" id="fathom">
   <div>
     <h3><a href="https://github.com/eraevous/Fathom">Fathom</a></h3>
     <p class="what">Deterministic, offline data-review reports: a data dictionary, structure findings with the threshold printed beside each verdict, time-series and panel structure, a liftoff Brief that asks what the data <em>cannot</em> tell you. Byte-identical reruns; nothing leaves your machine.</p>
@@ -100,7 +104,7 @@ python3 -m venv .venv &amp;&amp; .venv/bin/pip install -e '.[test,exports]'
 </article>
 
 
-<article class="repo">
+<article class="repo" id="relay-kit">
   <div>
     <h3><a href="https://github.com/eraevous/relay-kit">relay-kit</a></h3>
     <p class="what">The coordination kit: handoffs with ids and states, append-only decision and challenge ledgers, chat capture and cross-model relay, read-only export, a static <strong>Cockpit</strong> control surface, an MCP server.</p>
@@ -119,7 +123,7 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
 </article>
 
 
-<article class="repo">
+<article class="repo" id="qat-kits">
   <div>
     <h3><a href="https://github.com/eraevous/QAT-Kits">QAT-Kits</a></h3>
     <p class="what">Cognitive tools as contract-checked specs: StressTest, TruthWeight, FrameShift, NegativeSpace, ThreadMap, MetaDistill and more. Chainable, with evals.</p>
@@ -135,7 +139,7 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
 </article>
 
 
-<article class="repo">
+<article class="repo" id="mtg">
   <div>
     <h3><a href="https://github.com/eraevous/MtG">MtG</a></h3>
     <p class="what">Commander deck analysis on an interaction ontology and a card knowledge base; the first Telosmith pilot outside Telosmith.</p>
@@ -151,41 +155,43 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
 </article>
 
 
-<article class="repo">
-  <div>
-    <h3><a href="https://github.com/eraevous/Cognitive-Scaffolding">Cognitive-Scaffolding</a></h3>
-    <p class="what">Document and conversation processing: chunking, enrichment, hybrid retrieval, reconstruction; the origin of several ideas above and a library of foundation notes.</p>
-    <dl>
-      <dt>Who it serves</dt><dd>Researchers of their own archives</dd>
-      <dt>State</dt><dd><span class="state">working but uneven; its <code>AGENTS.md</code> describes planned machinery. Read <code>docs/enforcement-audit.md</code> first</span></dd>
-    </dl>
-  </div>
-</article>
-
-
-<article class="repo">
+<article class="repo" id="anamnesis">
   <div>
     <h3><a href="https://github.com/eraevous/Anamnesis">Anamnesis</a></h3>
-    <p class="what">Recovering, connecting and reconsidering what has accumulated in conversations and documents: attributed reconstruction, not summarisation.</p>
+    <p class="what">The engine for recovering, connecting and reconsidering what has accumulated in conversations and documents: attributed reconstruction, not summarisation.</p>
     <dl>
-      <dt>Who it serves</dt><dd>The same researchers, later</dd>
-      <dt>State</dt><dd><span class="state">placeholder; a rescued spike is being triaged</span></dd>
+      <dt>Who it serves</dt><dd>Anyone with archives of conversations and documents</dd>
+      <dt>Runs today</dt><dd><span class="state">design notes and a synthetic test harness; nothing installable yet</span></dd>
+      <dt>Planned</dt><dd><span class="state pending">the engine will create and work with private memory <em>instances</em>, while depending on no instance itself. Neither <code>anamnesis init</code> nor the offline-core port is implemented yet (the owner's decision DEC-252, 18&nbsp;Nov&nbsp;2026)</span></dd>
     </dl>
   </div>
   <div class="install">
     <h4>Install</h4>
+    <p>Not installable yet; the offline-core port comes first.</p>
     <p>LICENSE and CLA files are missing from this repo; that is on the owner's list.</p>
   </div>
 </article>
 
 
-<article class="repo">
+<article class="repo" id="prospero">
   <div>
-    <h3>Prospero</h3>
-    <p class="what">Formerly PlayWrite. Creative collaboration for writers and artists: cultivation, not replacement.</p>
+    <h3><a href="https://github.com/eraevous/Prospero">Prospero</a></h3>
+    <p class="what">Formerly PlayWrite. Creative collaboration for writers and artists: cultivation, not replacement. Today it is an editorial-packet tool: an original text, a proposed edition and a labelled list of the changes, with revisions, history and a review sheet. Standard-library Python.</p>
     <dl>
       <dt>Who it serves</dt><dd>Writers</dd>
-      <dt>State</dt><dd><span class="state pending">idea; repo not yet renamed</span></dd>
+      <dt>State</dt><dd><span class="state">packet mechanics built and tested on invented text only; not yet used on real writing (as of 18&nbsp;Nov&nbsp;2026)</span></dd>
+    </dl>
+  </div>
+</article>
+
+
+<article class="repo" id="cognitive-scaffolding">
+  <div>
+    <h3>Cognitive-Scaffolding <span class="private">(private)</span></h3>
+    <p class="what">The original document and conversation pipeline (chunking, enrichment, hybrid retrieval, reconstruction) and the origin of several ideas above. Its engine code is moving into Anamnesis, and the repo is planned to become the owner's private memory instance once Anamnesis can create instances.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>The owner</dd>
+      <dt>State</dt><dd><span class="state">private; becoming an Anamnesis instance (the owner's decision DEC-252, 18&nbsp;Nov&nbsp;2026)</span></dd>
     </dl>
   </div>
 </article>
@@ -221,8 +227,8 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
 
 <footer class="site-footer">
   <div class="inner">
-    <p><span class="name">Kairos</span> is Zach Rhodes's project. Site generated by a Claude agent on 2026-11-06 from the START HERE README; no analytics, no cookies, no external requests.</p>
-    <p>Public repos are MIT. Each carries a <code>CLA.md</code>: contributing grants the owner a commercial-relicensing right so companies can use the code with minimal risk while he keeps his rights. Read it before your first PR.</p>
+    <p><span class="name">Kairos</span> is Zach Rhodes's project. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-18. No analytics, no cookies, no external requests.</p>
+    <p>Licences and contribution terms are set per repository. Before your first PR, read the licence and contributing files in the repo you are contributing to (see <a href="start.html#cla">Contribute</a>).</p>
   </div>
 </footer>
 

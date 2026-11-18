@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Do published claim-checking methods apply to AI coordination records?, Kairos</title>
 <meta name="description" content="Preliminary draft, agent-drafted from public sources; the owner has not yet reviewed or endorsed this text.">
+<link rel="icon" href="../assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="../site.css">
 </head>
 <body>
@@ -13,20 +14,22 @@
   <div class="bar">
     <a class="wordmark" href="../index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <button class="theme-toggle" type="button"><span class="glyph" aria-hidden="true">&#9680;</span> Theme: auto</button>
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
         <li><a href="../index.html">Overview</a></li>
+        <li><a href="../example.html">Example</a></li>
         <li><a href="../tools.html">Tools</a></li>
         <li><a href="../start.html">Contribute</a></li>
         <li><a href="../how-we-work.html">How we work</a></li>
+        <li><a href="../findings.html" aria-current="page">Findings</a></li>
         <li><a href="../papers.html">Papers</a></li>
       </ul>
     </nav>
+    <button class="theme-toggle" type="button" aria-label="Theme: auto"></button>
   </div>
 </header>
 <main id="main">
-<p><a href="../findings.html">Findings</a></p>
+<p class="back"><a href="../findings.html">&larr; Findings</a></p>
 <p><span class="draft-label">Preliminary draft, agent-drafted from public sources; the owner has not yet reviewed or endorsed this text.</span></p>
 <article class="paper-body">
 <h1 id="do-published-claim-checking-methods-apply-to-ai-coordination-records">Do published claim-checking methods apply to AI coordination records?</h1>
@@ -48,7 +51,7 @@
 <p><strong>Does it apply to coordination records?</strong></p>
 <ul><li><em>Holds</em> [exploratory interpretation]:<ul><li>Coordination records mix supported and unsupported claims in the same paragraph, which is the problem FActScore was built for.</li><li>"Supported by a named source" maps onto "supported by the records at a stated revision".</li><li>The custom-source option means the pipeline isn't tied to Wikipedia.</li></ul></li><li><em>Fails</em> [exploratory interpretation]:<ul><li><strong>The source isn't consistent.</strong> Records that append corrections rather than rewrite contradict themselves over time by design. The source has to be pinned to a revision and a time, or a claim that was true when written is scored against a later correction.</li><li><strong>Claims don't weigh the same.</strong> "Tests passed" or "the owner approved" matters far more than a correct file path. Equal weighting hides the claims that carry authority.</li><li><strong>Absent support doesn't mean false.</strong> Record sets are often incomplete, so Not-supported has to stay separate from contradicted.</li><li><strong>The number doesn't transfer.</strong> Biography scores say nothing about error rates in coordination records.</li></ul></li></ul>
 <p><strong>Counterevidence</strong> [source-grounded]</p>
-<ul><li><strong>Wanner et al. (\*SEM 2024):</strong> FActScore results change with the decomposition method. Errors made while splitting the text get blamed on the model that wrote it.</li><li><strong>Jiang et al. (Core; Findings of ACL 2025):</strong> precision metrics like FActScore can be gamed by padding an answer with trivially true or repeated claims. Core credits only informative, non-repetitive subclaims.</li></ul>
+<ul><li><strong>Wanner et al. (*SEM 2024):</strong> FActScore results change with the decomposition method. Errors made while splitting the text get blamed on the model that wrote it.</li><li><strong>Jiang et al. (Core; Findings of ACL 2025):</strong> precision metrics like FActScore can be gamed by padding an answer with trivially true or repeated claims. Core credits only informative, non-repetitive subclaims.</li></ul>
 <p><strong>Our reasoning</strong></p>
 <ul><li>[hypothesis] Padding is a live risk. A status report that adds many trivially true lines ("branch created", "file exists") would score better on claim precision without becoming more trustworthy.</li><li>[design proposal] Use FActScore's shape and drop its score: fix the decomposition rule and log it; verify each claim against the records at a pinned revision and time; keep per-claim labels; report counts with their denominators, never one percentage.</li><li>[design proposal] Report results per claim type (authority and action claims apart from descriptive ones) rather than one weighted score. <em>Amended after cross-family review:</em> weighting moves the gaming to claim classification, splitting and weight choice. If weights are ever needed, declare them in advance and show how the result changes under alternatives.</li></ul>
 <p><strong>Possible next step:</strong> decompose the same short records twice, independently, and measure how often the two decompositions disagree. This is a cheap check inspired by Wanner et al.'s finding, not their evaluation: they compare different decomposition methods (scoring each with DecompScore) and how each shifts FActScore.</p>
@@ -89,8 +92,8 @@
 </main>
 <footer class="site-footer">
   <div class="inner">
-    <p><span class="name">Kairos</span> is Zach Rhodes's project. Site generated by a Claude agent on 2026-11-06 from the START HERE README; no analytics, no cookies, no external requests.</p>
-    <p>Public repos are MIT. Each carries a <code>CLA.md</code>: contributing grants the owner a commercial-relicensing right so companies can use the code with minimal risk while he keeps his rights. Read it before your first PR.</p>
+    <p><span class="name">Kairos</span> is Zach Rhodes's project. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-18. No analytics, no cookies, no external requests.</p>
+    <p>Licences and contribution terms are set per repository. Before your first PR, read the licence and contributing files in the repo you are contributing to (see <a href="../start.html#cla">Contribute</a>).</p>
   </div>
 </footer>
 <script src="../site.js"></script>

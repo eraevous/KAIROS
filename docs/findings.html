@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Findings, Kairos</title>
 <meta name="description" content="What the Kairos research lanes have found so far, with the numbers and how each was established.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="site.css">
 </head>
 <body>
@@ -13,10 +14,10 @@
   <div class="bar">
     <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
-    <button class="theme-toggle" type="button"><span class="glyph" aria-hidden="true">&#9680;</span> Theme: auto</button>
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
         <li><a href="index.html">Overview</a></li>
+        <li><a href="example.html">Example</a></li>
         <li><a href="tools.html">Tools</a></li>
         <li><a href="start.html">Contribute</a></li>
         <li><a href="how-we-work.html">How we work</a></li>
@@ -24,6 +25,7 @@
         <li><a href="papers.html">Papers</a></li>
       </ul>
     </nav>
+    <button class="theme-toggle" type="button" aria-label="Theme: auto"></button>
   </div>
 </header>
 <main id="main">
@@ -32,6 +34,7 @@
   <h1>Findings</h1>
   <p class="lede">We study our own system as it runs (a human directing agents from two AI model families, with every decision, handoff and review kept as a record), find what's broken or wonky, and fix it.</p>
   <p>Each finding carries its number, what we did about it, how it was established and when. The underlying notes stay in the private records; numbers are as measured on the dates shown and will move.</p>
+  <p class="rules-note">What these findings show is that Kairos measures its own work and reports what it finds, including its own mistakes. They do not yet show that Kairos improves outcomes; the draft paper <a href="papers/02-measuring-whether-coordination-helps.html"><em>Measuring whether coordination helps</em></a> describes how the project proposes to find out.</p>
 </div>
 
 <section aria-labelledby="findings-list">
@@ -47,7 +50,7 @@
   <article class="finding" id="grounding">
     <p class="finding-stat"><span class="num">628</span> <span class="what">card-role assignments change when a deck evaluator reads machine-checkable contracts instead of matching words. They are candidate corrections, not yet reviewed.</span></p>
     <h3>Grounding an evaluator in contracts, not text patterns, moved hundreds of conclusions.</h3>
-    <p>The Magic: The Gathering analyser decided what a card does by matching phrases ("draw a card" means card draw). Its knowledge base looked independent but was computed by the same readers: the tool was, in effect, citing itself through a cache. Routing six roles through the operation contracts instead changed 628 card-role assignments: 97 cards lost the "draw" role (for example Cultivate, which searches for a land; under the rules that probably isn't drawing), 229 gained "ramp", and three other roles lost 302 between them. These are candidate corrections: the contracts haven't been semantically reviewed yet, and some changes may turn out to be gaps in the contracts rather than errors in the old reading. The tests prove <em>consumption</em>, not citation: change a contract in a fixture and the evaluator's answer changes.</p>
+    <p>The Magic: The Gathering analyser decided what a card does by matching phrases ("draw a card" means card draw). Its knowledge base looked independent but was computed by the same readers: the tool was, in effect, citing itself through a cache. Routing six roles through the operation contracts instead changed 628 card-role assignments: 97 cards lost the "draw" role (for example Cultivate, which searches for a land; under the rules that probably isn't drawing), 229 gained "ramp", and three other roles lost 302 between them. These are candidate corrections: the contracts haven't been semantically reviewed yet, and some changes may turn out to be gaps in the contracts rather than errors in the old reading. The tests show the evaluator <em>consumes</em> the contracts (change one in a fixture and its answer changes); they don't show the contracts are semantically right.</p>
 <p><b>Why it matters beyond cards.</b> "Cites the ontology" and "is driven by the ontology" look identical from the outside. The second is testable.</p>
     <p class="finding-fix"><span class="fix-status">built, under review</span> <b>What we did about it.</b> The fix is built: the evaluator now reads the contracts for six roles, with every other role labelled as a fallback instead of silently guessed. Before it becomes the default, 60 disagreements get a second-model review to find patterns, and the knowledge-base gap it exposed (who gains the life from Swords to Plowshares) is logged for correction.</p>
     <p class="finding-meta">How we know: measured on a 3,514-card collection; contracts not yet reviewed (candidate) · 2026-11-10</p>
@@ -55,7 +58,7 @@
   <article class="finding" id="relay">
     <p class="finding-stat"><span class="num">16.7 h</span> <span class="what">90th-percentile pickup time for a handed-off task on 9 November, up from 9.9 h on 7 November.</span></p>
     <h3>In a human + multi-agent team, work waits at the hand-offs.</h3>
-    <p>Treating the project's own coordination records as a graph (handoffs, decisions, reviews, wake logs) showed where work actually waits. Median pickup is minutes; the tail is hours, and it grows. Stalls moved from "sent but unread" to "in progress but quiet". The largest single blocker we saw was a relay between the two AI families: at one point 5 of 27 scheduled agent runs were waiting on one cross-model answer that hadn't landed. We haven't measured whether cross-family hand-offs are slower in general.</p>
+    <p>Treating the project's own coordination records as a graph (handoffs, decisions, reviews, wake logs) showed where work actually waits. Median pickup is minutes; the tail is hours, and it was longer on 9 November than on 7 November (two snapshots, not yet a trend). Stalls moved from "sent but unread" to "in progress but quiet". The largest single blocker we saw was a relay between the two AI families: at one point 5 of 27 scheduled agent runs were waiting on one cross-model answer that hadn't landed. We haven't measured whether cross-family hand-offs are slower in general.</p>
 <p>The study also found its own instrument was wrong: the stall detector read only one log, so two of nine "stalled" items were false positives. Fixing the reader is the first step; the fix is specified, not yet verified.</p>
     <p class="finding-fix"><span class="fix-status">partly shipped</span> <b>What we did about it.</b> Agent lanes now schedule and gate themselves, so they don't wait on a coordinator to wake them. Direct channels between the model families replaced some relays. The stall detector's blind spot has a specified fix (not yet verified), and a handshake-and-heartbeat link layer is in design, so dropped connections get noticed and retried instead of discovered.</p>
     <p class="finding-meta">How we know: measured from the coordination records (60 → 75 usable handoffs) · 2026-11-07 → 11-09</p>
@@ -113,8 +116,8 @@
 
 <footer class="site-footer">
   <div class="inner">
-    <p><span class="name">Kairos</span> is Zach Rhodes's project. Site generated by a Claude agent on 2026-11-06 from the START HERE README; no analytics, no cookies, no external requests.</p>
-    <p>Public repos are MIT. Each carries a <code>CLA.md</code>: contributing grants the owner a commercial-relicensing right so companies can use the code with minimal risk while he keeps his rights. Read it before your first PR.</p>
+    <p><span class="name">Kairos</span> is Zach Rhodes's project. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-18. No analytics, no cookies, no external requests.</p>
+    <p>Licences and contribution terms are set per repository. Before your first PR, read the licence and contributing files in the repo you are contributing to (see <a href="start.html#cla">Contribute</a>).</p>
   </div>
 </footer>
 

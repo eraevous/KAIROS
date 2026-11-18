@@ -78,9 +78,9 @@ Three ideas recur in every repo:
 | [**relay-kit**](https://github.com/eraevous/relay-kit) | The coordination kit: handoffs with ids and states, append-only decision and challenge ledgers, chat capture and cross-model relay, read-only export, a static **Cockpit** control surface, an MCP server. | People running more than one AI assistant on one project | v0.1.0; export@1, mcp@1, cockpit@2+ |
 | [**QAT-Kits**](https://github.com/eraevous/QAT-Kits) | Cognitive tools as contract-checked specs — StressTest, TruthWeight, FrameShift, NegativeSpace, ThreadMap, MetaDistill and more — chainable, with evals. | Anyone who wants a model to *think in a named way* rather than ramble | typed specs for two tools; the rest in prose; roadmap in progress |
 | [**MtG**](https://github.com/eraevous/MtG) | Commander deck analysis on an interaction ontology and a card knowledge base; the first Telosmith pilot outside Telosmith. | Players; also a worked example of the records approach on a hobby | scorer, game log, KB pinned |
-| [**Cognitive-Scaffolding**](https://github.com/eraevous/Cognitive-Scaffolding) | Document and conversation processing: chunking, enrichment, hybrid retrieval, reconstruction; the origin of several ideas above and a library of foundation notes. | Researchers of their own archives | working but uneven; its `AGENTS.md` describes planned machinery — read `docs/enforcement-audit.md` first |
-| [**Anamnesis**](https://github.com/eraevous/Anamnesis) | Recovering, connecting and reconsidering what has accumulated in conversations and documents — attributed reconstruction, not summarisation. | The same researchers, later | placeholder; a rescued spike is being triaged |
-| **Prospero** (formerly PlayWrite) | Creative collaboration for writers and artists — cultivation, not replacement. | Writers | idea; repo not yet renamed |
+| [**Anamnesis**](https://github.com/eraevous/Anamnesis) | The engine for recovering, connecting and reconsidering what has accumulated in conversations and documents — attributed reconstruction, not summarisation. Planned: it will create and work with private memory *instances* (`anamnesis init`), and the engine will depend on no instance (DEC-252, 2026-11-18). | Anyone with archives of conversations and documents | runs today: design notes and a synthetic test harness, nothing installable; next: the offline-core port, then `anamnesis init` |
+| [**Prospero**](https://github.com/eraevous/Prospero) (formerly PlayWrite) | Creative collaboration for writers and artists — cultivation, not replacement. Today: an editorial-packet tool (an original, a proposed edition and a labelled change list; revisions, history and a review sheet), standard-library Python. | Writers | packet mechanics built and tested on invented text only; not yet used on real writing (as of 2026-11-18) |
+| **Cognitive-Scaffolding** (private) | The original document and conversation pipeline (chunking, enrichment, hybrid retrieval, reconstruction) and the origin of several ideas above. Its engine code is moving into Anamnesis, and the repo is planned to become the owner's private memory instance once Anamnesis can create instances (DEC-252, 2026-11-18). | The owner | private; becoming an Anamnesis instance |
 | **kairos-cockpit** (private) | The Kairos-specific layer over relay-kit's generic Cockpit: repo list, design, PR landing, deployment. | The owner | seeded |
 | **relay-kit-private** (private) | The coordination records themselves: ledgers, handoffs, status, research notes. The Cockpit is generated from these. | The owner and the agents | daily |
 
@@ -90,7 +90,7 @@ Private repos are private because they hold personal records or credentials, not
 
 ## Install
 
-All public tools are plain Python, stdlib-only in the kits, Python 3.12+ recommended. None is on PyPI yet.
+All public tools are plain Python, stdlib-only in the kits. Python 3.10 or newer is required (the installer checks); 3.12+ is recommended, and Fathom wants it. None is on PyPI yet.
 
 **Telosmith**
 ```bash

@@ -22,7 +22,7 @@ The front-door README names three ideas that appear in every repository. They ar
 
 Purposes, requirements, claims, decisions and objections are records that link to code and to each other, and they are append-only. A line is never rewritten; a correction is a new line that supersedes the old one. CI in the public repositories refuses rewrites.
 
-The portfolio synthesis of November 5 describes the whole project as "one idea built eight times: keep the *reason* for a thing attached to the thing, in an append-only record a stranger can audit later." It also notes, as inference, that this is the owner's audit-and-compliance background turned into software.
+The portfolio synthesis of November 5 describes the whole project as "one idea built eight times: keep the *reason* for a thing attached to the thing, in an append-only record a stranger can audit later."
 
 ### 2. Information crosses freely; authority never crosses implicitly
 
