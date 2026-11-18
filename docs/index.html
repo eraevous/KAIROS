@@ -35,8 +35,8 @@
   <div class="copy">
     <p class="eyebrow">Kairos &middot; We are building Cognitive Augmentation</p>
     <h1 id="hero-title">Keep the reasoning attached to AI&#8209;assisted work.</h1>
-    <p class="lede">Tools, coordination and research to help people realise their intentions, starting with records that keep <em>why</em> something was built next to what was built, readable by people and AI agents alike.</p>
-    <p class="about">Zach Rhodes's AI/cognition work. Built for developers working with coding agents, analysts handed data they didn't make, and anyone running more than one AI assistant.</p>
+    <p class="lede">See which requirements a code change puts at risk, where a handed-off task stands, or what needs review in a dataset. Keep the evidence close enough to check.</p>
+    <p class="about">Zach Rhodes's tools and research for cognitive augmentation. Start with a concrete workflow below; the examples show what works and where it stops.</p>
     <nav aria-label="Where to start">
       <ul class="doors">
         <li class="primary"><a href="example.html"><span class="door-title">See a worked example</span><span class="door-text">One real requirement, traced from purpose to code to the tests that check it.</span></a></li>
@@ -61,6 +61,37 @@
   </aside>
 </section>
 
+<section class="band" aria-labelledby="try-title">
+  <h2 id="try-title">Start with a problem you already have</h2>
+  <p class="lede-small">Try one tool, not a whole new way of working. Inspect what it produces, then decide whether keeping it is worth the effort.</p>
+  <ul class="ideas">
+    <li><b>An agent changed the code. Which promises need checking again?</b>
+      <p>Telosmith links a written requirement to a function. In its <a href="https://github.com/eraevous/Telosmith/blob/main/docs/demo.md">public toy-shop walkthrough</a>, editing that function brings back the requirement and its dependent claim. A pointer means “review this”, not “this is false”. The walkthrough also shows what the default hook misses.</p></li>
+    <li><b>A task moved to another assistant. Was it received or finished?</b>
+      <p>relay-kit keeps the task, your authorization and its status together. <a href="https://github.com/eraevous/relay-kit#a-handoff-start-to-finish">Follow a handoff from creation to completion.</a> Someone still delivers it and records the recipient's response: “sent” is not proof of delivery, and a handoff file does not wake another chat.</p></li>
+    <li><b>Someone handed you a CSV. What needs review before you use it?</b>
+      <p>Fathom produces a local data dictionary and evidence-backed review report. <a href="https://github.com/eraevous/Fathom#try-it-in-five-minutes">Run its synthetic example</a>, or download <a href="https://github.com/eraevous/Fathom/blob/main/docs/demo-report.html">the synthetic report HTML</a> and open it locally. Missing values and repeated rows become review questions, not automatic cleanup.</p></li>
+  </ul>
+  <p class="aside">These examples show behavior, not a guaranteed productivity gain. The <a href="example.html">requirement chain on this site</a> includes private decision history; use the public toy-shop walkthrough for a self-contained reproduction.</p>
+</section>
+
+<section class="band" aria-labelledby="setup-title">
+  <h2 id="setup-title">Small core. Explicit setup.</h2>
+  <div class="split">
+    <div>
+      <h3>Standard-library Python at the core</h3>
+      <p>The installer, Telosmith and relay-kit's Python core use the standard library. The two kits declare no third-party runtime dependencies. You need Python 3.10+, git and pip; no model account or API key is needed for the core record tools.</p>
+      <p>The Dev Kit clones four repos but installs only relay-kit and Telosmith. It creates your local records and Cockpit; it does not configure your AI assistants or their permissions. Installation downloads code and may fetch a build helper.</p>
+    </div>
+    <div>
+      <h3>Data analysis has different requirements</h3>
+      <p>Fathom installs separately with pandas and PyYAML. Its package supports Python 3.11+; its quick start recommends 3.12+. Optional statistics and exports add dependencies.</p>
+      <p>Reports run locally, but may contain source values. Review them before sharing. Fathom does not clean your data, establish causation or train a model.</p>
+    </div>
+  </div>
+  <p class="more"><a href="https://github.com/eraevous/KAIROS#small-core-explicit-setup">Setup details and dependency sources &rarr;</a></p>
+</section>
+
 <section class="band" id="tools" aria-labelledby="tools-title">
   <h2 id="tools-title">The tools</h2>
   <div class="split">
@@ -71,8 +102,8 @@
         <li><a href="tools.html#fathom">Fathom</a> <span class="kit-badge">Dev Kit</span><span>Offline data-review reports for analysts handed data they didn't make.</span></li>
         <li><a href="tools.html#qat-kits">QAT-Kits</a> <span class="kit-badge">Dev Kit</span><span>Named thinking tools (StressTest, TruthWeight and more) as checked specs.</span></li>
         <li><a href="tools.html#mtg">MtG</a><span>Magic: The Gathering Commander deck analysis; the first Telosmith pilot outside Telosmith.</span></li>
-        <li><a href="tools.html#anamnesis">Anamnesis</a><span>Recovers what has accumulated in conversations and documents. Not installable yet.</span></li>
-        <li><a href="tools.html#prospero">Prospero</a><span>Editorial packets for writers. Tested on invented text only so far.</span></li>
+        <li><a href="tools.html#anamnesis">Anamnesis</a><span>Planned memory engine for conversations and documents. Synthetic test harness today; not installable yet.</span></li>
+        <li><a href="tools.html#prospero">Prospero</a><span>Editorial packets for writers. Public examples use invented text; usefulness still needs evaluation.</span></li>
       </ul>
       <p class="more"><a href="tools.html">Every repo, with install steps &rarr;</a></p>
     </div>
