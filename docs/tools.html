@@ -31,7 +31,7 @@
 
 <div class="statement">
   <h1>The map</h1>
-  <p>Every public repo, what it is, who it serves, and its honest state, copied from the START HERE README on 2026-11-06. None of the tools is on PyPI yet.</p>
+  <p>Every public repo, what it is, who it serves, and its honest state, copied from the START HERE README on 2026-11-06; the Anamnesis and Cognitive-Scaffolding entries updated on 2026-11-18. None of the tools is on PyPI yet.</p>
 </div>
 
 <p>All public tools are plain Python, stdlib-only in the kits, Python 3.12+ recommended.</p>
@@ -154,29 +154,18 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
 </article>
 
 
-<article class="repo" id="cognitive-scaffolding">
-  <div>
-    <h3><a href="https://github.com/eraevous/Cognitive-Scaffolding">Cognitive-Scaffolding</a></h3>
-    <p class="what">Document and conversation processing: chunking, enrichment, hybrid retrieval, reconstruction; the origin of several ideas above and a library of foundation notes.</p>
-    <dl>
-      <dt>Who it serves</dt><dd>Researchers of their own archives</dd>
-      <dt>State</dt><dd><span class="state">working but uneven; its <code>AGENTS.md</code> describes planned machinery. Read <code>docs/enforcement-audit.md</code> first</span></dd>
-    </dl>
-  </div>
-</article>
-
-
 <article class="repo" id="anamnesis">
   <div>
     <h3><a href="https://github.com/eraevous/Anamnesis">Anamnesis</a></h3>
-    <p class="what">Recovering, connecting and reconsidering what has accumulated in conversations and documents: attributed reconstruction, not summarisation.</p>
+    <p class="what">The engine for recovering, connecting and reconsidering what has accumulated in conversations and documents: attributed reconstruction, not summarisation. It creates and works with private memory <em>instances</em> (<code>anamnesis init</code>, planned); the engine depends on no instance.</p>
     <dl>
-      <dt>Who it serves</dt><dd>The same researchers, later</dd>
-      <dt>State</dt><dd><span class="state">placeholder; a rescued spike is being triaged</span></dd>
+      <dt>Who it serves</dt><dd>Anyone with archives of conversations and documents</dd>
+      <dt>State</dt><dd><span class="state">design notes and synthetic test fixtures merged; the offline-core port and <code>anamnesis init</code> are next (the owner's decision DEC-252, 18&nbsp;Nov&nbsp;2026)</span></dd>
     </dl>
   </div>
   <div class="install">
     <h4>Install</h4>
+    <p>Not installable yet; the offline-core port comes first.</p>
     <p>LICENSE and CLA files are missing from this repo; that is on the owner's list.</p>
   </div>
 </article>
@@ -189,6 +178,18 @@ relay-kit cockpit --root my-records --out ./cockpit      # a static page; open i
     <dl>
       <dt>Who it serves</dt><dd>Writers</dd>
       <dt>State</dt><dd><span class="state pending">idea; repo not yet renamed</span></dd>
+    </dl>
+  </div>
+</article>
+
+
+<article class="repo" id="cognitive-scaffolding">
+  <div>
+    <h3>Cognitive-Scaffolding <span class="private">(private)</span></h3>
+    <p class="what">The original document and conversation pipeline (chunking, enrichment, hybrid retrieval, reconstruction) and the origin of several ideas above. Its engine code is moving into Anamnesis, and the repo becomes the owner's private memory instance.</p>
+    <dl>
+      <dt>Who it serves</dt><dd>The owner</dd>
+      <dt>State</dt><dd><span class="state">private; becoming an Anamnesis instance (the owner's decision DEC-252, 18&nbsp;Nov&nbsp;2026)</span></dd>
     </dl>
   </div>
 </article>

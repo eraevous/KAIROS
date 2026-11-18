@@ -222,6 +222,9 @@ img { max-width: 100%; height: auto; }
 .map .legend .dot-far { fill: var(--bg); stroke: var(--mute); stroke-width: 1.5; }
 .map .legend .spoke-key { stroke: var(--accent); stroke-width: 1.5; }
 .map .legend .spoke-key.far { stroke: var(--mute); stroke-dasharray: 3 4; }
+.map .inst .dot, .map .legend .dot-inst { fill: var(--bg); stroke: var(--mute); stroke-width: 1.5; stroke-dasharray: 2.5 2; }
+.map .inst .sub { font: 400 14px var(--sans); fill: var(--mute); }
+.map .spoke.far.inst { stroke-dasharray: 1.5 3.5; stroke-width: 1.8; }
 
 @media (prefers-reduced-motion: no-preference) {
   .map .spoke { stroke-dasharray: 220; stroke-dashoffset: 220; animation: draw 1.1s cubic-bezier(.3, .7, .3, 1) .15s forwards; }

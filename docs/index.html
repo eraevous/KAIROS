@@ -46,9 +46,9 @@
     </nav>
   </div>
   <figure class="visual">
-  <svg class="map" viewBox="0 0 560 500" role="img" aria-labelledby="map-title map-desc">
+  <svg class="map" viewBox="0 0 560 530" role="img" aria-labelledby="map-title map-desc">
     <title id="map-title">Map of the Kairos repositories</title>
-    <desc id="map-desc">Kairos, the front door, sits at the centre. The Dev Kit installs four public repos, drawn as filled dots on solid lines on the inner ring: relay-kit, Telosmith, Fathom and QAT-Kits. Four other repos, not installed by the kit, are drawn as open dots on dotted lines on the outer ring: MtG, Anamnesis, Prospero and Cognitive-Scaffolding. Each name links to its entry on the Tools page.</desc>
+    <desc id="map-desc">Kairos, the front door, sits at the centre. The Dev Kit installs four public repos, drawn as filled dots on solid lines on the inner ring: relay-kit, Telosmith, Fathom and QAT-Kits. Three other repos, not installed by the kit, are drawn as open dots on dotted lines on the outer ring: Anamnesis, MtG and Prospero. Beyond Anamnesis, joined to it by a dotted line, a small square marks Cognitive-Scaffolding, which is becoming the owner's private memory instance of Anamnesis. Each name links to its entry on the Tools page.</desc>
     <circle class="ring" cx="280" cy="228" r="122"/>
     <circle class="ring" cx="280" cy="228" r="192"/>
     <path class="spoke" d="M280 228L280 106"/>
@@ -56,21 +56,22 @@
     <path class="spoke" d="M280 228L280 350"/>
     <path class="spoke" d="M280 228L158 228"/>
     <path class="spoke far" d="M280 228L416 92"/>
-    <path class="spoke far" d="M280 228L416 364"/>
     <path class="spoke far" d="M280 228L144 364"/>
     <path class="spoke far" d="M280 228L144 92"/>
+    <path class="spoke far inst" d="M139 88Q110 62 64 46"/>
     <g class="hub"><circle cx="280" cy="228" r="44"/><text x="280" y="230">Kairos</text><text class="sub" x="280" y="247">front door</text></g>
     <a href="tools.html#relay-kit" class="node kit"><circle class="dot" cx="280" cy="106" r="8"/><text x="294" y="98" text-anchor="start">relay-kit</text></a>
     <a href="tools.html#telosmith" class="node kit"><circle class="dot" cx="402" cy="228" r="8"/><text x="402" y="212" text-anchor="middle">Telosmith</text></a>
     <a href="tools.html#fathom" class="node kit"><circle class="dot" cx="280" cy="350" r="8"/><text x="280" y="377" text-anchor="middle">Fathom</text></a>
     <a href="tools.html#qat-kits" class="node kit"><circle class="dot" cx="158" cy="228" r="8"/><text x="158" y="212" text-anchor="middle">QAT-Kits</text></a>
     <a href="tools.html#mtg" class="node far" aria-label="MtG: Magic: The Gathering Commander deck analysis"><circle class="dot" cx="416" cy="92" r="6"/><text x="416" y="78" text-anchor="middle">MtG</text></a>
-    <a href="tools.html#anamnesis" class="node far"><circle class="dot" cx="416" cy="364" r="6"/><text x="416" y="389" text-anchor="middle">Anamnesis</text></a>
+    <a href="tools.html#anamnesis" class="node far"><circle class="dot" cx="144" cy="92" r="6"/><text x="132" y="97" text-anchor="end">Anamnesis</text></a>
     <a href="tools.html#prospero" class="node far"><circle class="dot" cx="144" cy="364" r="6"/><text x="144" y="389" text-anchor="middle">Prospero</text></a>
-    <a href="tools.html#cognitive-scaffolding" class="node far"><circle class="dot" cx="144" cy="92" r="6"/><text x="164" y="78" text-anchor="middle">Cognitive-Scaffolding</text></a>
+    <a href="tools.html#cognitive-scaffolding" class="node far inst"><rect class="dot" x="58" y="32" width="12" height="12"/><text x="78" y="22" text-anchor="start">Cognitive-Scaffolding</text><text class="sub" x="78" y="39" text-anchor="start">becoming a private Anamnesis instance</text></a>
     <g class="legend" aria-hidden="true">
       <path class="spoke-key" d="M26 482h22"/><circle class="dot-kit" cx="48" cy="482" r="6.5"/><text x="62" y="487">installed by the Dev Kit</text>
       <path class="spoke-key far" d="M262 482h22"/><circle class="dot-far" cx="284" cy="482" r="5.5"/><text x="297" y="487">other repos, not in the kit</text>
+      <rect class="dot-inst" x="42" y="503" width="12" height="12"/><text x="62" y="514">a private instance, dotted to the engine it runs on</text>
     </g>
   </svg>
     <figcaption>The front door and the repos it points to. Each name opens its entry on <a href="tools.html">Tools</a>.</figcaption>
