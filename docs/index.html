@@ -35,12 +35,12 @@
     <p class="eyebrow">Kairos &middot; Zach Rhodes's AI/cognition work</p>
     <h1 id="hero-title">We are building Cognitive&nbsp;Augmentation.</h1>
     <p class="lede">Tools, coordination and research to help people realise their intentions.</p>
-    <p class="about">A set of tools, the operating environment that coordinates the people and AI agents who build them, and the research behind both. This site is the front door.</p>
+    <p class="about">A set of tools, the environment that coordinates the people and AI agents who build them, and the research behind both. Built for developers working with coding agents, analysts handed data they didn't make, and anyone running more than one AI assistant.</p>
     <nav aria-label="Where to start">
       <ul class="doors">
-        <li class="primary"><a href="tools.html#devkit"><span class="door-title">Install the Dev Kit</span><span class="door-text">One script and one folder; about ten minutes. No admin rights, no account.</span></a></li>
-        <li><a href="tools.html"><span class="door-title">Try a tool</span><span class="door-text">The map: what each repo is, who it serves, its honest state.</span></a></li>
-        <li><a href="start.html"><span class="door-title">Contribute</span><span class="door-text">For humans and AI agents. Propose anything; never merge.</span></a></li>
+        <li class="primary"><a href="tools.html#devkit"><span class="door-title">Install the Dev Kit</span><span class="door-text">Four public repos and your own private Cockpit page, in one folder. About ten minutes; no admin rights.</span></a></li>
+        <li><a href="tools.html"><span class="door-title">Browse the tools</span><span class="door-text">What each repo does, who it serves, its current state, how to install it.</span></a></li>
+        <li><a href="start.html"><span class="door-title">Contribute</span><span class="door-text">For humans and AI agents. Open an issue or a PR; only the owner merges.</span></a></li>
         <li><a href="findings.html"><span class="door-title">Read the findings</span><span class="door-text">What we measured about our own system, and how sure we are.</span></a></li>
       </ul>
     </nav>
@@ -48,7 +48,7 @@
   <figure class="visual">
   <svg class="map" viewBox="0 0 560 500" role="img" aria-labelledby="map-title map-desc">
     <title id="map-title">Map of the Kairos repositories</title>
-    <desc id="map-desc">Kairos, the front door, sits at the centre. The Dev Kit installs four public repos, drawn as filled dots on the inner ring: relay-kit, Telosmith, Fathom and QAT-Kits. Four more repos are on the map, drawn as open dots on the outer ring: MtG, Anamnesis, Prospero and Cognitive-Scaffolding. Each name links to its entry on the Tools page.</desc>
+    <desc id="map-desc">Kairos, the front door, sits at the centre. The Dev Kit installs four public repos, drawn as filled dots on solid lines on the inner ring: relay-kit, Telosmith, Fathom and QAT-Kits. Four other repos, not installed by the kit, are drawn as open dots on dotted lines on the outer ring: MtG, Anamnesis, Prospero and Cognitive-Scaffolding. Each name links to its entry on the Tools page.</desc>
     <circle class="ring" cx="280" cy="228" r="122"/>
     <circle class="ring" cx="280" cy="228" r="192"/>
     <path class="spoke" d="M280 228L280 106"/>
@@ -64,13 +64,13 @@
     <a href="tools.html#telosmith" class="node kit"><circle class="dot" cx="402" cy="228" r="8"/><text x="402" y="212" text-anchor="middle">Telosmith</text></a>
     <a href="tools.html#fathom" class="node kit"><circle class="dot" cx="280" cy="350" r="8"/><text x="280" y="377" text-anchor="middle">Fathom</text></a>
     <a href="tools.html#qat-kits" class="node kit"><circle class="dot" cx="158" cy="228" r="8"/><text x="158" y="212" text-anchor="middle">QAT-Kits</text></a>
-    <a href="tools.html#mtg" class="node far"><circle class="dot" cx="416" cy="92" r="6"/><text x="416" y="78" text-anchor="middle">MtG</text></a>
+    <a href="tools.html#mtg" class="node far" aria-label="MtG: Magic: The Gathering Commander deck analysis"><circle class="dot" cx="416" cy="92" r="6"/><text x="416" y="78" text-anchor="middle">MtG</text></a>
     <a href="tools.html#anamnesis" class="node far"><circle class="dot" cx="416" cy="364" r="6"/><text x="416" y="389" text-anchor="middle">Anamnesis</text></a>
     <a href="tools.html#prospero" class="node far"><circle class="dot" cx="144" cy="364" r="6"/><text x="144" y="389" text-anchor="middle">Prospero</text></a>
     <a href="tools.html#cognitive-scaffolding" class="node far"><circle class="dot" cx="144" cy="92" r="6"/><text x="164" y="78" text-anchor="middle">Cognitive-Scaffolding</text></a>
     <g class="legend" aria-hidden="true">
-      <circle class="dot-kit" cx="98" cy="482" r="7"/><text x="112" y="487">installed by the Dev Kit</text>
-      <circle class="dot-far" cx="318" cy="482" r="5.5"/><text x="331" y="487">also on the map</text>
+      <path class="spoke-key" d="M26 482h22"/><circle class="dot-kit" cx="48" cy="482" r="6.5"/><text x="62" y="487">installed by the Dev Kit</text>
+      <path class="spoke-key far" d="M262 482h22"/><circle class="dot-far" cx="284" cy="482" r="5.5"/><text x="297" y="487">other repos, not in the kit</text>
     </g>
   </svg>
     <figcaption>The front door and the repos it points to. Each name opens its entry on <a href="tools.html">Tools</a>.</figcaption>
@@ -81,6 +81,7 @@
   <div class="split">
     <div>
       <h2 id="problem">What this is for</h2>
+      <p>Kairos is Zach Rhodes's umbrella for his AI/cognition work: a set of tools, the operating environment that coordinates the people and AI agents who build them, and the research behind both.</p>
       <p>Powerful AI tools let one person do work that used to need a team. The systems coordinating that work usually hide:</p>
       <ul>
         <li>what was decided,</li>
