@@ -3,13 +3,38 @@
 > **We are building Cognitive Augmentation.**
 > (The project's guiding light, in the owner's words. What it means in full is being written; until then every repo here is judged by one question: does it increase a person's capacity to realise their intentions?)
 
-Kairos is Zach Rhodes's umbrella for his AI/cognition work: a set of tools, the operating environment that coordinates the people and AI agents who build them, and the research behind both. This repository is the front door. It holds the map, the directions, the honest status of everything else, and one script: the Dev Kit installer below.
+Kairos is Zach Rhodes's collection of tools for work that outlives a chat: code whose requirements need to stay visible, tasks passed between assistants, and data that needs examining before anyone models it. The aim is cognitive augmentation: more capacity to realise your intentions, not just more output.
+
+## Start with a problem you already have
+
+| Your situation | Try this | What you can inspect |
+|---|---|---|
+| An agent changed the code. Which promises need checking again? | **Telosmith** links a written requirement to a function and reports the records an edit affects. | [Run the public toy-shop walkthrough](https://github.com/eraevous/Telosmith/blob/main/docs/demo.md): edit the linked function and see the requirement and dependent claim returned. A pointer means “review this”, not “this is false”. The walkthrough also shows what the default hook misses. |
+| A task moved to another assistant. Was it received, blocked or finished? | **relay-kit** keeps the task, your authorization and its status in a handoff file. | [Follow a handoff from creation to completion](https://github.com/eraevous/relay-kit#a-handoff-start-to-finish). Someone must deliver it and record the recipient's response. A file marked “sent” is not proof of delivery or a way to wake another chat. |
+| Someone handed you a CSV. What needs review before you use it? | **Fathom** produces a local data dictionary and evidence-backed review report. | [Try the synthetic example](https://github.com/eraevous/Fathom#try-it-in-five-minutes), or download [the synthetic report HTML](https://github.com/eraevous/Fathom/blob/main/docs/demo-report.html) and open it locally. Missing values and repeated rows become review questions, not automatic cleanup. |
+
+You can try one tool without adopting the whole project. These are inspectable workflows, not evidence of a guaranteed productivity gain. Test one against a task you already do: is the output useful, and is maintaining it worth the effort?
+
+[The worked example on this site](docs/example.html) traces a requirement through Telosmith's own records and code. It distinguishes provisional records from accepted ones; some decision history is private. The public toy-shop walkthrough above is the better starting point for a self-contained reproduction.
+
+## Small core, explicit setup
+
+- **The installer, Telosmith and relay-kit's Python core use the standard library.** Telosmith and relay-kit declare no third-party runtime dependencies. You still need **Python 3.10+, git and pip** to install the Dev Kit. Python 3.12+ is a sensible choice if you also want Fathom.
+- **The Dev Kit installs two tools, not the entire portfolio.** It clones relay-kit, Telosmith, Fathom and QAT-Kits; installs relay-kit and Telosmith; and creates your local records store and Cockpit. Fathom needs its own installation. QAT-Kits supplies reasoning instructions/specs; cloning it does not provide a model.
+- **Standard library does not mean zero setup or zero network.** Initial installation downloads repositories and may download setuptools. The core record tools need no model account or API key. Connecting an assistant, browser or remote service has its own setup and permissions; the installer does not configure those integrations.
+- **Fathom is the deliberate exception.** Its package declares Python 3.11+ plus pandas and PyYAML, with optional statistical/export dependencies. Its README recommends 3.12+ for the quick start. Reports run locally, but can include source values: inspect them before sharing. It does not clean the data, establish causation or train a model.
+
+Dependency sources: [installer](kairos.py), [Telosmith package](https://github.com/eraevous/Telosmith/blob/main/pyproject.toml), [relay-kit package](https://github.com/eraevous/relay-kit/blob/main/pyproject.toml), [Fathom package](https://github.com/eraevous/Fathom/blob/main/pyproject.toml) and [Fathom's boundaries](https://github.com/eraevous/Fathom#know-the-boundaries).
+
+This repository is the front door: the map, examples, directions and Dev Kit installer. Each tool's code lives in its own repository.
 
 ---
 
 ## Install the Dev Kit (10 minutes)
 
-One script, [`kairos.py`](kairos.py), sets up everything in a single folder, `Kairos`, inside your home folder, and ends by building you a **Cockpit**: a web page that shows what is waiting on you, what the tools are doing, and the decisions you've recorded, all read from files on your own machine. (A picture of one: [docs/assets/cockpit-choice.png](docs/assets/cockpit-choice.png).) It needs no administrator rights and no account.
+Allow about ten minutes after Python and git are installed; downloads and machine setup can take longer.
+
+One script, [`kairos.py`](kairos.py), sets up the core workflow in a single folder, `Kairos`, inside your home folder, and ends by building you a **Cockpit**: a web page that shows what is waiting on you, what the tools are doing, and the decisions you've recorded, all read from files on your own machine. (A picture of one: [docs/assets/cockpit-choice.png](docs/assets/cockpit-choice.png).) It needs no administrator rights and no account.
 
 Two free programs must be on the computer first. If you have never installed them, do this once:
 
@@ -79,7 +104,7 @@ Three ideas recur in every repo:
 | [**QAT-Kits**](https://github.com/eraevous/QAT-Kits) | Cognitive tools as contract-checked specs — StressTest, TruthWeight, FrameShift, NegativeSpace, ThreadMap, MetaDistill and more — chainable, with evals. | Anyone who wants a model to *think in a named way* rather than ramble | typed specs for two tools; the rest in prose; roadmap in progress |
 | [**MtG**](https://github.com/eraevous/MtG) | Commander deck analysis on an interaction ontology and a card knowledge base; the first Telosmith pilot outside Telosmith. | Players; also a worked example of the records approach on a hobby | scorer, game log, KB pinned |
 | [**Anamnesis**](https://github.com/eraevous/Anamnesis) | The engine for recovering, connecting and reconsidering what has accumulated in conversations and documents — attributed reconstruction, not summarisation. Planned: it will create and work with private memory *instances* (`anamnesis init`), and the engine will depend on no instance (DEC-252, 2026-11-18). | Anyone with archives of conversations and documents | runs today: design notes and a synthetic test harness, nothing installable; next: the offline-core port, then `anamnesis init` |
-| [**Prospero**](https://github.com/eraevous/Prospero) (formerly PlayWrite) | Creative collaboration for writers and artists — cultivation, not replacement. Today: an editorial-packet tool (an original, a proposed edition and a labelled change list; revisions, history and a review sheet), standard-library Python. | Writers | packet mechanics built and tested on invented text only; not yet used on real writing (as of 2026-11-18) |
+| [**Prospero**](https://github.com/eraevous/Prospero) (formerly PlayWrite) | Creative collaboration for writers and artists — cultivation, not replacement. Today: an editorial-packet tool (an original, a proposed edition and a labelled change list; revisions, history and a review sheet), standard-library Python. | Writers | packet mechanics built; public examples use invented text. This page does not establish benefit on real writing |
 | **Cognitive-Scaffolding** (private) | The original document and conversation pipeline (chunking, enrichment, hybrid retrieval, reconstruction) and the origin of several ideas above. Its engine code is moving into Anamnesis, and the repo is planned to become the owner's private memory instance once Anamnesis can create instances (DEC-252, 2026-11-18). | The owner | private; becoming an Anamnesis instance |
 | **kairos-cockpit** (private) | The Kairos-specific layer over relay-kit's generic Cockpit: repo list, design, PR landing, deployment. | The owner | seeded |
 | **relay-kit-private** (private) | The coordination records themselves: ledgers, handoffs, status, research notes. The Cockpit is generated from these. | The owner and the agents | daily |
@@ -90,7 +115,7 @@ Private repos are private because they hold personal records or credentials, not
 
 ## Install
 
-All public tools are plain Python, stdlib-only in the kits. Python 3.10 or newer is required (the installer checks); 3.12+ is recommended, and Fathom wants it. None is on PyPI yet.
+Telosmith and relay-kit's Python core are standard-library-only and require Python 3.10+. Fathom is installed separately, with pandas and PyYAML (package minimum 3.11; its quick start recommends 3.12+). Install these tools from their repositories.
 
 **Telosmith**
 ```bash
