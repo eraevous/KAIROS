@@ -90,7 +90,7 @@ Private repos are private because they hold personal records or credentials, not
 
 ## Install
 
-All public tools are plain Python, stdlib-only in the kits, Python 3.12+ recommended. None is on PyPI yet.
+All public tools are plain Python, stdlib-only in the kits. Python 3.10 or newer is required (the installer checks); 3.12+ is recommended, and Fathom wants it. None is on PyPI yet.
 
 **Telosmith**
 ```bash

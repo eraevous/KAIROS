@@ -422,3 +422,8 @@ figcaption { color: var(--mute); font-size: .9rem; margin-top: .6rem; }
 .kit-badge { display: inline-block; font: 700 .66rem var(--sans); text-transform: uppercase; letter-spacing: .1em; color: var(--accent-ink); background: var(--accent); border-radius: 999px; padding: .08rem .45rem; margin-left: .4rem; vertical-align: .15em; }
 #tools .visual { align-self: start; }
 @media (max-width: 960px) { .front .preview { max-width: 560px; } }
+.preview .tag { font-size: .62rem; padding: .05rem .4rem; }
+.preview-note { font-size: .82rem; color: var(--mute); margin: .2rem 0 .3rem; }
+/* Commands wrap instead of hiding off the right edge; wrapping adds no characters when copied. */
+.install pre, #devkit pre { white-space: pre-wrap; overflow-wrap: anywhere; }
+.install pre code, #devkit pre code { white-space: inherit; overflow-wrap: anywhere; }
