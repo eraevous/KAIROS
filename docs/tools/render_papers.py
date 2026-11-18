@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Render the two papers in docs/papers/ from Markdown to HTML using site.css.
+"""Render the papers in docs/papers/ and the Observatory packets in
+docs/observatory/ from Markdown to HTML using site.css.
 
 Standard library only. Handles headings, paragraphs, bullet and numbered
 lists (one level of nesting by indentation), fenced and indented code,
@@ -22,6 +23,19 @@ SOURCES = [
     ("01-reason-attached-to-the-work", "The reason attached to the work"),
     ("02-measuring-whether-coordination-helps", "Measuring whether coordination helps"),
 ]
+
+OBSERVATORY = DOCS / "observatory"
+
+# Observatory evidence packets: (slug, fallback title). Each packet's own text
+# carries its review state; the label below is the page-level one.
+PACKETS = [
+    ("packet-01-claim-checking-methods", "Do published claim-checking methods apply to AI coordination records?"),
+]
+
+PACKET_LABEL = (
+    "Preliminary draft, agent-drafted from public sources; "
+    "the owner has not yet reviewed or endorsed this text."
+)
 
 LABEL = (
     "Preliminary draft, agent-drafted from the project records; "
@@ -220,10 +234,11 @@ def render_list(block: list[str]) -> str:
 
 # ---------------------------------------------------------------- page
 
-def page(title: str, body: str, slug: str) -> str:
+def page(title: str, body: str, slug: str, label: str = LABEL,
+         back: tuple[str, str] = ("papers.html", "All papers")) -> str:
     nav = "\n        ".join(
-        f'<li><a href="../{href}"{" aria-current=\"page\"" if href == "papers.html" else ""}>{label}</a></li>'
-        for href, label in NAV
+        f'<li><a href="../{href}"{" aria-current=\"page\"" if href == back[0] else ""}>{text}</a></li>'
+        for href, text in NAV
     )
     return f"""<!DOCTYPE html>
 <html lang="en" class="no-js">
@@ -231,7 +246,7 @@ def page(title: str, body: str, slug: str) -> str:
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>{html.escape(title)}, Kairos</title>
-<meta name="description" content="{html.escape(LABEL, quote=True)}">
+<meta name="description" content="{html.escape(label, quote=True)}">
 <link rel="stylesheet" href="../site.css">
 </head>
 <body>
@@ -249,8 +264,8 @@ def page(title: str, body: str, slug: str) -> str:
   </div>
 </header>
 <main id="main">
-<p><a href="../papers.html">All papers</a></p>
-<p><span class="draft-label">{html.escape(LABEL)}</span></p>
+<p><a href="../{back[0]}">{back[1]}</a></p>
+<p><span class="draft-label">{html.escape(label)}</span></p>
 <article class="paper-body">
 {body}
 </article>
@@ -269,17 +284,18 @@ def page(title: str, body: str, slug: str) -> str:
 
 
 def main() -> int:
-    rendered = 0
-    for slug, fallback_title in SOURCES:
-        src = PAPERS / f"{slug}.md"
-        dst = PAPERS / f"{slug}.html"
+    jobs = [(PAPERS, slug, t, {}) for slug, t in SOURCES]
+    jobs += [(OBSERVATORY, slug, t, {"label": PACKET_LABEL, "back": ("findings.html", "Findings")})
+             for slug, t in PACKETS]
+    for folder, slug, fallback_title, extra in jobs:
+        src = folder / f"{slug}.md"
+        dst = folder / f"{slug}.html"
         if not src.exists():
             print(f"note: {src.relative_to(DOCS.parent)} not present; {dst.name} not written")
             continue
         body, title = render_markdown(src.read_text(encoding="utf-8"))
-        dst.write_text(page(title or fallback_title, body, slug), encoding="utf-8")
+        dst.write_text(page(title or fallback_title, body, slug, **extra), encoding="utf-8")
         print(f"wrote {dst.relative_to(DOCS.parent)}")
-        rendered += 1
     return 0
 
 
