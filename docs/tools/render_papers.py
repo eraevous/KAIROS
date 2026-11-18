@@ -30,6 +30,7 @@ OBSERVATORY = DOCS / "observatory"
 # carries its review state; the label below is the page-level one.
 PACKETS = [
     ("packet-01-claim-checking-methods", "Do published claim-checking methods apply to AI coordination records?"),
+    ("packet-05-ai-polish-for-authors", "Making an author's work \"pretty and slick\" with AI, without losing the author"),
 ]
 
 PACKET_LABEL = (
