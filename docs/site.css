@@ -427,3 +427,6 @@ figcaption { color: var(--mute); font-size: .9rem; margin-top: .6rem; }
 /* Commands wrap instead of hiding off the right edge; wrapping adds no characters when copied. */
 .install pre, #devkit pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 .install pre code, #devkit pre code { white-space: inherit; overflow-wrap: anywhere; }
+/* An accepted record gets a solid badge so it reads differently from proposals at a glance. */
+.tag.tag-ok { color: var(--accent-ink); background: var(--accent); border-style: solid; }
+.preview .step p.step-kind { color: var(--ink); }
