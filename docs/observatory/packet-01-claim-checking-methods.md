@@ -65,7 +65,7 @@ The main finding is negative. These methods mostly don't transfer to private coo
 - [design proposal] Use FActScore's shape and drop its score: fix the decomposition rule and log it; verify each claim against the records at a pinned revision and time; keep per-claim labels; report counts with their denominators, never one percentage.
 - [design proposal] Report results per claim type (authority and action claims apart from descriptive ones) rather than one weighted score. *Amended after cross-family review:* weighting moves the gaming to claim classification, splitting and weight choice. If weights are ever needed, declare them in advance and show how the result changes under alternatives.
 
-**Possible next step:** decompose the same short records twice, independently, and measure how often the two decompositions disagree. That is Wanner's test, run on coordination records.
+**Possible next step:** decompose the same short records twice, independently, and measure how often the two decompositions disagree. This is a cheap check inspired by Wanner et al.'s finding, not their evaluation: they compare different decomposition methods (scoring each with DecompScore) and how each shifts FActScore.
 
 ## 2. VeriScore (Song, Kim and Iyyer, Findings of EMNLP 2024)
 
@@ -121,7 +121,7 @@ The main finding is negative. These methods mostly don't transfer to private coo
 
 - Sample several answers to the same prompt (about ten in the original work), cluster those that entail each other in both directions, and compute entropy over the clusters. A discrete variant counts cluster frequencies when token probabilities aren't available.
 - For longer text: split into factoids, generate questions about each, then resample answers. The generated questions were a major source of error.
-- Follow-up work reports 5–10× the cost of a single answer.
+- Cost: sampling about ten answers costs on the order of ten single answers, before clustering. *(Corrected 2026-11-18: an earlier draft cited a follow-up reporting 5–10× the cost of one answer without recording which follow-up, so that figure is withdrawn.)*
 
 **Does it apply to coordination records?**
 
@@ -148,7 +148,7 @@ The main finding is negative. These methods mostly don't transfer to private coo
 - **Date:** 2026-11-12, one bounded session by the drafting agent.
 - **Starting set:** the three methods were chosen in advance as the reference points our question names (FActScore, VeriScore, semantic entropy); this packet didn't search for alternatives to them.
 - **Routes:** each method's own paper and released code or documentation; then a web search for published critiques, replications and follow-up work citing each one (two to three critiques kept per method); and one extra source on correlated errors across models (Kim et al.), added for the cross-model question in §3.
-- **Sources consulted:** the ones listed under Sources. For semantic entropy, method details came from the abstract and secondary write-ups, not the full text.
+- **Sources consulted:** the ones listed under Sources. For semantic entropy, method details came from the abstract, the authors' group page and one secondary write-up (all three listed under Sources), not the full text.
 - **Looked for, not found:** an independent critique or replication of VeriScore.
 - **Not recorded:** the exact search queries were not logged at the time; this section was reconstructed from the draft on 2026-11-18, when the packet format began requiring it. Later packets log their queries as they search.
 - **Not searched:** non-English work, preprints after 2026-11-12, and claim-checking methods beyond the three named.
@@ -168,11 +168,12 @@ The main finding is negative. These methods mostly don't transfer to private coo
 
 ## Sources
 
-- Min et al. 2023, FActScore. https://arxiv.org/abs/2305.14251 ; code and defaults: https://pypi.org/project/factscore/0.1.5
-- Song, Kim, Iyyer 2024, VeriScore. https://arxiv.org/abs/2406.19276
-- Farquhar, Kossen, Kuhn, Gal 2024, semantic entropy, Nature 630:625–630. doi:10.1038/s41586-024-07421-0
-- Wanner et al. 2024, A Closer Look at Claim Decomposition. https://aclanthology.org/2024.starsem-1.13.pdf
-- Jiang et al. 2025, Core: Robust Factual Precision with Informative Sub-Claim Identification. https://arxiv.org/abs/2407.03572
-- Tan et al. 2025, Too Consistent to Detect: self-consistent errors. https://arxiv.org/abs/2505.17656
-- Estimating Semantic Alphabet Size for LLM Uncertainty Quantification (2025). https://arxiv.org/html/2509.14478v2
-- Kim et al. 2025, Correlated Errors in Large Language Models (ICML 2025). https://proceedings.mlr.press/v267/kim25e.html
+- Min et al. 2023, FActScore: [arXiv 2305.14251](https://arxiv.org/abs/2305.14251); code and defaults: [factscore 0.1.5 on PyPI](https://pypi.org/project/factscore/0.1.5)
+- Song, Kim, Iyyer 2024, VeriScore: [arXiv 2406.19276](https://arxiv.org/abs/2406.19276)
+- Farquhar, Kossen, Kuhn, Gal 2024, semantic entropy, Nature 630:625–630: [doi:10.1038/s41586-024-07421-0](https://doi.org/10.1038/s41586-024-07421-0); authors' group page: [OATML](https://oatml.cs.ox.ac.uk/publications/202406_FarquharKossenKuhn_HallucinatingLLMs.html)
+- Secondary, for semantic entropy method details only: [Rubin Lake technology radar, "LLM evaluation: semantic entropy"](https://rubinlake.com/en/technology-radar/ai-and-data-engineering/llm-evaluation-semantic-entropy)
+- Wanner et al. 2024, A Closer Look at Claim Decomposition: [ACL Anthology, *SEM 2024](https://aclanthology.org/2024.starsem-1.13.pdf)
+- Jiang et al. 2025, Core: Robust Factual Precision with Informative Sub-Claim Identification: [arXiv 2407.03572](https://arxiv.org/abs/2407.03572)
+- Tan et al. 2025, Too Consistent to Detect: self-consistent errors: [arXiv 2505.17656](https://arxiv.org/abs/2505.17656)
+- Estimating Semantic Alphabet Size for LLM Uncertainty Quantification (2025): [arXiv 2509.14478](https://arxiv.org/html/2509.14478v2)
+- Kim et al. 2025, Correlated Errors in Large Language Models (ICML 2025): [PMLR v267](https://proceedings.mlr.press/v267/kim25e.html)
