@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>How we work, Kairos</title>
-<meta name="description" content="The operating rules of Kairos and two views of the Cockpit control surface generated from the records.">
+<meta name="description" content="The operating rules of Kairos and two views of the Cockpit, the control dashboard generated from the records.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="site.css">
 </head>
@@ -32,7 +32,7 @@
 
 <div class="statement">
   <h1>How we work</h1>
-  <p>The operating rules, as the START HERE README states them, and two views of the Cockpit, the control surface generated from the records.</p>
+  <p>The operating rules, as the START HERE README states them, and two views of the Cockpit, the control dashboard generated from the records.</p>
   <p class="rules-note">These are the rules agents and contributors work under. This page states them; it does not show that every commit, review or record has followed them.</p>
 </div>
 
@@ -46,11 +46,34 @@
         <li>and is accepted or refused by the owner.</li>
       </ul>
       Agents propose; the owner decides.</li>
-    <li><b>Two families review before a merge.</b> Every substantive PR gets a fresh-context review and a review from a different model family (today: Claude and ChatGPT), with blocking findings fixed before merge. Agents never merge.</li>
+    <li><b>Independent review from a second model family before a merge</b> (effective challenge). Every substantive PR gets a fresh-context review and a review from a different model family (today: Claude and ChatGPT), with blocking findings fixed before merge. Agents never merge.</li>
     <li><b>Everything is append-only.</b> Decisions, challenges, handoffs, records: lines are added, never rewritten. CI refuses rewrites.</li>
     <li><b>Honest status.</b> Negative results are kept and cited. The first comparative experiment scored the governed build <em>below</em> two simpler approaches; that is in the records, not hidden.</li>
     <li><b>Agents are visible.</b> Every commit carries its author trailer (which model, which session); every GitHub comment by an agent is signed with its actor id. By convention an unsigned comment is the owner's; that is a rule for agents, not an identity guarantee.</li>
   </ul>
+</section>
+
+<section aria-labelledby="words">
+  <h2 id="words">Words we use</h2>
+  <p>Kairos follows standard terms where they exist (the owner's decision DEC-255, 19&nbsp;Nov&nbsp;2026). Where the records still use an older Kairos word, this is what it means.</p>
+  <table class="paths">
+    <thead><tr><th scope="col">Kairos word</th><th scope="col">Standard term</th></tr></thead>
+    <tbody>
+      <tr><td data-label="Kairos word">Lane</td><td data-label="Standard term">An agent with one remit (in the A2A protocol, an agent advertised by an Agent Card)</td></tr>
+      <tr><td data-label="Kairos word">Coordinator</td><td data-label="Standard term">Orchestrator (the orchestrator–worker pattern)</td></tr>
+      <tr><td data-label="Kairos word">Handoff</td><td data-label="Standard term">Handoff / delegation; each one is an A2A task, with A2A task states (submitted, working, input-required, auth-required, completed, failed, rejected, canceled)</td></tr>
+      <tr><td data-label="Kairos word">Kate</td><td data-label="Standard term">The owner's ChatGPT partner thread, used for independent review by a second model family</td></tr>
+      <tr><td data-label="Kairos word">Cross-family review</td><td data-label="Standard term">Independent review; effective challenge</td></tr>
+      <tr><td data-label="Kairos word">Decision ledger, DEC-n</td><td data-label="Standard term">Decision records (in the manner of architecture decision records), append-only, superseded rather than edited</td></tr>
+      <tr><td data-label="Kairos word">Wake and gate</td><td data-label="Standard term">Scheduled trigger and router/guard</td></tr>
+      <tr><td data-label="Kairos word">Kill switch, budget and turn caps</td><td data-label="Standard term">Guardrails</td></tr>
+      <tr><td data-label="Kairos word">Receipts</td><td data-label="Standard term">Traces (for agent runs) and provenance (for records)</td></tr>
+      <tr><td data-label="Kairos word">Stale reasons in Telosmith</td><td data-label="Standard term">Requirements traceability; suspect links; drift detection for requirements</td></tr>
+      <tr><td data-label="Kairos word">Pickup time</td><td data-label="Standard term">Lead time</td></tr>
+      <tr><td data-label="Kairos word">Cockpit</td><td data-label="Standard term">A control dashboard generated from the records (product name kept)</td></tr>
+      <tr><td data-label="Kairos word">Docket, Warrant</td><td data-label="Standard term">Names kept: Docket is the governance convention where rule changes are debated and ratified; Warrant is the planned repository for rules and authority</td></tr>
+    </tbody>
+  </table>
 </section>
 
 <section aria-labelledby="cockpit">
@@ -59,14 +82,14 @@
 
   <figure>
     <div class="frame narrow">
-      <img src="assets/cockpit-choice.png" width="596" height="2951" alt="A tall Cockpit screen for challenge CH-035. Two decision-support notes are stacked, one from chatgpt:kate and one from claude:kairos-coord, each with rows labelled what changes, what doesn't, if nothing is done, can it wait, depends on it, and recommendation. Below them the challenge text lists seven findings, then buttons labelled Accept, Reject, Defer and Clarify that compose text on record, and an Inquire button that stays off record.">
+      <img src="assets/cockpit-choice.png" width="596" height="2951" alt="A tall Cockpit screen for challenge CH-035. Two decision-support notes are stacked, one from ChatGPT (chatgpt:kate) and one from the Claude orchestrator (claude:kairos-coord), each with rows labelled what changes, what doesn't, if nothing is done, can it wait, depends on it, and recommendation. Below them the challenge text lists seven findings, then buttons labelled Accept, Reject, Defer and Clarify that compose text on record, and an Inquire button that stays off record.">
     </div>
     <figcaption>The Cockpit's Choices surface: a pending challenge with two authored decision-support notes, generated from the records on 2026-11-06. The figure is tall; scroll inside the frame.</figcaption>
   </figure>
 
   <figure>
     <div class="frame">
-      <img src="assets/cockpit-topology.png" width="1280" height="1889" alt="The Cockpit's Topology page. A diagram with one row per lane (aec, aec-release, anamnesis, cognitive-scaffolding, data-guide, kairos-coord, mtg, qat-kits, relay-kit, and no lane) and the owner at the top. Circles are actors, squares are threads, and pink curved edges with small numbers show handoffs between actors. Beneath the diagram a list titled what this page can't tell you states that the page writes nowhere and fetches nothing.">
+      <img src="assets/cockpit-topology.png" width="1280" height="1889" alt="The Cockpit's Topology page. A diagram with one row per agent lane (aec, aec-release, anamnesis, cognitive-scaffolding, data-guide, kairos-coord, mtg, qat-kits, relay-kit, and no lane) and the owner at the top. Circles are actors, squares are threads, and pink curved edges with small numbers show handoffs between actors. Beneath the diagram a list titled what this page can't tell you states that the page writes nowhere and fetches nothing.">
     </div>
     <figcaption>Information topology drawn from the same records; a layout iteration is in progress because a fresh reader could not attach edge counts to directions.</figcaption>
   </figure>

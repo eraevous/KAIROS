@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Findings, Kairos</title>
-<meta name="description" content="What the Kairos research lanes have found so far, with the numbers and how each was established.">
+<meta name="description" content="What the Kairos research agents have found so far, with the numbers and how each was established.">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="site.css">
 </head>
@@ -58,9 +58,9 @@
   <article class="finding" id="relay">
     <p class="finding-stat"><span class="num">16.7 h</span> <span class="what">90th-percentile pickup time for a handed-off task on 9 November, up from 9.9 h on 7 November.</span></p>
     <h3>In a human + multi-agent team, work waits at the hand-offs.</h3>
-    <p>Treating the project's own coordination records as a graph (handoffs, decisions, reviews, wake logs) showed where work actually waits. Median pickup is minutes; the tail is hours, and it was longer on 9 November than on 7 November (two snapshots, not yet a trend). Stalls moved from "sent but unread" to "in progress but quiet". The largest single blocker we saw was a relay between the two AI families: at one point 5 of 27 scheduled agent runs were waiting on one cross-model answer that hadn't landed. We haven't measured whether cross-family hand-offs are slower in general.</p>
+    <p>Treating the project's own coordination records as a graph (handoffs, decisions, reviews, agent run logs) showed where work actually waits. Median lead time from handoff to pickup is minutes; the tail is hours, and it was longer on 9 November than on 7 November (two snapshots, not yet a trend). Stalls moved from "sent but unread" to "in progress but quiet". The largest single blocker we saw was a relay between the two AI families: at one point 5 of 27 scheduled agent runs were waiting on one cross-model answer that hadn't landed. We haven't measured whether cross-family hand-offs are slower in general.</p>
 <p>The study also found its own instrument was wrong: the stall detector read only one log, so two of nine "stalled" items were false positives. Fixing the reader is the first step; the fix is specified, not yet verified.</p>
-    <p class="finding-fix"><span class="fix-status">partly shipped</span> <b>What we did about it.</b> Agent lanes now schedule and gate themselves, so they don't wait on a coordinator to wake them. Direct channels between the model families replaced some relays. The stall detector's blind spot has a specified fix (not yet verified), and a handshake-and-heartbeat link layer is in design, so dropped connections get noticed and retried instead of discovered.</p>
+    <p class="finding-fix"><span class="fix-status">partly shipped</span> <b>What we did about it.</b> Agents (our "lanes") now trigger themselves on a schedule and pass each wake through a guard, so they don't wait on the orchestrator to start them. Direct channels between the model families replaced some relays. The stall detector's blind spot has a specified fix (not yet verified), and a handshake-and-heartbeat link layer is in design, so dropped connections get noticed and retried instead of discovered.</p>
     <p class="finding-meta">How we know: measured from the coordination records (60 → 75 usable handoffs) · 2026-11-07 → 11-09</p>
   </article>
   <article class="finding" id="lineage">
@@ -76,7 +76,7 @@
     <h3>There is no stable difference between a 'choice' and a 'decision'. Yet.</h3>
     <p>Asked to separate four things that usually blur together (the alternatives considered, the selection someone authorised, permission to act on it, and evidence that the action happened), the records showed all four living in prose. A "choice" was a page of proposed decisions, not a kind of thing. That is fine for one person and a handful of agents; it does not survive hundreds of agents acting unattended.</p>
 <p><b>What it led to.</b> The authority layer is now being designed ontology-first, with twelve candidate kinds and their relations, and a proposal for a dedicated body to keep the register of decisions, detect contradictions and handle challenges.</p>
-    <p class="finding-fix"><span class="fix-status">in progress</span> <b>What we did about it.</b> Authorizations are getting fingerprints of the exact decision they cite, filled in by the tooling, so misquotes and after-the-fact edits can be caught (warnings first, then enforced). This is being built; it isn't shipped yet. The authority layer is being designed ontology-first, and a dedicated body for the decision register, contradiction detection and structured challenges is going to the project's constitutional convention.</p>
+    <p class="finding-fix"><span class="fix-status">in progress</span> <b>What we did about it.</b> Authorizations are getting fingerprints (content hashes) of the exact decision they cite, filled in by the tooling, so misquotes and after-the-fact edits can be caught (warnings first, then enforced). This is being built; it isn't shipped yet. The authority layer is being designed ontology-first, and a dedicated body for the decision register, contradiction detection and structured challenges is going to the project's constitutional convention.</p>
     <p class="finding-meta">How we know: measured (ledger fields) · proposal (the design) · 2026-11-10</p>
   </article>
   <article class="finding" id="comparative">
@@ -97,7 +97,7 @@
 
 <section aria-labelledby="observatory">
   <h2 id="observatory">From the Observatory</h2>
-  <p>The Observatory reads outside research and asks whether it applies to a system like ours. Each packet is agent-drafted from public sources and says how it was searched and when to re-check it.</p>
+  <p>The Observatory, the project's outside-research effort, reads outside research and asks whether it applies to a system like ours. Each packet is agent-drafted from public sources and says how it was searched and when to re-check it.</p>
   <ul class="ideas">
     <li><b><a href="observatory/packet-01-claim-checking-methods.html">Do published claim-checking methods apply to AI coordination records?</a></b> FActScore, VeriScore and semantic entropy: what carries over (mostly their critiques) and what doesn't. Literature checked 2026-11-12; re-check by 2027-05-12.</li>
     <li><b><a href="observatory/packet-05-ai-polish-for-authors.html">Making an author's work &ldquo;pretty and slick&rdquo; with AI, without losing the author</a></b> Writing, editing, typesetting and design tools, and what studies say AI help does to writers: presentation first, prose polish gated by risk. Literature checked 2026-11-18; re-check by 2027-02-18.</li>
