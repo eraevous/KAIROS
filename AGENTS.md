@@ -18,7 +18,7 @@ no other code and no decisions. Do the work in the repository it belongs to. Gen
 - **Append only.** Never edit or delete an earlier line in `.aec/records.jsonl`; append the same `id` with the
   next `version` and a `supersedes` relation.
 
-Purpose documentation only, staged under DEC-091: no hook or CI runs here (there is no code to check).
+The public PR workflow runs the shared Lydian checks. Follow [CONTRIBUTING.md](CONTRIBUTING.md) for a fork PR. Neither a passing check nor a comment footer confers owner authority.
 
 ## The landing site (`docs/`)
 
