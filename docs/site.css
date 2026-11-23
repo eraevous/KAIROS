@@ -431,3 +431,5 @@ figcaption { color: var(--mute); font-size: .9rem; margin-top: .6rem; }
 .tag.tag-ok { color: var(--accent-ink); background: var(--accent); border-style: solid; }
 .preview .step p.step-kind { color: var(--ink); }
 h2[id], h3[id] { scroll-margin-top: 84px; }
+/* Forge membership: an outlined badge, so it reads differently from the filled Dev Kit badge. */
+.kit-badge.kit-forge, .repo h3 .kit-badge { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
