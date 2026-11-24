@@ -411,6 +411,7 @@ figcaption { color: var(--mute); font-size: .9rem; margin-top: .6rem; }
 .preview .step { padding-bottom: .65rem; }
 .preview .step p { margin: 0; font-size: .95rem; color: var(--mute); }
 .preview .step-kind { font-size: 1rem; color: var(--ink); }
+.preview pre { font-size: .8rem; margin: 0 0 .9rem; }
 .preview .more { margin: .4rem 0 0; font-weight: 600; }
 
 /* front page: plain list of the tools beside the map */

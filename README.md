@@ -127,11 +127,11 @@ Not a Claude user? The kit is being made installable from instructions alone for
 
 ## How we work
 
-- **Records before builds.** A change that touches a purpose, a contract or a threshold starts as a proposed decision in the ledger, gets a dissent review from a reviewer who did not see the build conversation, and is accepted or refused by the owner. Agents propose; the owner decides.
-- **Independent review from a second model family before a merge** (effective challenge). Every substantive PR gets a fresh-context review and a review from a different model family (today: Claude and ChatGPT), with blocking findings fixed before merge. Agents never merge.
-- **Everything is append-only.** Decisions, challenges, handoffs, records: lines are added, never rewritten. CI refuses rewrites.
+- **Records before builds.** A change that touches a purpose, a contract or a threshold starts as a proposed decision in the ledger, gets a dissent review from a reviewer who did not see the build conversation, and is accepted or refused by the owner. The agent proposes; the maintainer decides.
+- **Independent review from a second model family before a merge** (effective challenge). The rule is that every substantive PR gets a fresh-context review and a review from a different model family (today: Claude and ChatGPT), with blocking findings fixed before merge. Agents follow it; no code enforces it, and not every change has had both reviews. Agents never merge.
+- **Everything is append-only.** Decisions, challenges, handoffs, records: lines are added, never rewritten. Where a repo runs an append-only check (Telosmith's records file is one), CI refuses rewrites; elsewhere agents keep the rule.
 - **Honest status.** Negative results are kept and cited. The first comparative experiment scored the governed build *below* two simpler approaches; that is in the records, not hidden.
-- **Agents are visible.** Every commit carries its author trailer (which model, which session); every GitHub comment by an agent is signed with its actor id. An unsigned comment is the owner.
+- **Agents are visible.** Every agent commit carries an author trailer (which model, which session); every GitHub comment by an agent is signed with its actor id. An unsigned comment is the owner.
 
 ---
 

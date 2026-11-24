@@ -16,13 +16,15 @@
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
-        <li><a href="index.html">Overview</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="demo.html">Telosmith demo</a></li>
         <li><a href="example.html">Example</a></li>
         <li><a href="tools.html">Tools</a></li>
         <li><a href="start.html" aria-current="page">Contribute</a></li>
         <li><a href="how-we-work.html">How we work</a></li>
         <li><a href="findings.html">Findings</a></li>
         <li><a href="papers.html">Papers</a></li>
+        <li><a href="about.html">About</a></li>
       </ul>
     </nav>
     <button class="theme-toggle" type="button" aria-label="Theme: auto"></button>
@@ -39,6 +41,13 @@
 <section aria-labelledby="humans">
   <h2 id="humans">For humans</h2>
 
+  <h3 id="first">Your first contribution</h3>
+  <ul>
+    <li><b>Who answers:</b> Zach Rhodes, the project lead, gives the first response on issues and PRs. Agents may help afterwards, and sign what they write.</li>
+    <li><b>A starter issue:</b> <a href="https://github.com/eraevous/Telosmith/issues/113">Telosmith #113, test the demo against its expected output</a>. It lists the prerequisites (Python 3.10+, git, a Telosmith checkout), a bounded scope (two new files, no changes to the demo or the tool) and an acceptance test.</li>
+    <li><b>Before you start:</b> run the <a href="demo.html">Telosmith demo</a> once; the issue builds on its output.</li>
+  </ul>
+
   <h3>Pick your path</h3>
   <table class="paths">
     <thead><tr><th scope="col">You are…</th><th scope="col">Start with</th><th scope="col">Then</th></tr></thead>
@@ -46,7 +55,7 @@
       <tr>
         <td>A user who wants to try a tool</td>
         <td data-label="Start with"><a href="tools.html">Install</a>, then the tool's own <code>README</code> and <code>docs/demo.md</code></td>
-        <td data-label="Then">Open an issue in that repo with what confused you; first-contact confusion is the most valuable report we get</td>
+        <td data-label="Then">Open an issue in that repo with what confused you; first-contact confusion is the most valuable report the project gets</td>
       </tr>
       <tr>
         <td>A contributor (human or AI agent)</td>
@@ -60,7 +69,7 @@
       </tr>
       <tr>
         <td>Curious about the thesis</td>
-        <td data-label="Start with"><a href="index.html#problem">What this is</a>, then <a href="papers.html">Research</a></td>
+        <td data-label="Start with"><a href="about.html">About</a>, then <a href="papers.html">Research</a></td>
         <td data-label="Then">Watch the README; the papers are coming</td>
       </tr>
     </tbody>
@@ -105,7 +114,7 @@
         <li>code changes go through a PR,</li>
         <li>design changes go into append-only records as proposed, never accepted.</li>
       </ul></li>
-    <li><b>Sign everything.</b> Every commit carries its author trailer (which model, which session). Every GitHub comment is signed with an actor id of the form <code>provider:lane#session</code> (model provider, the agent's lane, and the session). The convention is that unsigned comments are the owner's; that is a rule for agents, not a verified identity check.</li>
+    <li><b>Sign everything.</b> Every agent commit carries an author trailer (which model, which session). Every GitHub comment is signed with an actor id of the form <code>provider:lane#session</code> (model provider, the agent's lane, and the session). The convention is that unsigned comments are the owner's; that is a rule for agents, not a verified identity check.</li>
     <li><b>Label every claim</b> as <em>measured</em>, <em>inferred</em> or <em>declared</em>. Report what you observed and what you inferred as different things.</li>
     <li><b>Never:</b>
       <ul>
@@ -118,7 +127,7 @@
 
   <h3>What a merge needs</h3>
   <p>A change that touches a purpose, a contract or a threshold starts as a proposed decision in the ledger, gets a dissent review from a reviewer who did not see the build conversation, and is accepted or refused by the owner.</p>
-  <p>Every substantive PR gets a fresh-context review and a review from a different model family (today: Claude and ChatGPT), with blocking findings fixed before merge.</p>
+  <p>The rule is that every substantive PR gets a fresh-context review and a review from a different model family (today: Claude and ChatGPT), with blocking findings fixed before merge. Agents follow it; no code enforces it, and not every change has had both reviews.</p>
 </section>
 </div>
 
@@ -133,7 +142,7 @@
 
 <footer class="site-footer">
   <div class="inner">
-    <p><span class="name">Kairos</span> is Zach Rhodes's project. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-18. No analytics, no cookies, no external requests.</p>
+    <p><span class="name">Kairos</span> is an independent project led by Zach Rhodes. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-23. No analytics, no cookies, no external requests.</p>
     <p>Licences and contribution terms are set per repository. Before your first PR, read the licence and contributing files in the repo you are contributing to (see <a href="start.html#cla">Contribute</a>).</p>
   </div>
 </footer>
