@@ -37,20 +37,20 @@
   <div class="copy">
     <p class="eyebrow">Telosmith preview &middot; from Kairos</p>
     <h1 id="hero-title">The tests passed. What did the change put in doubt?</h1>
-    <p class="lede">Telosmith keeps the reasons for your code in records beside it. When a change touches code a requirement depends on, it names that requirement, and the claims and decisions built on it, so you know what to re-check.</p>
+    <p class="lede">Telosmith flags what to re-check when code changes: the requirements linked to that code and the claims and decisions that depend on them.</p>
     <p class="about">For developers working with coding agents. Python 3.10+, standard library only, about five seconds to run the demo.</p>
     <nav aria-label="Where to start">
       <ul class="doors">
-        <li class="primary"><a href="demo.html"><span class="door-title">See the Telosmith demo</span><span class="door-text">A one-line change, the passing check, Telosmith's real output, and what to inspect next.</span></a></li>
+        <li class="primary"><a href="demo.html"><span class="door-title">See the Telosmith demo</span><span class="door-text">A one-line change, a hand check that still passes, Telosmith's real output, and what to inspect next.</span></a></li>
         <li><a href="demo.html#run"><span class="door-title">Run it yourself</span><span class="door-text">Four commands from a pinned commit. Verified on Linux so far.</span></a></li>
-        <li><a href="#probe"><span class="door-title">What has been measured</span><span class="door-text">Our first controlled test found no improvement. Here's what it covered.</span></a></li>
+        <li><a href="#probe"><span class="door-title">What has been measured</span><span class="door-text">Telosmith's first controlled test found no improvement. Here's what it covered.</span></a></li>
         <li><a href="tools.html#devkit"><span class="door-title">Install the Dev Kit</span><span class="door-text">The full setup: Telosmith plus three more public repos, in one folder.</span></a></li>
       </ul>
     </nav>
   </div>
   <aside class="preview" aria-labelledby="preview-title">
     <p class="eyebrow" id="preview-title">From the demo, real output</p>
-    <p class="q">The change: <code>pct / 100</code> became <code>pct / 100.0</code> in <code>apply_discount</code>. The check still passes:</p>
+    <p class="q">The change: <code>pct / 100</code> became <code>pct / 100.0</code> in <code>apply_discount</code>. A hand check still passes:</p>
 <pre><code>ok: apply_discount(10, 150) -&gt; 0.0</code></pre>
     <p class="q">Telosmith, on the same commit:</p>
 <pre><code>[stale] R-1@1: Discounts never

@@ -47,7 +47,7 @@
         <li>gets a dissent review from a reviewer who did not see the build conversation,</li>
         <li>and is accepted or refused by the owner.</li>
       </ul>
-      Agents propose; the owner decides.</li>
+      The agent proposes; the maintainer decides.</li>
     <li><b>Independent review from a second model family before a merge</b> (effective challenge). The rule is that every substantive PR gets a fresh-context review and a review from a different model family (today: Claude and ChatGPT), with blocking findings fixed before merge. Agents follow it; no code enforces it, and not every change has had both reviews. Agents never merge.</li>
     <li><b>Everything is append-only.</b> Decisions, challenges, handoffs, records: lines are added, never rewritten. Where a repo runs an append-only check (Telosmith's records file is one; the <a href="demo.html">demo</a> shows it refusing an edited line), CI refuses rewrites; elsewhere agents keep the rule.</li>
     <li><b>Honest status.</b> Negative results are kept and cited. The first comparative experiment scored the governed build <em>below</em> two simpler approaches; that is in the records, not hidden.</li>
