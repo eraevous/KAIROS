@@ -115,7 +115,23 @@ ok: apply_discount(10, 150) -&gt; 0.0 ; apply_discount(10, 20) -&gt; 8.0</code><
 cd Telosmith
 git checkout 98bbab5792f70a7913b170f5ab745037a38678ef
 PYTHONPATH=src bash examples/without-spec-kit/run.sh</code></pre>
-  <p>You should see <code>[stale] R-1@1</code> and <code>[needs_review]</code> lines for C-1 and D-1 under <code>== pre-commit, blocking mode</code>, and the script should exit 0. To remove it, delete the <code>Telosmith</code> folder; the demo writes only to a temporary folder.</p>
+  <p>To repeat the ordinary check from step 3, from the same folder:</p>
+<pre><code>cd examples/without-spec-kit/project
+python3 -c 'from shop.pricing import apply_discount as d; assert d(10,150)==0.0 and d(10,20)==8.0; print("ok:", d(10,150), d(10,20))'
+sed -i.bak 's|pct / 100)|pct / 100.0)|' shop/pricing.py
+python3 -c 'from shop.pricing import apply_discount as d; assert d(10,150)==0.0 and d(10,20)==8.0; print("ok:", d(10,150), d(10,20))'
+mv shop/pricing.py.bak shop/pricing.py</code></pre>
+  <p>Both runs print <code>ok: 0.0 8.0</code>. The last line puts the file back.</p>
+  <p>In the demo's own output, you should see <code>[stale] R-1@1</code> and <code>[needs_review]</code> lines for C-1 and D-1 under <code>== pre-commit, blocking mode</code>, and the script should exit 0. To remove it, delete the <code>Telosmith</code> folder; the demo writes only to a temporary folder.</p>
+  <h3 id="reading">Reading the full output</h3>
+  <ul>
+    <li><b><code>== hook, …</code> sections</b> are the coding-agent hook, which runs after an AI agent edits a file. It exits 2 when it has something to report, so the agent is shown the report; it does not touch commits. The git hooks are the <code>== pre-commit</code> and <code>== pre-push</code> sections.</li>
+    <li><b>The <code>RATE</code> edit</b> flags a second requirement, R-2 ("Tax is computed at the published 8% rate"), linked to <code>shop.tax</code>. The page above leaves it out to keep to one chain.</li>
+    <li><b>"N affected, M conclusions with no status change":</b> the project has five conclusion records (P0, R-1, R-2, C-1, D-1). Affected ones are listed; the rest are counted as unchanged.</li>
+    <li><b><code>authorized_by None</code></b>: no decision record authorized this code change. That is normal for an ordinary edit.</li>
+    <li><b>The last line, <code>exit 1 (edited in place)</code></b>, is the append-only guard refusing an edited records line, on purpose. The script itself still exits 0.</li>
+    <li><b>Default depth:</b> the impact walk follows direct links and one call; <code>LIMIT</code>, two hops from <code>apply_discount</code>, is outside it. Silence there means "not looked at", not "safe".</li>
+  </ul>
   <h3 id="status">Preview status</h3>
   <table class="paths">
     <thead><tr><th scope="col">Check</th><th scope="col">Status</th></tr></thead>
