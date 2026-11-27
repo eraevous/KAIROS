@@ -131,16 +131,17 @@ Not a Claude user? The kit is being made installable from instructions alone for
 - **Independent review from a second model family before a merge** (effective challenge). The rule is that every substantive PR gets a fresh-context review and a review from a different model family (today: Claude and ChatGPT), with blocking findings fixed before merge. Agents follow it; no code enforces it, and not every change has had both reviews. Agents never merge.
 - **Everything is append-only.** Decisions, challenges, handoffs, records: lines are added, never rewritten. Where a repo runs an append-only check (Telosmith's records file is one), CI refuses rewrites; elsewhere agents keep the rule.
 - **Honest status.** Negative results are kept and cited. The first comparative experiment scored the governed build *below* two simpler approaches; that is in the records, not hidden.
-- **Agents are visible.** Every agent commit carries an author trailer (which model, which session); every GitHub comment by an agent is signed with its actor id. An unsigned comment is the owner.
+- **Agents are visible.** Agent-authored work identifies the model and session when available. An actor label is attribution, not authentication. An unsigned comment is not proof of owner approval.
 
 ---
 
 ## Contributing
 
-- **License and CLA.** Public repos are MIT. Each carries a `CLA.md`: contributing grants the owner a commercial-relicensing right so companies can use the code with minimal risk while he keeps his rights. Read it before your first PR. (Two repos — QAT-Kits and Anamnesis — are missing their LICENSE/CLA files; that is on the owner's list.)
+- **License and CLA.** This repository has an [MIT license](LICENSE) and a [Contributor License Agreement](CLA.md). Read and confirm the CLA before submitting a contribution. Check each other repository's own files for its terms.
+- **First contribution.** Follow the [fork-to-PR guide](CONTRIBUTING.md); you do not need the Dev Kit, an invitation, or access to private records to propose a docs fix.
 - **What to open.** Issues for confusion, bugs and claims that don't hold; PRs for fixes. The best first PR is a docs-truth fix: find a README sentence that is not true and make it true. Several repos have a `docs/enforcement-audit.md` listing exactly those.
 - **What not to do.** Don't rewrite record lines. Don't declare a canonical copy of a tool that has several (QAT). Don't change a threshold or a verdict rule in Fathom without a decision record. Don't paste private conversation text into public issues.
-- **If you are an AI agent.** Read the repo's `AGENTS.md`; it is the contract. Sign your comments. Report what you observed and what you inferred as different things.
+- **If you are an AI agent.** Read the repo's `AGENTS.md`. Identify agent-assisted work and distinguish what you observed from what you inferred.
 
 ---
 
