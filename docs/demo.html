@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Telosmith demo, Kairos</title>
+<meta name="description" content="A small code change, and a hand check still passed. Telosmith shows which requirement, claim and decision it put in doubt. Real output, reproducible in a few minutes.">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="site.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+<header class="site-header">
+  <div class="bar">
+    <a class="wordmark" href="index.html"><span class="mark" aria-hidden="true"></span><span class="name">Kairos</span></a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
+    <nav class="site-nav" id="site-nav" aria-label="Site">
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="demo.html" aria-current="page">Telosmith demo</a></li>
+        <li><a href="example.html">Example</a></li>
+        <li><a href="tools.html">Tools</a></li>
+        <li><a href="start.html">Contribute</a></li>
+        <li><a href="how-we-work.html">How we work</a></li>
+        <li><a href="findings.html">Findings</a></li>
+        <li><a href="papers.html">Papers</a></li>
+        <li><a href="about.html">About</a></li>
+      </ul>
+    </nav>
+    <button class="theme-toggle" type="button" aria-label="Theme: auto"></button>
+  </div>
+</header>
+<main id="main">
+
+<div class="statement">
+  <p class="eyebrow">Telosmith preview &middot; the demo</p>
+  <h1>The tests passed. What did the change put in doubt?</h1>
+  <p class="lede">A one-line change to a discount function, and a hand check still passed. Telosmith reads the reasons recorded next to the code and names the requirement the change touched, plus the claim and the decision built on that requirement, so a person knows what to re-check.</p>
+  <p>Everything below is real output from Telosmith's own demo, <a href="https://github.com/eraevous/Telosmith/tree/98bbab5792f70a7913b170f5ab745037a38678ef/examples/without-spec-kit"><code>examples/without-spec-kit</code></a>, run on 23 November 2026 on Linux. The <a href="telosmith-demo-transcript.txt">full transcript</a> has every line. (<code>aec</code> is Telosmith's command-line tool; the command kept its earlier name.)</p>
+</div>
+
+<section aria-labelledby="records">
+  <h2 id="records">1. The project and its records</h2>
+  <p>A tiny shop package. Next to the code, a records file says what the shop is for and what has been decided. Each record links to the one it rests on:</p>
+  <ol class="chain">
+    <li class="step"><p class="step-kind">Purpose <span class="rid">P0, version 2</span> <span class="tag">provisional &middot; not yet accepted</span></p><p>A tiny shop whose checkout never charges a negative amount.</p></li>
+    <li class="step"><p class="step-kind">Requirement <span class="rid">R-1</span> <span class="tag tag-ok">committed &middot; accepted</span></p><p>Discounts never make a price negative. <span class="step-why">Why: refunds are separate negative line items (anchored to <code>docs/pricing.md</code>, lines 3&ndash;4).</span></p></li>
+    <li class="step"><p class="step-kind">Code</p><p><code>shop.pricing.apply_discount</code> and the <code>clamp</code> it calls.</p></li>
+    <li class="step"><p class="step-kind">Claim <span class="rid">C-1</span> <span class="tag">candidate &middot; not yet accepted</span></p><p>Checkout totals are never negative. Depends on R-1.</p></li>
+    <li class="step"><p class="step-kind">Evidence <span class="rid">E-1</span></p><p><code>apply_discount(10, 150)</code> returned 0.0 by hand. Supports C-1.</p></li>
+    <li class="step"><p class="step-kind">Decision <span class="rid">D-1</span> <span class="tag tag-ok">accepted by the owner</span></p><p>Ship the checkout with the never-negative guarantee. Depends on C-1.</p></li>
+  </ol>
+  <p class="aside">The owner in this example is a fictional "Ada". In the demo's records, "committed" and "accepted" mean the owner has signed off; "provisional" and "candidate" mean proposed, not yet accepted.</p>
+</section>
+
+<section aria-labelledby="change">
+  <h2 id="change">2. The change</h2>
+  <p>On a feature branch, one line of <code>shop/pricing.py</code> changes:</p>
+<pre><code>def apply_discount(price, pct):
+-    return clamp(price * (1 - pct / 100))
++    return clamp(price * (1 - pct / 100.0))</code></pre>
+</section>
+
+<section aria-labelledby="tests">
+  <h2 id="tests">3. A hand check still passes</h2>
+  <p>The example ships no test suite, so we turned its recorded evidence E-1 into a two-line check and ran it before and after the change:</p>
+<pre><code>from shop.pricing import apply_discount
+assert apply_discount(10, 150) == 0.0
+assert apply_discount(10, 20) == 8.0</code></pre>
+<pre><code>--- before the change
+ok: apply_discount(10, 150) -&gt; 0.0 ; apply_discount(10, 20) -&gt; 8.0
+--- after the change (pct / 100 -&gt; pct / 100.0)
+ok: apply_discount(10, 150) -&gt; 0.0 ; apply_discount(10, 20) -&gt; 8.0</code></pre>
+</section>
+
+<section aria-labelledby="output">
+  <h2 id="output">4. What Telosmith reports</h2>
+  <p>The same commit, through the pre-commit hook. Telosmith compares the code's structure before and after, finds that <code>apply_discount</code> changed, and follows the records outward:</p>
+<pre><code># derived 1 change event(s) from the structural diff
+# aec impact
+
+- change: revise code:shop.pricing.apply_discount (by code, authorized_by None)
+
+[stale] R-1@1: Discounts never make a price negative.
+    via code:shop.pricing.apply_discount -&gt; R-1@1
+[needs_review] C-1@1: Checkout totals are never negative.
+    via code:shop.pricing.apply_discount -&gt; R-1@1 -&gt; C-1@1
+[needs_review] D-1@1: Ship the checkout with the never-negative guarantee.
+    via code:shop.pricing.apply_discount -&gt; R-1@1 -&gt; C-1@1 -&gt; D-1@1
+
+3 affected, 2 conclusions with no status change</code></pre>
+  <ul>
+    <li><b><code>stale</code></b>: the code a requirement names has changed since the requirement was last checked against it.</li>
+    <li><b><code>needs_review</code></b>: a claim or decision rests, through the links shown, on something that is now stale.</li>
+    <li>The hook reports by default and the commit goes through. With <code>TELOSMITH_BLOCK=1</code> the same report blocks the commit. The demo also runs the pre-push hook and a CI step with the same result.</li>
+  </ul>
+  <p class="rules-note"><b>A flag calls for review. It does not say the requirement was broken.</b> Here it wasn't: in Python 3, <code>pct / 100</code> and <code>pct / 100.0</code> give the same result, and the check above still passes. Telosmith's findings are structural: it knows <em>which</em> conclusions depend on the changed code, not whether they still hold. Deciding that is the developer's job.</p>
+</section>
+
+<section aria-labelledby="next">
+  <h2 id="next">5. What to inspect next</h2>
+  <ol>
+    <li><b>Re-read R-1 against the new code.</b> Does <code>apply_discount</code> still never return a negative price? Its rationale is anchored to <code>docs/pricing.md</code>, lines 3&ndash;4.</li>
+    <li><b>Re-run the evidence.</b> E-1 was a hand check. Repeat it, or replace it with a real test.</li>
+    <li><b>Record what you found, without editing old lines.</b> The records file is append-only: add a new version of the evidence (or of R-1, if the requirement itself should change). The demo's append-only guard refuses an edited line.</li>
+    <li><b>Leave the decision to its owner.</b> D-1 was accepted by the owner. Whether it still stands is the owner's call, with your new evidence in front of them.</li>
+  </ol>
+  <p>The demo shows two quieter cases too. Editing <code>clamp</code>, which <code>apply_discount</code> calls, gives a <em>pointer</em> (a candidate for attention, no status change). Editing the <code>LIMIT</code> constant, two hops away, gives nothing at the default depth.</p>
+</section>
+
+<section aria-labelledby="run">
+  <h2 id="run">Run it yourself</h2>
+  <p>You need Python 3.10 or newer, git and bash. Telosmith uses only the standard library. The run takes about five seconds; after the clone it needs no network.</p>
+<pre><code>git clone https://github.com/eraevous/Telosmith.git
+cd Telosmith
+git checkout 98bbab5792f70a7913b170f5ab745037a38678ef
+PYTHONPATH=src bash examples/without-spec-kit/run.sh</code></pre>
+  <p>To repeat the hand check from step 3, from the same folder:</p>
+<pre><code>cd examples/without-spec-kit/project
+python3 -c 'from shop.pricing import apply_discount as d; assert d(10,150)==0.0 and d(10,20)==8.0; print("ok:", d(10,150), d(10,20))'
+sed -i.bak 's|pct / 100)|pct / 100.0)|' shop/pricing.py
+python3 -c 'from shop.pricing import apply_discount as d; assert d(10,150)==0.0 and d(10,20)==8.0; print("ok:", d(10,150), d(10,20))'
+mv shop/pricing.py.bak shop/pricing.py</code></pre>
+  <p>Both runs print <code>ok: 0.0 8.0</code>. The last line puts the file back.</p>
+  <p>In the demo's own output, you should see <code>[stale] R-1@1</code> and <code>[needs_review]</code> lines for C-1 and D-1 under <code>== pre-commit, blocking mode</code>, and the script should exit 0. To remove it, delete the <code>Telosmith</code> folder; the demo writes only to a temporary folder.</p>
+  <h3 id="reading">Reading the full output</h3>
+  <ul>
+    <li><b><code>== hook, …</code> sections</b> are the coding-agent hook, which runs after an AI agent edits a file. It exits 2 when it has something to report, so the agent is shown the report; it does not touch commits. The git hooks are the <code>== pre-commit</code> and <code>== pre-push</code> sections.</li>
+    <li><b>The <code>RATE</code> edit</b> flags a second requirement, R-2 ("Tax is computed at the published 8% rate"), linked to <code>shop.tax</code>. The page above leaves it out to keep to one chain.</li>
+    <li><b>"N affected, M conclusions with no status change":</b> the project has five conclusion records (P0, R-1, R-2, C-1, D-1). Affected ones are listed; the rest are counted as unchanged.</li>
+    <li><b><code>authorized_by None</code></b>: no decision record authorized this code change. That is normal for an ordinary edit.</li>
+    <li><b>The last line, <code>exit 1 (edited in place)</code></b>, is the append-only guard refusing an edited records line, on purpose. The script itself still exits 0.</li>
+    <li><b>Default depth:</b> the impact walk follows direct links and one call; <code>LIMIT</code>, two hops from <code>apply_discount</code>, is outside it. Silence there means "not looked at", not "safe".</li>
+  </ul>
+  <h3 id="status">Preview status</h3>
+  <table class="paths">
+    <thead><tr><th scope="col">Check</th><th scope="col">Status</th></tr></thead>
+    <tbody>
+      <tr><td data-label="Check">Linux, from a checkout at <code>98bbab5</code></td><td data-label="Status"><span class="state">verified</span> 23 Nov 2026, Python 3.13 and git 2.43; also run without network after the clone</td></tr>
+      <tr><td data-label="Check">macOS</td><td data-label="Status"><span class="state pending">not yet verified</span></td></tr>
+      <tr><td data-label="Check">Windows</td><td data-label="Status"><span class="state pending">not yet verified</span> (the demo is a bash script)</td></tr>
+      <tr><td data-label="Check">Pinned <code>pip install</code></td><td data-label="Status"><span class="state pending">not working yet</span>: installed, <code>aec init</code> looks for a <code>v0.5.0</code> tag that does not exist, so the demo's setup steps fail (<a href="https://github.com/eraevous/Telosmith/issues/112">Telosmith #112</a>). Use the checkout above until it is fixed.</td></tr>
+      <tr><td data-label="Check">Release record</td><td data-label="Status"><span class="state pending">not yet written</span>. The last tagged release is <a href="https://github.com/eraevous/Telosmith/releases/tag/v0.4.1">v0.4.1</a>; the code above reports version 0.5.0, untagged.</td></tr>
+    </tbody>
+  </table>
+</section>
+
+<section aria-labelledby="measured">
+  <h2 id="measured">What has been measured</h2>
+  <p>In its first controlled test, <a href="https://github.com/eraevous/Telosmith/blob/main/docs/evaluations/probe-001-results.md">Probe-001</a>, giving coding agents Telosmith's briefing <b>did not improve their results</b>, and it did not lower their cost. Read its scope before generalising: 18 trials, three tasks on one repository, one AI model, and tasks a capable agent could solve with plain search. What the demo shows is what Telosmith reports, not that reporting it makes development better.</p>
+  <p class="more"><a href="example.html">A longer chain from Telosmith's own records &rarr;</a> &nbsp; <a href="start.html">Contribute &rarr;</a></p>
+</section>
+
+</main>
+
+<footer class="site-footer">
+  <div class="inner">
+    <p><span class="name">Kairos</span> is an independent project led by Zach Rhodes. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-23. No analytics, no cookies, no external requests.</p>
+    <p>Licences and contribution terms are set per repository. Before your first PR, read the licence and contributing files in the repo you are contributing to (see <a href="start.html#cla">Contribute</a>).</p>
+  </div>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

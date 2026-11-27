@@ -3,8 +3,8 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Kairos: building Cognitive Augmentation</title>
-<meta name="description" content="Kairos is Zach Rhodes's AI/cognition work: tools, coordination and research to help people realise their intentions.">
+<title>Telosmith preview, from Kairos</title>
+<meta name="description" content="The tests passed. What did the change put in doubt? Telosmith names the requirements, claims and decisions a code change touched. Kairos is an independent project led by Zach Rhodes.">
 <link rel="preload" href="assets/fonts/fraunces.woff2" as="font" type="font/woff2" crossorigin>
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="stylesheet" href="site.css">
@@ -17,13 +17,15 @@
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
-        <li><a href="index.html" aria-current="page">Overview</a></li>
+        <li><a href="index.html" aria-current="page">Home</a></li>
+        <li><a href="demo.html">Telosmith demo</a></li>
         <li><a href="example.html">Example</a></li>
         <li><a href="tools.html">Tools</a></li>
         <li><a href="start.html">Contribute</a></li>
         <li><a href="how-we-work.html">How we work</a></li>
         <li><a href="findings.html">Findings</a></li>
         <li><a href="papers.html">Papers</a></li>
+        <li><a href="about.html">About</a></li>
       </ul>
     </nav>
     <button class="theme-toggle" type="button" aria-label="Theme: auto"></button>
@@ -33,45 +35,63 @@
 
 <section class="front" aria-labelledby="hero-title">
   <div class="copy">
-    <p class="eyebrow">Kairos &middot; We are building Cognitive Augmentation</p>
-    <h1 id="hero-title">Keep the reasoning attached to AI&#8209;assisted work.</h1>
-    <p class="lede">Tools, coordination and research to help people realise their intentions, starting with records that keep <em>why</em> something was built next to what was built, readable by people and AI agents alike.</p>
-    <p class="about">Zach Rhodes's AI/cognition work. Built for developers working with coding agents, analysts handed data they didn't make, and anyone running more than one AI assistant.</p>
+    <p class="eyebrow">Telosmith preview &middot; from Kairos</p>
+    <h1 id="hero-title">The tests passed. What did the change put in doubt?</h1>
+    <p class="lede">Telosmith flags what to re-check when code changes: the requirements linked to that code and the claims and decisions that depend on them.</p>
+    <p class="about">For developers working with coding agents. Python 3.10+, standard library only, about five seconds to run the demo.</p>
     <nav aria-label="Where to start">
       <ul class="doors">
-        <li class="primary"><a href="example.html"><span class="door-title">See a worked example</span><span class="door-text">One real requirement, traced from purpose to code to the tests that check it.</span></a></li>
-        <li><a href="#tools"><span class="door-title">Browse the tools</span><span class="door-text">What each repo does and its current state.</span></a></li>
-        <li><a href="tools.html#devkit"><span class="door-title">Install the Dev Kit</span><span class="door-text">Four public repos and your own private records, in one folder.</span></a></li>
-        <li><a href="findings.html"><span class="door-title">Read the findings</span><span class="door-text">What we measured about our own work, mistakes included.</span></a></li>
+        <li class="primary"><a href="demo.html"><span class="door-title">See the Telosmith demo</span><span class="door-text">A one-line change, a hand check that still passes, Telosmith's real output, and what to inspect next.</span></a></li>
+        <li><a href="demo.html#run"><span class="door-title">Run it yourself</span><span class="door-text">Four commands from a pinned commit. Verified on Linux so far.</span></a></li>
+        <li><a href="#probe"><span class="door-title">What has been measured</span><span class="door-text">Telosmith's first controlled test found no improvement. Here's what it covered.</span></a></li>
+        <li><a href="tools.html#devkit"><span class="door-title">Install the Dev Kit</span><span class="door-text">The full setup: Telosmith plus three more public repos, in one folder.</span></a></li>
       </ul>
     </nav>
   </div>
   <aside class="preview" aria-labelledby="preview-title">
-    <p class="eyebrow" id="preview-title">From Telosmith's own records</p>
-    <p class="q"><code>aec append</code> refuses records that <code>aec check</code> would reject. Where did that rule come from, and what shows the code follows it?</p>
-    <ol class="chain">
-      <li class="step"><p class="step-kind">Purpose <span class="tag">accepted</span></p><p>preserve why tools exist</p></li>
-      <li class="step"><p class="step-kind">Requirement <span class="tag">provisional</span></p><p>append refuses what check rejects</p></li>
-      <li class="step"><p class="step-kind">Code</p><p>three named functions</p></li>
-      <li class="step"><p class="step-kind">Claim <span class="tag">candidate</span></p><p>the code does what the requirement says</p></li>
-      <li class="step"><p class="step-kind">Evidence <span class="tag">candidate</span></p><p>tests written first, failing until the code existed</p></li>
-    </ol>
-    <p class="preview-note">Provisional and candidate: proposed by an agent, not yet accepted by the owner.</p>
-    <p class="more"><a href="example.html">Follow the whole chain &rarr;</a></p>
+    <p class="eyebrow" id="preview-title">From the demo, real output</p>
+    <p class="q">The change: <code>pct / 100</code> became <code>pct / 100.0</code> in <code>apply_discount</code>. A hand check still passes:</p>
+<pre><code>ok: apply_discount(10, 150) -&gt; 0.0</code></pre>
+    <p class="q">Telosmith, on the same commit:</p>
+<pre><code>[stale] R-1@1: Discounts never
+  make a price negative.
+[needs_review] C-1@1: Checkout
+  totals are never negative.
+[needs_review] D-1@1: Ship the
+  checkout with the never-negative
+  guarantee.</code></pre>
+    <p class="preview-note">A flag calls for review. It does not say the requirement was broken; here it wasn't.</p>
+    <p class="more"><a href="demo.html">The whole demo &rarr;</a></p>
   </aside>
 </section>
 
+<section class="band" id="probe" aria-labelledby="probe-title">
+  <h2 id="probe-title">What has been measured</h2>
+  <p>In Telosmith's first controlled test, <a href="https://github.com/eraevous/Telosmith/blob/main/docs/evaluations/probe-001-results.md">Probe-001</a> (1 November 2026), giving coding agents Telosmith's briefing <b>did not improve their results</b>, and it did not lower their cost. Its scope was narrow: 18 trials, three tasks on one repository, one AI model, and tasks a capable agent could solve with plain search. It doesn't settle the question either way; it is the first measurement, reported as it came out.</p>
+  <p class="more"><a href="findings.html">More findings, with how each was established &rarr;</a></p>
+</section>
+
+<section class="band" id="example-band" aria-labelledby="example-title">
+  <h2 id="example-title">A longer chain, from Telosmith's own records</h2>
+  <p>Telosmith keeps records about itself. One requirement, traced from purpose to code to the tests that check it, with each record's status shown: <b>committed</b> (accepted by the owner) or <b>provisional</b> and <b>candidate</b> (proposed by an agent, not yet accepted).</p>
+  <p class="more"><a href="example.html">Follow the worked example &rarr;</a></p>
+</section>
+
 <section class="band" id="tools" aria-labelledby="tools-title">
-  <h2 id="tools-title">The tools</h2>
+  <h2 id="tools-title">Telosmith and the other Kairos tools</h2>
+  <p class="lede-small">The projects that build these are the <b>Foundry</b>; its core tooling, the <b>Forge</b>, is what every Kairos repository leans on.</p>
   <div class="split">
     <div>
       <ul class="toollist">
-        <li><a href="tools.html#telosmith">Telosmith</a> <span class="kit-badge">Dev Kit</span><span>Keeps the recorded reasons for code attached to the code, and tells an agent which requirements a change endangers.</span></li>
-        <li><a href="tools.html#relay-kit">relay-kit</a> <span class="kit-badge">Dev Kit</span><span>Coordination for more than one AI assistant: handoffs, decision ledgers and the Cockpit control page.</span></li>
+        <li><a href="tools.html#telosmith">Telosmith</a> <span class="kit-badge kit-forge">Forge</span> <span class="kit-badge">Dev Kit</span><span>Requirements traceability for AI-assisted code: keeps the reasons attached, flags stale links as suspect, and tells an agent which requirements a change endangers.</span></li>
+        <li><a href="tools.html#relay-kit">relay-kit</a> <span class="kit-badge kit-forge">Forge</span> <span class="kit-badge">Dev Kit</span><span>Coordination for more than one AI assistant: handoffs, decision records and the Cockpit dashboard.</span></li>
         <li><a href="tools.html#fathom">Fathom</a> <span class="kit-badge">Dev Kit</span><span>Offline data-review reports for analysts handed data they didn't make.</span></li>
         <li><a href="tools.html#qat-kits">QAT-Kits</a> <span class="kit-badge">Dev Kit</span><span>Named thinking tools (StressTest, TruthWeight and more) as checked specs.</span></li>
+        <li><a href="tools.html#lydian">Lydian</a> <span class="kit-badge kit-forge">Forge</span><span>One shared test kit and CI for every Kairos repository.</span></li>
+        <li><a href="tools.html#crank-mem">crank-mem</a> <span class="kit-badge kit-forge">Forge</span><span>Project memory for coding agents; a safety-fixed copy of Chris Liva's original.</span></li>
+        <li><a href="tools.html#warrant">Warrant</a><span>Laws and authority: finds conflicting decisions; will keep shared-tool versions aligned everywhere.</span></li>
         <li><a href="tools.html#mtg">MtG</a><span>Magic: The Gathering Commander deck analysis; the first Telosmith pilot outside Telosmith.</span></li>
-        <li><a href="tools.html#anamnesis">Anamnesis</a><span>Recovers what has accumulated in conversations and documents. Not installable yet.</span></li>
+        <li><a href="tools.html#anamnesis">Anamnesis</a> <span class="kit-badge kit-forge">Forge</span><span>Recovers what has accumulated in conversations and documents. Not installable yet.</span></li>
         <li><a href="tools.html#prospero">Prospero</a><span>Editorial packets for writers. Tested on invented text only so far.</span></li>
       </ul>
       <p class="more"><a href="tools.html">Every repo, with install steps &rarr;</a></p>
@@ -110,38 +130,13 @@
   </div>
 </section>
 
-<section class="band" aria-labelledby="problem">
-  <div class="split">
-    <div>
-      <h2 id="problem">What this is for</h2>
-      <p>Kairos is Zach Rhodes's umbrella for his AI/cognition work: a set of tools, the operating environment that coordinates the people and AI agents who build them, and the research behind both.</p>
-      <p>Powerful AI tools let one person do work that used to need a team. The systems coordinating that work usually hide:</p>
-      <ul>
-        <li>what was decided,</li>
-        <li>why, and on what evidence,</li>
-        <li>whether a later change quietly broke an earlier conclusion.</li>
-      </ul>
-      <p>Kairos is an attempt to keep those things attached to the work, in records a stranger can audit later, and to find out, by measurement rather than assertion, whether doing so makes a person more capable or just busier.</p>
-      <p class="aside">The guiding line is the owner's. What Cognitive Augmentation means in full is still being written; until then every repo is judged by one question: does it increase a person's capacity to realise their intentions?</p>
-    </div>
-    <div>
-      <h2>Three ideas recur in every repo</h2>
-      <ul class="ideas">
-        <li><b>The reason stays attached to the thing.</b> Purposes, requirements, claims, decisions and objections are records that link to code and to each other, append-only.</li>
-        <li><b>Information crosses freely; authority never crosses implicitly.</b> Agents read everything and propose anything. Only the owner accepts.</li>
-        <li><b>Count and ask; never fabricate meaning.</b> Every claim carries how it was established (measured, inferred, declared), and tools refuse to compute what the data cannot support.</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
 <section class="band" aria-labelledby="findings">
-  <h2 id="findings">We measure our own work</h2>
+  <h2 id="findings">Other findings</h2>
   <p class="lede-small">These show that Kairos measures itself and reports what it finds, including its own mistakes. They don't yet show that it improves outcomes. Numbers are as measured on the dates shown.</p>
   <ul class="highlights">
     <li><a href="findings.html#ontology"><span class="num">~11%</span><span class="hl-text">of Telosmith's own record links break its documented vocabulary, and no check notices. <b>In progress:</b> making the vocabulary load-bearing, so misuse is flagged automatically.</span><span class="hl-meta">Measured &middot; 10 Nov 2026</span></a></li>
     <li><a href="findings.html#grounding"><span class="num">628</span><span class="hl-text">card-role assignments changed when a deck evaluator read contracts instead of matching text. They are candidate corrections, not yet reviewed. <b>Built;</b> a 60-case review comes before it becomes the default.</span><span class="hl-meta">Measured &middot; 10 Nov 2026</span></a></li>
-    <li><a href="findings.html#relay"><span class="num">16.7&nbsp;h</span><span class="hl-text">90th-percentile pickup time for a handed-off task on 9 November, longer than on 7 November. The largest single blocker we saw was one relay between AI model families. <b>Partly shipped:</b> self-scheduling agent lanes and direct channels.</span><span class="hl-meta">Measured &middot; 7&ndash;9 Nov 2026</span></a></li>
+    <li><a href="findings.html#relay"><span class="num">16.7&nbsp;h</span><span class="hl-text">90th-percentile lead time from handoff to pickup on 9 November, longer than on 7 November. The largest single blocker we saw was one relay between AI model families. <b>Partly shipped:</b> self-triggering agents and direct channels.</span><span class="hl-meta">Measured &middot; 7&ndash;9 Nov 2026</span></a></li>
     <li><a href="findings.html#tokens"><span class="num">0</span><span class="hl-text">comparable public baselines for what agentic development costs per change that survives, in the project's 5 November search. <b>Planned:</b> producing our own number from the records.</span><span class="hl-meta">Literature check &middot; 5 Nov 2026</span></a></li>
   </ul>
   <p class="more"><a href="findings.html">All findings, with how each was established &rarr;</a></p>
@@ -150,7 +145,7 @@
 <section class="band" aria-labelledby="devkit-title">
   <div class="split">
     <div>
-      <h2 id="devkit-title">Install the Dev Kit</h2>
+      <h2 id="devkit-title">The full setup: the Dev Kit</h2>
       <p>Download <code>kairos.py</code>, run <code>python kairos.py install</code>, and you have the four public repos, the two kits, a private records store of your own and its Cockpit page, all in one folder, <code>~/Kairos</code>.</p>
       <p><a href="tools.html#devkit">Step-by-step for Windows, macOS and Linux &rarr;</a></p>
     </div>
@@ -165,7 +160,8 @@
 </section>
 
 <p class="status-strip" aria-label="Site status">
-  <span>Refreshed 2026-11-18</span>
+  <span>Kairos is an independent project led by Zach Rhodes.</span>
+  <span>Draft refresh 2026-11-23</span>
   <span>Source: <a href="https://github.com/eraevous/kairos/blob/main/README.md">the START HERE README</a></span>
   <span>This repository's recorded purpose (P0, version 2) is provisional until the owner commits it.</span>
   <span>It holds one script, the Dev Kit installer; the tools live in their own repos.</span>
@@ -175,7 +171,7 @@
 
 <footer class="site-footer">
   <div class="inner">
-    <p><span class="name">Kairos</span> is Zach Rhodes's project. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-18. No analytics, no cookies, no external requests.</p>
+    <p><span class="name">Kairos</span> is an independent project led by Zach Rhodes. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-23. No analytics, no cookies, no external requests.</p>
     <p>Licences and contribution terms are set per repository. Before your first PR, read the licence and contributing files in the repo you are contributing to (see <a href="start.html#cla">Contribute</a>).</p>
   </div>
 </footer>

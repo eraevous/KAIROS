@@ -16,13 +16,15 @@
     <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-nav">Menu</button>
     <nav class="site-nav" id="site-nav" aria-label="Site">
       <ul>
-        <li><a href="index.html">Overview</a></li>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="demo.html">Telosmith demo</a></li>
         <li><a href="example.html" aria-current="page">Example</a></li>
         <li><a href="tools.html">Tools</a></li>
         <li><a href="start.html">Contribute</a></li>
         <li><a href="how-we-work.html">How we work</a></li>
         <li><a href="findings.html">Findings</a></li>
         <li><a href="papers.html">Papers</a></li>
+        <li><a href="about.html">About</a></li>
       </ul>
     </nav>
     <button class="theme-toggle" type="button" aria-label="Theme: auto"></button>
@@ -42,13 +44,13 @@
   <h2 id="chain" class="visually-hidden">The chain</h2>
   <ol class="chain">
     <li class="step">
-      <p class="step-kind">Purpose <span class="rid">AEC-P0, version 3</span> <span class="tag">committed &middot; accepted by the owner</span></p>
+      <p class="step-kind">Purpose <span class="rid">AEC-P0, version 3</span> <span class="tag tag-ok">committed &middot; accepted by the owner</span></p>
       <p>Telosmith helps people and AI agents build and evolve tools <b>while preserving why those tools exist</b> and what they must accomplish.</p>
     </li>
     <li class="step">
       <p class="step-kind">Requirement <span class="rid">AEC-R-adoption</span> <span class="tag">provisional &middot; not yet accepted</span></p>
       <p>Adopting Telosmith in another repository needs no hand-hashing and no hand-editing. <code>aec append</code> adds a record with computed anchors, <b>refusing duplicates and records that <code>check</code> would reject</b>.</p>
-      <p class="step-why">Why: the requirement is anchored, by a content hash, to the owner's decision DEC-095 in his private ledger, cited by id. You can't open that ledger, but anyone who has it can check that the hash matches the passage cited. It <em>serves</em> the purpose above.</p>
+      <p class="step-why">Why: the requirement is anchored, by a content hash, to the owner's decision record DEC-095 (an ADR-style entry) in his private ledger, cited by id. You can't open that ledger, but anyone who has it can check that the hash matches the passage cited. It <em>serves</em> the purpose above.</p>
     </li>
     <li class="step">
       <p class="step-kind">Code <span class="rid">implemented_by</span></p>
@@ -88,7 +90,7 @@
 
 <footer class="site-footer">
   <div class="inner">
-    <p><span class="name">Kairos</span> is Zach Rhodes's project. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-18. No analytics, no cookies, no external requests.</p>
+    <p><span class="name">Kairos</span> is an independent project led by Zach Rhodes. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-23. No analytics, no cookies, no external requests.</p>
     <p>Licences and contribution terms are set per repository. Before your first PR, read the licence and contributing files in the repo you are contributing to (see <a href="start.html#cla">Contribute</a>).</p>
   </div>
 </footer>

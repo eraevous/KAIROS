@@ -44,13 +44,15 @@ LABEL = (
 )
 
 NAV = [
-    ("index.html", "Overview"),
+    ("index.html", "Home"),
+    ("demo.html", "Telosmith demo"),
     ("example.html", "Example"),
     ("tools.html", "Tools"),
     ("start.html", "Contribute"),
     ("how-we-work.html", "How we work"),
     ("findings.html", "Findings"),
     ("papers.html", "Papers"),
+    ("about.html", "About"),
 ]
 
 
@@ -284,7 +286,7 @@ def page(title: str, body: str, slug: str, label: str = LABEL,
 </main>
 <footer class="site-footer">
   <div class="inner">
-    <p><span class="name">Kairos</span> is Zach Rhodes's project. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-18. No analytics, no cookies, no external requests.</p>
+    <p><span class="name">Kairos</span> is an independent project led by Zach Rhodes. This site is drafted by Claude agents from the <a href="https://github.com/eraevous/kairos/blob/main/README.md">START HERE README</a> and the project records, and refreshed on 2026-11-23. No analytics, no cookies, no external requests.</p>
     <p>Licences and contribution terms are set per repository. Before your first PR, read the licence and contributing files in the repo you are contributing to (see <a href="../start.html#cla">Contribute</a>).</p>
   </div>
 </footer>

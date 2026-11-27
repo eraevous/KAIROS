@@ -411,6 +411,7 @@ figcaption { color: var(--mute); font-size: .9rem; margin-top: .6rem; }
 .preview .step { padding-bottom: .65rem; }
 .preview .step p { margin: 0; font-size: .95rem; color: var(--mute); }
 .preview .step-kind { font-size: 1rem; color: var(--ink); }
+.preview pre { font-size: .8rem; margin: 0 0 .9rem; }
 .preview .more { margin: .4rem 0 0; font-weight: 600; }
 
 /* front page: plain list of the tools beside the map */
@@ -427,3 +428,9 @@ figcaption { color: var(--mute); font-size: .9rem; margin-top: .6rem; }
 /* Commands wrap instead of hiding off the right edge; wrapping adds no characters when copied. */
 .install pre, #devkit pre { white-space: pre-wrap; overflow-wrap: anywhere; }
 .install pre code, #devkit pre code { white-space: inherit; overflow-wrap: anywhere; }
+/* An accepted record gets a solid badge so it reads differently from proposals at a glance. */
+.tag.tag-ok { color: var(--accent-ink); background: var(--accent); border-style: solid; }
+.preview .step p.step-kind { color: var(--ink); }
+h2[id], h3[id] { scroll-margin-top: 84px; }
+/* Forge membership: an outlined badge, so it reads differently from the filled Dev Kit badge. */
+.kit-badge.kit-forge, .repo h3 .kit-badge { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
